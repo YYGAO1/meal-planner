@@ -1,4 +1,4 @@
-const { UUID, UUIDV4, STRING, TEXT } = require("sequelize");
+const { UUID, UUIDV4, STRING, TEXT, INTEGER } = require("sequelize");
 const conn = require("./conn");
 
 const Recipe = conn.define("recipe", {
