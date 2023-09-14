@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Home from "./Home";
+import Recipes from "./Recipes";
 import Login from "./Login";
 import { useSelector, useDispatch } from "react-redux";
 import { loginWithToken } from "../store";
@@ -16,11 +16,11 @@ const App = () => {
   return (
     <div>
       <h1>FS App Template</h1>
-      {auth.id ? <Home /> : <Login />}
+      {auth.id ? <Recipes /> : <Login />}
       {!!auth.id && (
         <div>
           <nav>
-            <Link to="/">Home</Link>
+            <Link to="/">Recipes</Link>
           </nav>
         </div>
       )}
