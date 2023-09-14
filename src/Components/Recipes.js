@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { logout } from "../store";
@@ -9,6 +9,12 @@ const Recipes = () => {
   const dispatch = useDispatch();
 
   const [searchTerm, setSearchTerm] = useState("");
+  const [results, setResults] = useState([]);
+
+  //for development, to keep track of state
+  useEffect(() => {
+    console.log(results);
+  }, [results]);
 
   const searchRecipes = async (ev) => {
     ev.preventDefault();
@@ -25,7 +31,7 @@ const Recipes = () => {
           },
         }
       );
-      console.log(response.data);
+      setResults(response.data.results);
     } catch (ex) {
       console.log(ex);
     }
@@ -45,6 +51,11 @@ const Recipes = () => {
         />
         <button onClick={searchRecipes}>search</button>
       </form>
+      <ul>
+        {results.map((recipe) => {
+          return <li key={recipe.id}>{recipe.title}</li>;
+        })}
+      </ul>
     </div>
   );
 };
