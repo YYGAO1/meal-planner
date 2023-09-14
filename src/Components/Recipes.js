@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { logout } from "../store";
@@ -8,7 +8,10 @@ const Recipes = () => {
   const { auth } = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  const searchRecipes = async (searchTerm) => {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const searchRecipes = async (ev) => {
+    ev.preventDefault();
     try {
       const response = await axios.get(
         `https://api.spoonacular.com/recipes/complexSearch?query=${searchTerm}`,
@@ -28,15 +31,20 @@ const Recipes = () => {
     }
   };
 
-  searchRecipes("eggs");
-
   return (
     <div>
-      <h1>Meal Planner Home</h1>
+      <h1>Recipes</h1>
       <div>
-        Welcome {auth.username}!!
+        Welcome {auth.username}!
         <button onClick={() => dispatch(logout())}>Logout</button>
       </div>
+      <form>
+        <input
+          value={searchTerm}
+          onChange={(ev) => setSearchTerm(ev.target.value)}
+        />
+        <button onClick={searchRecipes}>search</button>
+      </form>
     </div>
   );
 };
