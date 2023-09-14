@@ -4,6 +4,7 @@ import Login from "./Login";
 import { useSelector, useDispatch } from "react-redux";
 import { loginWithToken } from "../store";
 import { Link, Routes, Route } from "react-router-dom";
+import { API_KEY } from "../../env";
 
 const App = () => {
   const { auth } = useSelector((state) => state);
