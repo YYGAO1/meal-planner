@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { loginWithToken } from "../store";
 import { Link, Routes, Route } from "react-router-dom";
 import { API_KEY } from "../../env";
+import MealPlanner from "./MealPlanner";
 
 const App = () => {
   const { auth } = useSelector((state) => state);
@@ -24,6 +25,9 @@ const App = () => {
           </nav>
         </div>
       )}
+      <Routes>
+        <Route path="/planner" element={<MealPlanner />} />
+      </Routes>
     </div>
   );
 };
