@@ -21,10 +21,6 @@ const RecipeCard = (recipe) => {
     getRecipeDetails(recipe);
   }, []);
 
-  useEffect(() => {
-    console.log(details.data);
-  }, [details]);
-
   const getRecipeDetails = async (recipe) => {
     try {
       const response = await axios.get(
@@ -47,7 +43,7 @@ const RecipeCard = (recipe) => {
   }
 
   return (
-    <div className="card" style={{ maxWidth: "350px" }}>
+    <div className="card" style={{ maxWidth: "300px" }}>
       <img src={recipe.image} className="card-img-top" alt={recipe.title} />
       <div className="card-body accordion">
         <div className="accordion-item">

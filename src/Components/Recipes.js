@@ -28,7 +28,7 @@ const Recipes = () => {
             "X-API-Key": API_KEY,
           },
           params: {
-            number: 10,
+            number: 12,
           },
         }
       );
@@ -57,7 +57,6 @@ const Recipes = () => {
           display: "flex",
           flexWrap: "wrap",
           justifyContent: "space-around",
-          alignItems: "flex-start",
         }}
       >
         {results.map((recipe) => {
