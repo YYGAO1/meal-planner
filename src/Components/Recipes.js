@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { logout } from "../store";
 import { API_KEY } from "../../env";
+import RecipeCard from "./RecipeCard";
 
 const Recipes = () => {
   const { auth } = useSelector((state) => state);
@@ -51,11 +52,22 @@ const Recipes = () => {
         />
         <button onClick={searchRecipes}>search</button>
       </form>
-      <ul>
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "space-around",
+          alignItems: "flex-start",
+        }}
+      >
         {results.map((recipe) => {
-          return <li key={recipe.id}>{recipe.title}</li>;
+          return (
+            <div key={recipe.id}>
+              <RecipeCard {...recipe} />
+            </div>
+          );
         })}
-      </ul>
+      </div>
     </div>
   );
 };
