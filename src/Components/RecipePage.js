@@ -9,7 +9,6 @@ const RecipePage = () => {
   const [details, setDetails] = useState([]);
   const [extendedIngredients, setExtendedIngredients] = useState([]);
   const cleanSummary = DOMPurify.sanitize(details.summary);
-  console.log("cleanSummary", cleanSummary);
 
   useEffect(() => {
     getRecipeDetails(id);
@@ -27,7 +26,6 @@ const RecipePage = () => {
   }, [details.extendedIngredients]);
 
   const filterDuplicates = (ingredients) => {
-    console.log("ingredients", ingredients);
     const seen = {};
     return ingredients.filter((ingredient) => {
       const ingredientKey = ingredient.id;
