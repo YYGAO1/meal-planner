@@ -2,11 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { API_KEY } from "../../env";
+import * as DOMPurify from "dompurify";
 
 const RecipePage = () => {
   const { id } = useParams();
   const [details, setDetails] = useState([]);
   const [extendedIngredients, setExtendedIngredients] = useState([]);
+  const cleanSummary = DOMPurify.sanitize(details.summary);
+  console.log("cleanSummary", cleanSummary);
 
   useEffect(() => {
     getRecipeDetails(id);
@@ -54,17 +57,23 @@ const RecipePage = () => {
     }
   };
 
-  if (!details || !extendedIngredients || !details.analyzedInstructions) {
+  if (
+    !details ||
+    !details.image ||
+    !extendedIngredients ||
+    !details.analyzedInstructions
+  ) {
     return null;
   }
 
   return (
-    <div className="container">
+    <div className="container text-center">
       <h1>{details.title}</h1>
+      <h2>insert meal planner add form here</h2>
       <img src={details.image} />
-      <p>{details.summary}</p>
+      <p dangerouslySetInnerHTML={{ __html: cleanSummary }}></p>
       <h2>ingredients</h2>
-      <ul>
+      <ul style={{ textAlign: "left" }}>
         {extendedIngredients.map((ingredient) => {
           if (ingredient.id !== -1) {
             return <li key={ingredient.id}>{ingredient.original}</li>;
@@ -72,9 +81,9 @@ const RecipePage = () => {
         })}
       </ul>
       <h2>instructions</h2>
-      <ol>
+      <ol style={{ textAlign: "left" }}>
         {details.analyzedInstructions[0].steps.map((instruction, i) => {
-          return <li key={i}>{instruction.step}</li>;
+          return <li key={i}>{instruction.step.replaceAll(".", ". ")}</li>;
         })}
       </ol>
     </div>
