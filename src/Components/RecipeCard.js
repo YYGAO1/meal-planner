@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { API_KEY } from "../../env";
+import { useNavigate } from "react-router-dom";
 
 const RecipeCard = (recipe) => {
+  const navigate = useNavigate();
   const [details, setDetails] = useState([]);
-
   const [openItems, setOpenItems] = useState([]);
+
+  useEffect(() => {
+    getRecipeDetails(recipe);
+  }, []);
 
   const handleAccordionClick = (id) => {
     if (openItems.includes(id)) {
@@ -16,10 +21,6 @@ const RecipeCard = (recipe) => {
   };
 
   const isAccordionOpen = (id) => openItems.includes(id);
-
-  useEffect(() => {
-    getRecipeDetails(recipe);
-  }, []);
 
   const getRecipeDetails = async (recipe) => {
     try {
@@ -38,13 +39,23 @@ const RecipeCard = (recipe) => {
     }
   };
 
+  const handleImageClick = (id) => {
+    navigate(`/recipes/${id}`);
+  };
+
   if (!details.data) {
     return null;
   }
 
   return (
     <div className="card" style={{ maxWidth: "300px" }}>
-      <img src={recipe.image} className="card-img-top" alt={recipe.title} />
+      <img
+        src={recipe.image}
+        className="card-img-top"
+        alt={recipe.title}
+        onClick={() => handleImageClick(recipe.id)}
+      />
+
       <div className="card-body accordion">
         <div className="accordion-item">
           <h5 className="card-title accordion-header">
