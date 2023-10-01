@@ -17,7 +17,7 @@ const App = () => {
   return (
     <div>
       <h1>FS App Template</h1>
-      {auth.id ? <Recipes /> : <Login />}
+
       {!!auth.id && (
         <div>
           <nav>
@@ -25,6 +25,7 @@ const App = () => {
           </nav>
         </div>
       )}
+      {auth.id ? <Recipes /> : <Login />}
       <Routes>
         <Route path="/planner" element={<MealPlanner />} />
       </Routes>
