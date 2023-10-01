@@ -5,7 +5,6 @@ import RecipePage from "./RecipePage";
 import { useSelector, useDispatch } from "react-redux";
 import { loginWithToken } from "../store";
 import { Link, Routes, Route } from "react-router-dom";
-import { API_KEY } from "../../env";
 import MealPlanner from "./MealPlanner";
 
 const App = () => {
