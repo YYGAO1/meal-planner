@@ -2,15 +2,23 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { API_KEY } from "../../env";
 import { useNavigate } from "react-router-dom";
+import * as DOMPurify from "dompurify";
 
 const RecipeCard = (recipe) => {
   const navigate = useNavigate();
-  const [details, setDetails] = useState([]);
+  const [details, setDetails] = useState({ summary: "" });
   const [openItems, setOpenItems] = useState([]);
+  const [cleanSummary, setCleanSummary] = useState("");
 
   useEffect(() => {
     getRecipeDetails(recipe);
   }, []);
+
+  useEffect(() => {
+    if (details.summary) {
+      setCleanSummary(DOMPurify.sanitize(details.summary));
+    }
+  }, [details.summary]);
 
   const handleAccordionClick = (id) => {
     if (openItems.includes(id)) {
@@ -33,7 +41,7 @@ const RecipeCard = (recipe) => {
           },
         }
       );
-      setDetails(response);
+      setDetails(response.data);
     } catch (ex) {
       console.log(ex);
     }
@@ -43,7 +51,7 @@ const RecipeCard = (recipe) => {
     navigate(`/recipes/${id}`);
   };
 
-  if (!details.data) {
+  if (!details || !cleanSummary) {
     return null;
   }
 
@@ -77,7 +85,10 @@ const RecipeCard = (recipe) => {
             data-bs-parent="#accordionExample"
           >
             <div className="accordion-body">
-              <p className="card-text">{details.data.summary}</p>
+              <p
+                className="card-text"
+                dangerouslySetInnerHTML={{ __html: cleanSummary }}
+              ></p>
             </div>
           </div>
         </div>
