@@ -2,13 +2,17 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import * as dayjs from 'dayjs'
+import * as dayjs from "dayjs";
 import { fetchDay } from "../store/day";
+
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 const MealPlanner = () => {
   const { day } = useSelector((state) => state);
 
-  const today: string = dayjs().format("YYYY-MM-DD");
+  const today = dayjs().format("YYYY-MM-DD");
   const [date, setDate] = useState(dayjs(today));
 
   const dispatch = useDispatch();
@@ -54,8 +58,16 @@ const MealPlanner = () => {
   });
 
   return (
-
-  )
+    <div className="mealPlannerCalendar">
+      // calendar
+      <DatePicker
+        showIcon
+        selected={date}
+        onSelect={handleDateSelect} //when day is clicked
+        onChange={handleDateChange} //only when value has changed
+      />
+    </div>
+  );
 };
 
 export default MealPlanner;
