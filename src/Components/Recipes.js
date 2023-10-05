@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { logout } from "../store";
 import { API_KEY } from "../../env";
+import RecipeCard from "./RecipeCard";
 
 const Recipes = () => {
   const { auth } = useSelector((state) => state);
@@ -27,7 +28,7 @@ const Recipes = () => {
             "X-API-Key": API_KEY,
           },
           params: {
-            number: 10,
+            number: 12,
           },
         }
       );
@@ -38,11 +39,16 @@ const Recipes = () => {
   };
 
   return (
-    <div>
+    <div className="bg-primary">
       <h1>Recipes</h1>
       <div>
         Welcome {auth.username}!
-        <button onClick={() => dispatch(logout())}>Logout</button>
+        <button
+          className="btn btn-secondary"
+          onClick={() => dispatch(logout())}
+        >
+          Logout
+        </button>
       </div>
       <form>
         <input
@@ -51,11 +57,21 @@ const Recipes = () => {
         />
         <button onClick={searchRecipes}>search</button>
       </form>
-      <ul>
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          justifyContent: "space-around",
+        }}
+      >
         {results.map((recipe) => {
-          return <li key={recipe.id}>{recipe.title}</li>;
+          return (
+            <div key={recipe.id}>
+              <RecipeCard {...recipe} />
+            </div>
+          );
         })}
-      </ul>
+      </div>
     </div>
   );
 };

@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import Recipes from "./Recipes";
 import Login from "./Login";
+import RecipePage from "./RecipePage";
 import { useSelector, useDispatch } from "react-redux";
 import { loginWithToken } from "../store";
 import { Link, Routes, Route } from "react-router-dom";
-import { API_KEY } from "../../env";
 import MealPlanner from "./MealPlanner";
 
 const App = () => {
@@ -15,9 +15,9 @@ const App = () => {
   }, []);
 
   return (
-    <div>
-      <h1>FS App Template</h1>
-      {auth.id ? <Recipes /> : <Login />}
+    <div className="bg-primary" style={{ height: "100%" }}>
+      <h1>Meal Planner</h1>
+
       {!!auth.id && (
         <div>
           <nav>
@@ -25,8 +25,11 @@ const App = () => {
           </nav>
         </div>
       )}
+
       <Routes>
+        <Route path="/" element={auth.id ? <Recipes /> : <Login />} />
         <Route path="/planner" element={<MealPlanner />} />
+        <Route path="/recipes/:id" element={<RecipePage />} />
       </Routes>
     </div>
   );

@@ -479,8 +479,6 @@ const syncAndSeed = async () => {
     amount: "1",
   });
 
-  console.log("EEEEEEEEGGGGGG", egg);
-
   await ListItem.create({
     userId: moe.id,
     ingredientId: egg.id,
