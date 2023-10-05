@@ -2,7 +2,7 @@ import * as React from "react";
 import { useEffect, useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import * as dayjs from "dayjs";
+import dayjs from "dayjs";
 import { fetchDay } from "../store/day";
 
 import DatePicker from "react-datepicker";
@@ -58,15 +58,17 @@ const MealPlanner = () => {
   });
 
   return (
-    <div className="mealPlannerCalendar">
-      // calendar
-      <DatePicker
-        showIcon
-        selected={date}
-        onSelect={handleDateSelect} //when day is clicked
-        onChange={handleDateChange} //only when value has changed
-      />
-    </div>
+    <>
+      <div className="mealPlannerCalendar">
+        {/* calendar */}
+        <DatePicker
+          showIcon
+          selected={date}
+          onSelect={handleDateSelect} //when day is clicked
+          onChange={handleDateChange} //only when value has changed
+        />
+      </div>
+    </>
   );
 };
 

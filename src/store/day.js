@@ -28,6 +28,7 @@ const fetchDay = (date) => {
                 authorization: token,
             },
         });
+        console.log(dispatch);
         dispatch({ type: "SET_DAY", day: response.data });
     });
 };
