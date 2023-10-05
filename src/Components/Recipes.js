@@ -39,11 +39,16 @@ const Recipes = () => {
   };
 
   return (
-    <div>
+    <div className="bg-primary">
       <h1>Recipes</h1>
       <div>
         Welcome {auth.username}!
-        <button onClick={() => dispatch(logout())}>Logout</button>
+        <button
+          className="btn btn-secondary"
+          onClick={() => dispatch(logout())}
+        >
+          Logout
+        </button>
       </div>
       <form>
         <input

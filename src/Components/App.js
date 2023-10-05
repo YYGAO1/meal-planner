@@ -15,7 +15,7 @@ const App = () => {
   }, []);
 
   return (
-    <div>
+    <div className="bg-primary" style={{ height: "100%" }}>
       <h1>Meal Planner</h1>
 
       {!!auth.id && (
