@@ -18,7 +18,7 @@ const Login = () => {
     dispatch(attemptLogin(credentials));
   };
   return (
-    <div className="bs-primary">
+    <div>
       <h2>Login</h2>
       <form onSubmit={login}>
         <input

@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { loginWithToken } from "../store";
 import { Link, Routes, Route } from "react-router-dom";
 import MealPlanner from "./MealPlanner";
+import { logout } from "../store";
 
 const App = () => {
   const { auth } = useSelector((state) => state);
@@ -15,14 +16,49 @@ const App = () => {
   }, []);
 
   return (
-    <div className="bg-primary" style={{ height: "100%" }}>
+    <div
+      className="container-fluid text-center bg-primary"
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "flex-start",
+        padding: "25px",
+      }}
+    >
       <h1>Meal Planner</h1>
 
       {!!auth.id && (
-        <div>
-          <nav>
-            <Link to="/">Recipes</Link>
-          </nav>
+        <div className="dropend">
+          <button
+            className="btn btn-outline-light btn-lg dropdown-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            menu
+          </button>
+          <ul className="dropdown-menu">
+            <li>
+              <Link className="dropdown-item" to="/">
+                Recipes
+              </Link>
+            </li>
+            <li>
+              <Link className="dropdown-item" to="/planner">
+                Planner
+              </Link>
+            </li>
+            <li>
+              <Link
+                className="dropdown-item"
+                onClick={() => dispatch(logout())}
+              >
+                Logout {auth.username}
+              </Link>
+            </li>
+          </ul>
         </div>
       )}
 

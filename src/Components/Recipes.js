@@ -39,17 +39,16 @@ const Recipes = () => {
   };
 
   return (
-    <div className="bg-primary">
+    <div
+      className="container bg-primary"
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "space-around",
+        justifyContent: "space-around",
+      }}
+    >
       <h1>Recipes</h1>
-      <div>
-        Welcome {auth.username}!
-        <button
-          className="btn btn-secondary"
-          onClick={() => dispatch(logout())}
-        >
-          Logout
-        </button>
-      </div>
       <form>
         <input
           value={searchTerm}

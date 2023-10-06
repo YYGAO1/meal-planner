@@ -10,10 +10,6 @@ const RecipeCard = (recipe) => {
   const [openItems, setOpenItems] = useState([]);
   const [cleanSummary, setCleanSummary] = useState("");
 
-  /*useEffect(() => {
-    getRecipeDetails(recipe);
-  }, []);*/
-
   useEffect(() => {
     if (details.summary) {
       setCleanSummary(DOMPurify.sanitize(details.summary));
