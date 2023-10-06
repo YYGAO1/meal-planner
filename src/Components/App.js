@@ -27,41 +27,47 @@ const App = () => {
         padding: "25px",
       }}
     >
-      <h1>Meal Planner</h1>
-
-      {!!auth.id && (
-        <div className="dropend">
-          <button
-            className="btn btn-outline-light btn-lg dropdown-toggle"
-            type="button"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-          >
-            menu
-          </button>
-          <ul className="dropdown-menu">
-            <li>
-              <Link className="dropdown-item" to="/">
-                Recipes
-              </Link>
-            </li>
-            <li>
-              <Link className="dropdown-item" to="/planner">
-                Planner
-              </Link>
-            </li>
-            <li>
-              <Link
-                className="dropdown-item"
-                onClick={() => dispatch(logout())}
-              >
-                Logout {auth.username}
-              </Link>
-            </li>
-          </ul>
-        </div>
-      )}
-
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        {!!auth.id && (
+          <div className="dropend">
+            <button
+              className="btn btn-outline-light btn-lg dropdown-toggle"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              menu
+            </button>
+            <ul className="dropdown-menu">
+              <li>
+                <Link className="dropdown-item" to="/">
+                  Recipes
+                </Link>
+              </li>
+              <li>
+                <Link className="dropdown-item" to="/planner">
+                  Planner
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="dropdown-item"
+                  onClick={() => dispatch(logout())}
+                >
+                  Logout {auth.username}
+                </Link>
+              </li>
+            </ul>
+          </div>
+        )}
+        <h1>Meal Planner</h1>
+      </div>
       <Routes>
         <Route path="/" element={auth.id ? <Recipes /> : <Login />} />
         <Route path="/planner" element={<MealPlanner />} />

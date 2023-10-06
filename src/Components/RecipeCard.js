@@ -54,7 +54,10 @@ const RecipeCard = (recipe) => {
   };
 
   return (
-    <div className="card" style={{ maxWidth: "300px" }}>
+    <div
+      className="card bg-secondary"
+      style={{ maxWidth: "300px", margin: "5px" }}
+    >
       <img
         src={recipe.image}
         className="card-img-top"
@@ -66,7 +69,7 @@ const RecipeCard = (recipe) => {
         <div className="accordion-item">
           <h5 className="card-title accordion-header">
             <button
-              className={`accordion-button ${
+              className={`accordion-button bg-secondary ${
                 isAccordionOpen(`collapse${recipe.id}`) ? "" : "collapsed"
               }`}
               type="button"

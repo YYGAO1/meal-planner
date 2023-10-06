@@ -18,22 +18,43 @@ const Login = () => {
     dispatch(attemptLogin(credentials));
   };
   return (
-    <div>
+    <div
+      className="container bg-primary"
+      style={{
+        paddingTop: "35px",
+        minHeight: "100vh",
+      }}
+    >
       <h2>Login</h2>
-      <form onSubmit={login}>
+      <form
+        onSubmit={login}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "space-around",
+          justifyContent: "space-around",
+        }}
+      >
         <input
           placeholder="username"
           value={credentials.username}
           name="username"
           onChange={onChange}
+          style={{ width: "45%", margin: "5px auto" }}
         />
         <input
           placeholder="password"
           name="password"
           value={credentials.password}
           onChange={onChange}
+          style={{ width: "45%", margin: "5px auto" }}
         />
-        <button className="btn btn-primary">Login</button>
+        <button
+          className="btn btn-primary"
+          style={{ width: "100px", margin: "5px auto" }}
+        >
+          Login
+        </button>
       </form>
     </div>
   );
