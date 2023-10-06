@@ -10,9 +10,9 @@ const RecipeCard = (recipe) => {
   const [openItems, setOpenItems] = useState([]);
   const [cleanSummary, setCleanSummary] = useState("");
 
-  useEffect(() => {
+  /*useEffect(() => {
     getRecipeDetails(recipe);
-  }, []);
+  }, []);*/
 
   useEffect(() => {
     if (details.summary) {
@@ -24,6 +24,7 @@ const RecipeCard = (recipe) => {
     if (openItems.includes(id)) {
       setOpenItems(openItems.filter((item) => item !== id));
     } else {
+      getRecipeDetails(recipe);
       setOpenItems([...openItems, id]);
     }
   };
@@ -41,7 +42,12 @@ const RecipeCard = (recipe) => {
           },
         }
       );
-      setDetails(response.data);
+      if (response.data.summary) {
+        setDetails(response.data);
+        console.log("details set");
+      } else {
+        console.log("no response.data.summary");
+      }
     } catch (ex) {
       console.log(ex);
     }
@@ -50,10 +56,6 @@ const RecipeCard = (recipe) => {
   const handleImageClick = (id) => {
     navigate(`/recipes/${id}`);
   };
-
-  if (!details || !cleanSummary) {
-    return null;
-  }
 
   return (
     <div className="card" style={{ maxWidth: "300px" }}>
@@ -87,7 +89,7 @@ const RecipeCard = (recipe) => {
             <div className="accordion-body">
               <p
                 className="card-text"
-                dangerouslySetInnerHTML={{ __html: cleanSummary }}
+                dangerouslySetInnerHTML={{ __html: cleanSummary || "" }}
               ></p>
             </div>
           </div>
