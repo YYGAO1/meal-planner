@@ -65,12 +65,13 @@ const RecipeCard = (recipe) => {
         (r) => r.spoonacular_id === recipeId
       );
       if (!seededFromSpoonRecipe) return false;
-
-      if (!!favorites.find((f) => f.recipe_id === seededFromSpoonRecipe.id))
-        return favorites.find((f) => f.recipe_id === seededFromSpoonRecipe.id);
+      const favorite = favorites.find(
+        (f) => f.recipe_id === seededFromSpoonRecipe.id
+      );
+      if (favorite) return favorite;
     } else {
-      if (!!favorites.find((f) => f.recipeId === recipeId))
-        return favorites.find((f) => f.recipeId === recipeId);
+      const favorite = favorites.find((f) => f.recipeId === recipeId);
+      if (favorite) return favorite;
     }
     return false;
   };
