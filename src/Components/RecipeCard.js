@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { API_KEY } from "../../env";
 import { useNavigate } from "react-router-dom";
 import * as DOMPurify from "dompurify";
+import { deleteFavorite, createFavoriteSpoonacular } from "../store";
 
 const RecipeCard = (recipe) => {
   const navigate = useNavigate();
@@ -10,6 +12,8 @@ const RecipeCard = (recipe) => {
   const [openItems, setOpenItems] = useState([]);
   const [cleanSummary, setCleanSummary] = useState("");
   const [isFavorite, setIsFavorite] = useState(false);
+  const { auth, recipes, favorites } = useSelector((state) => state);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (details.summary) {
@@ -54,9 +58,31 @@ const RecipeCard = (recipe) => {
     navigate(`/recipes/${id}`);
   };
 
-  const favorite = () => {
+  const isFavorited = (recipeId) => {
+    const recipe = recipes.find((r) => r.id === recipeId);
+    if (!recipe) {
+      const seededFromSpoonRecipe = recipes.find(
+        (r) => r.spoonacular_id === recipeId
+      );
+      if (!seededFromSpoonRecipe) return false;
+
+      if (!!favorites.find((f) => f.recipe_id === seededFromSpoonRecipe.id))
+        return true;
+    } else {
+      if (!!favorites.find((f) => f.recipeId === recipeId)) return true;
+    }
+    return false;
+  };
+
+  const favorite = async (id) => {
     setIsFavorite(!isFavorite);
-    console.log("fav");
+
+    if (isFavorited(id)) {
+      console.log("this will delete the favorite");
+      //dispatch(deleteFavorite(id));
+    } else {
+      dispatch(createFavoriteSpoonacular({ recipe_id: id, userId: auth.id }));
+    }
   };
 
   return (
@@ -74,7 +100,7 @@ const RecipeCard = (recipe) => {
           />
           <button
             className="btn"
-            onClick={favorite}
+            onClick={() => favorite(recipe.id)}
             style={{
               position: "absolute",
               top: "5px",

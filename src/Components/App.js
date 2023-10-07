@@ -6,13 +6,15 @@ import { useSelector, useDispatch } from "react-redux";
 import { loginWithToken } from "../store";
 import { Link, Routes, Route } from "react-router-dom";
 import MealPlanner from "./MealPlanner";
-import { logout } from "../store";
+import { logout, fetchFavorites, fetchRecipes } from "../store";
 
 const App = () => {
   const { auth } = useSelector((state) => state);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(loginWithToken());
+    dispatch(fetchFavorites());
+    dispatch(fetchRecipes());
   }, []);
 
   return (
