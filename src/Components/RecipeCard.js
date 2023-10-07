@@ -67,9 +67,10 @@ const RecipeCard = (recipe) => {
       if (!seededFromSpoonRecipe) return false;
 
       if (!!favorites.find((f) => f.recipe_id === seededFromSpoonRecipe.id))
-        return true;
+        return favorites.find((f) => f.recipe_id === seededFromSpoonRecipe.id);
     } else {
-      if (!!favorites.find((f) => f.recipeId === recipeId)) return true;
+      if (!!favorites.find((f) => f.recipeId === recipeId))
+        return favorites.find((f) => f.recipeId === recipeId);
     }
     return false;
   };
@@ -78,8 +79,8 @@ const RecipeCard = (recipe) => {
     setIsFavorite(!isFavorite);
 
     if (isFavorited(id)) {
-      console.log("this will delete the favorite");
-      //dispatch(deleteFavorite(id));
+      const favorite = isFavorited(id);
+      dispatch(deleteFavorite(favorite.id));
     } else {
       dispatch(createFavoriteSpoonacular({ recipe_id: id, userId: auth.id }));
     }
