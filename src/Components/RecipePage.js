@@ -97,9 +97,9 @@ const RecipePage = () => {
 
   return (
     <div className="container text-center">
-      <h1>{details.title}</h1>
-      <h2>insert meal planner add form here</h2>
-
+      <h1 className="text-danger">{details.title}</h1>
+      <h2 className="text-secondary">insert meal planner add form here</h2>
+      <br />
       <div style={{ position: "relative", display: "inline-block" }}>
         <div className="image-wrapper">
           <img src={details.image} alt={details.title} />
@@ -144,23 +144,41 @@ const RecipePage = () => {
             )}
           </button>
         </div>
+        <br />
       </div>
 
-      <p dangerouslySetInnerHTML={{ __html: cleanSummary }}></p>
-      <h2>ingredients</h2>
-      <ul style={{ textAlign: "left" }}>
-        {extendedIngredients.map((ingredient) => {
-          if (ingredient.id !== -1) {
-            return <li key={ingredient.id}>{ingredient.original}</li>;
-          }
-        })}
-      </ul>
-      <h2>instructions</h2>
-      <ol style={{ textAlign: "left" }}>
-        {details.analyzedInstructions[0].steps.map((instruction, i) => {
-          return <li key={i}>{instruction.step.replaceAll(".", ". ")}</li>;
-        })}
-      </ol>
+      <div
+        className="card bg-danger text-success"
+        style={{ padding: "5px", margin: "10px" }}
+      >
+        <p dangerouslySetInnerHTML={{ __html: cleanSummary }}></p>
+      </div>
+
+      <div
+        className="card bg-danger"
+        style={{ padding: "5px", margin: "10px" }}
+      >
+        <h2 className="text-secondary">ingredients</h2>
+        <ul className="text-success" style={{ textAlign: "left" }}>
+          {extendedIngredients.map((ingredient) => {
+            if (ingredient.id !== -1) {
+              return <li key={ingredient.id}>{ingredient.original}</li>;
+            }
+          })}
+        </ul>
+      </div>
+
+      <div
+        className="card bg-danger"
+        style={{ padding: "5px", margin: "10px" }}
+      >
+        <h2 className="text-secondary">instructions</h2>
+        <ol className="text-success" style={{ textAlign: "left" }}>
+          {details.analyzedInstructions[0].steps.map((instruction, i) => {
+            return <li key={i}>{instruction.step.replaceAll(".", ". ")}</li>;
+          })}
+        </ol>
+      </div>
     </div>
   );
 };
