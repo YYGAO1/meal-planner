@@ -39,14 +39,14 @@ const App = () => {
         {!!auth.id && (
           <div className="dropend">
             <button
-              className="btn btn-outline-light btn-lg dropdown-toggle"
+              className="btn btn-secondary text-primary btn-lg dropdown-toggle"
               type="button"
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
               menu
             </button>
-            <ul className="dropdown-menu">
+            <ul className="dropdown-menu bg-danger">
               <li>
                 <Link className="dropdown-item" to="/">
                   Recipes
@@ -68,7 +68,7 @@ const App = () => {
             </ul>
           </div>
         )}
-        <h1>Meal Planner</h1>
+        <h1 className="text-secondary">Meal Planner</h1>
       </div>
       <Routes>
         <Route path="/" element={auth.id ? <Recipes /> : <Login />} />

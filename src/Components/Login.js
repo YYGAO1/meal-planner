@@ -25,7 +25,7 @@ const Login = () => {
         minHeight: "100vh",
       }}
     >
-      <h2>Login</h2>
+      <h2 className="text-secondary">Login</h2>
       <form
         onSubmit={login}
         style={{
@@ -40,6 +40,7 @@ const Login = () => {
           value={credentials.username}
           name="username"
           onChange={onChange}
+          className="bg-danger text-secondary"
           style={{ width: "45%", margin: "5px auto" }}
         />
         <input
@@ -47,10 +48,11 @@ const Login = () => {
           name="password"
           value={credentials.password}
           onChange={onChange}
+          className="bg-danger text-secondary"
           style={{ width: "45%", margin: "5px auto" }}
         />
         <button
-          className="btn btn-primary"
+          className="btn btn-secondary text-primary"
           style={{ width: "100px", margin: "5px auto" }}
         >
           Login

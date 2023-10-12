@@ -106,7 +106,7 @@ const RecipeCard = (recipe) => {
               top: "5px",
               right: "5px",
               backgroundColor: "transparent",
-              color: "red",
+              color: "#50ba58",
             }}
           >
             {" "}
@@ -146,7 +146,7 @@ const RecipeCard = (recipe) => {
           <h5 className="card-title accordion-header">
             <div className="">
               <button
-                className={`accordion-button bg-secondary ${
+                className={`accordion-button bg-danger text-success font-weight-bold ${
                   isAccordionOpen(`collapse${recipe.id}`) ? "" : "collapsed"
                 }`}
                 type="button"
@@ -163,7 +163,7 @@ const RecipeCard = (recipe) => {
             }`}
             data-bs-parent="#accordionExample"
           >
-            <div className="accordion-body">
+            <div className="accordion-body bg-danger text-success">
               <p
                 className="card-text"
                 dangerouslySetInnerHTML={{ __html: cleanSummary || "" }}

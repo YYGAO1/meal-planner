@@ -48,7 +48,7 @@ const Recipes = () => {
         justifyContent: "space-around",
       }}
     >
-      <h1>Recipes</h1>
+      <h1 className="text-secondary">Recipes</h1>
       <form
         style={{
           display: "flex",
@@ -60,11 +60,12 @@ const Recipes = () => {
         <input
           value={searchTerm}
           onChange={(ev) => setSearchTerm(ev.target.value)}
+          className="bg-danger text-success"
           style={{ width: "45%", margin: "5px auto" }}
         />
         <button
           onClick={searchRecipes}
-          className="btn btn-primary"
+          className="btn btn-secondary text-primary"
           style={{ width: "100px", margin: "5px auto" }}
         >
           search
