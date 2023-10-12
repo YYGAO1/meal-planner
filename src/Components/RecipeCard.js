@@ -88,7 +88,10 @@ const RecipeCard = (recipe) => {
   return (
     <div
       className="card bg-secondary"
-      style={{ maxWidth: "300px", margin: "5px" }}
+      style={{
+        maxWidth: "300px",
+        margin: "5px",
+      }}
     >
       <div style={{ position: "relative", display: "inline-block" }}>
         <div className="image-wrapper">
@@ -151,8 +154,20 @@ const RecipeCard = (recipe) => {
                 }`}
                 type="button"
                 onClick={() => handleAccordionClick(`collapse${recipe.id}`)}
+                style={{
+                  height: "40px",
+                }}
               >
-                {recipe.title}
+                <div
+                  style={{
+                    maxWidth: "75%",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                  }}
+                >
+                  {recipe.title}
+                </div>
               </button>
             </div>
           </h5>

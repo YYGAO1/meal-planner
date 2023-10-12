@@ -26,7 +26,16 @@ const Favorites = () => {
   }
 
   return (
-    <div>
+    <div
+      className="container bg-primary"
+      style={{
+        paddingTop: "35px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "space-around",
+        justifyContent: "space-around",
+      }}
+    >
       <h1 className="text-secondary">My Favorites</h1>
       <div
         style={{
