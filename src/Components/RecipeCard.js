@@ -34,7 +34,9 @@ const RecipeCard = (recipe) => {
   const getRecipeDetails = async (recipe) => {
     try {
       const response = await axios.get(
-        `https://api.spoonacular.com/recipes/${recipe.id}/information`,
+        `https://api.spoonacular.com/recipes/${
+          recipe.spoonacular_id || recipe.id
+        }/information`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -44,7 +46,6 @@ const RecipeCard = (recipe) => {
       );
       if (response.data.summary) {
         setDetails(response.data);
-        console.log("details set");
       } else {
         console.log("no response.data.summary");
       }
@@ -92,7 +93,7 @@ const RecipeCard = (recipe) => {
       <div style={{ position: "relative", display: "inline-block" }}>
         <div className="image-wrapper">
           <img
-            src={recipe.image}
+            src={recipe.image || recipe.imageURL}
             className="card-img-top img-fluid"
             alt={recipe.title}
             onClick={() => handleImageClick(recipe.id)}

@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import Recipes from "./Recipes";
 import Login from "./Login";
 import RecipePage from "./RecipePage";
+import Favorites from "./Favorites";
 import { useSelector, useDispatch } from "react-redux";
 import { loginWithToken } from "../store";
 import { Link, Routes, Route } from "react-router-dom";
@@ -58,6 +59,11 @@ const App = () => {
                 </Link>
               </li>
               <li>
+                <Link className="dropdown-item" to="/favorites">
+                  My Favorites
+                </Link>
+              </li>
+              <li>
                 <Link
                   className="dropdown-item"
                   onClick={() => dispatch(logout())}
@@ -74,6 +80,7 @@ const App = () => {
         <Route path="/" element={auth.id ? <Recipes /> : <Login />} />
         <Route path="/planner" element={<MealPlanner />} />
         <Route path="/recipes/:id" element={<RecipePage />} />
+        <Route path="/favorites" element={<Favorites />} />
       </Routes>
     </div>
   );
