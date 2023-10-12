@@ -11,7 +11,6 @@ const RecipeCard = (recipe) => {
   const [details, setDetails] = useState({ summary: "" });
   const [openItems, setOpenItems] = useState([]);
   const [cleanSummary, setCleanSummary] = useState("");
-  //const [isFavorite, setIsFavorite] = useState(false);
   const { auth, recipes, favorites } = useSelector((state) => state);
   const dispatch = useDispatch();
 
