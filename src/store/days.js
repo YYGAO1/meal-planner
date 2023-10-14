@@ -8,7 +8,7 @@ const day = (state = { meals: [] }, action) => {
   return state;
 };
 
-export const fetchDay = (date: string) => {
+export const fetchDay = (date) => {
   return async (dispatch) => {
     const token = window.localStorage.getItem("token");
     const response = await axios.get(`/api/mealplanner/${date}`, {
@@ -16,7 +16,6 @@ export const fetchDay = (date: string) => {
         authorization: token,
       },
     });
-    console.log(dispatch);
     dispatch({ type: "SET_DAY", day: response.data });
   };
 };
