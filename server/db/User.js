@@ -2,6 +2,7 @@ const conn = require("./conn");
 const { STRING, UUID, UUIDV4, TEXT, BOOLEAN } = conn.Sequelize;
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const Meal = require("./Meal");
 const JWT = process.env.JWT;
 
 const MealUser = conn.define("user", {
@@ -69,6 +70,63 @@ MealUser.authenticate = async function ({ username, password }) {
   const error = new Error("bad credentials");
   error.status = 401;
   throw error;
+};
+
+MealUser.prototype.getDay = async function (date) {
+  let day = await conn.models.day.findOne({
+    where: {
+      userId: this.id,
+      date: date,
+    },
+  });
+  if (!day) {
+    day = await conn.models.day.create({
+      date: date,
+      userId: this.id,
+    });
+  }
+  day = await conn.models.day.findByPk(day.id, {
+    include: [
+      {
+        model: conn.models.meal,
+        include: [
+          {
+            model: conn.models.mealrecipe,
+            include: [
+              {
+                model: conn.models.recipe,
+                include: [conn.models.ingredient, conn.models.instruction],
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  });
+  return day;
+};
+
+// NEED TO TEST -AG
+MealUser.prototype.addToDay = async function ({ recipeId, type, date }) {
+  let day = await this.getDay(date);
+  const meals = day.meals.map((meal) => {
+    return meal.mealrecipes;
+  });
+  const recipe = meals.find((mealrecipe) => {
+    const _recipe = mealrecipe[0].recipe;
+    return _recipe.id === recipeId;
+  });
+  if (!recipe) {
+    const mealSeed = await conn.models.meal.create({
+      dayId: day.id,
+      type,
+    });
+    const mealrecipe = await conn.models.mealrecipe.create({
+      recipeId,
+      mealId: mealSeed.id,
+    });
+  }
+  return this.getDay(date);
 };
 
 module.exports = MealUser;

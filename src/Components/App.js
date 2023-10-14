@@ -22,13 +22,14 @@ const App = () => {
         <div>
           <nav>
             <Link to="/">Recipes</Link>
+            <Link to="/mealplanner">Meal Planner</Link>
           </nav>
         </div>
       )}
 
       <Routes>
         <Route path="/" element={auth.id ? <Recipes /> : <Login />} />
-        <Route path="/planner" element={<MealPlanner />} />
+        <Route path="/mealplanner" element={<MealPlanner />} />
         <Route path="/recipes/:id" element={<RecipePage />} />
       </Routes>
     </div>
