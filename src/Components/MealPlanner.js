@@ -26,6 +26,8 @@ const MealPlanner = () => {
   const lunch = [];
   const dinner = [];
   const snacks = [];
+  const dessert = [];
+  const misc = [];
 
   day.meals.map((meal) => {
     if (meal.type === "breakfast") {
@@ -103,6 +105,27 @@ const MealPlanner = () => {
         <h3>Snacks</h3>
         <ul>
           {snacks.map((recipe) => (
+            <li key={recipe.id}>
+              <Link to={`/recipes/${recipe.id}`}>{recipe.title}</Link>
+              {/* <p>add to grocery list</p>
+              <i class="bi bi-plus-circle"></i> */}
+            </li>
+          ))}
+        </ul>
+
+        <h3>Desserts</h3>
+        <ul>
+          {dessert.map((recipe) => (
+            <li key={recipe.id}>
+              <Link to={`/recipes/${recipe.id}`}>{recipe.title}</Link>
+              {/* <p>add to grocery list</p>
+              <i class="bi bi-plus-circle"></i> */}
+            </li>
+          ))}
+        </ul>
+        <h3>Misc.</h3>
+        <ul>
+          {misc.map((recipe) => (
             <li key={recipe.id}>
               <Link to={`/recipes/${recipe.id}`}>{recipe.title}</Link>
               {/* <p>add to grocery list</p>
