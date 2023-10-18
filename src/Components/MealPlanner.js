@@ -22,12 +22,22 @@ const MealPlanner = () => {
     dispatch(fetchDay(dayjs(date).format("YYYY-MM-DD")));
   }, [date]);
 
-  const breakfast = [];
-  const lunch = [];
-  const dinner = [];
-  const snacks = [];
-  const dessert = [];
-  const misc = [];
+  // const breakfast = [];
+  // const lunch = [];
+  // const dinner = [];
+  // const snacks = [];
+  // const dessert = [];
+  // const misc = [];
+
+  // refactor
+  const [breakfast, lunch, dinner, snacks, dessert, misc] = [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+  ];
 
   day.meals.map((meal) => {
     if (meal.type === "breakfast") {
@@ -112,7 +122,6 @@ const MealPlanner = () => {
             </li>
           ))}
         </ul>
-
         <h3>Desserts</h3>
         <ul>
           {dessert.map((recipe) => (
