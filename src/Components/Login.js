@@ -40,7 +40,7 @@ const Login = () => {
           value={credentials.username}
           name="username"
           onChange={onChange}
-          className="bg-danger text-secondary"
+          className="bg-danger text-success"
           style={{ width: "45%", margin: "5px auto" }}
         />
         <input
@@ -48,7 +48,7 @@ const Login = () => {
           name="password"
           value={credentials.password}
           onChange={onChange}
-          className="bg-danger text-secondary"
+          className="bg-danger text-success"
           style={{ width: "45%", margin: "5px auto" }}
         />
         <button
