@@ -54,7 +54,7 @@ const App = () => {
                 </Link>
               </li>
               <li>
-                <Link className="dropdown-item" to="/planner">
+                <Link className="dropdown-item" to="/mealplanner">
                   Planner
                 </Link>
               </li>
@@ -76,9 +76,10 @@ const App = () => {
         )}
         <h1 className="text-secondary">Meal Planner</h1>
       </div>
+
       <Routes>
         <Route path="/" element={auth.id ? <Recipes /> : <Login />} />
-        <Route path="/planner" element={<MealPlanner />} />
+        <Route path="/mealplanner" element={<MealPlanner />} />
         <Route path="/recipes/:id" element={<RecipePage />} />
         <Route path="/favorites" element={<Favorites />} />
       </Routes>
