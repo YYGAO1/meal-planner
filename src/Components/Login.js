@@ -17,6 +17,7 @@ const Login = () => {
     ev.preventDefault();
     dispatch(attemptLogin(credentials));
   };
+
   return (
     <div
       className="container bg-primary"
@@ -53,9 +54,20 @@ const Login = () => {
         />
         <button
           className="btn btn-secondary text-primary"
+          type="submit"
           style={{ width: "100px", margin: "5px auto" }}
         >
           Login
+        </button>
+        <button
+          className="btn btn-secondary text-primary"
+          type="button"
+          onClick={() =>
+            dispatch(attemptLogin({ username: "moe", password: "123" }))
+          }
+          style={{ width: "100px", margin: "5px auto" }}
+        >
+          Demo
         </button>
       </form>
     </div>
