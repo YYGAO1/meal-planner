@@ -1,8 +1,10 @@
 const { UUID, UUIDV4, STRING, TEXT, INTEGER } = require("sequelize");
 const conn = require("./conn");
 const axios = require("axios");
-const env = require("../../env");
-const API_KEY = env.API_KEY;
+require("dotenv").config();
+const API_KEY = process.env.API_KEY;
+//const env = require("../../env");
+//const API_KEY = env.API_KEY;
 const createDOMPurify = require("dompurify");
 const { JSDOM } = require("jsdom");
 const window = new JSDOM("").window;
