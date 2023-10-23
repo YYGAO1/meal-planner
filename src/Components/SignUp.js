@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { attemptLogin } from "../store";
+import { register } from "../store";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+const SignUp = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -12,13 +12,14 @@ const Login = () => {
     password: "",
   });
 
-  const onChange = (ev) => {
-    setCredentials({ ...credentials, [ev.target.name]: ev.target.value });
+  const signUp = (ev) => {
+    ev.preventDefault();
+    dispatch(register(credentials));
+    navigate("/");
   };
 
-  const login = (ev) => {
-    ev.preventDefault();
-    dispatch(attemptLogin(credentials));
+  const onChange = (ev) => {
+    setCredentials({ ...credentials, [ev.target.name]: ev.target.value });
   };
 
   return (
@@ -29,9 +30,9 @@ const Login = () => {
         minHeight: "100vh",
       }}
     >
-      <h2 className="text-secondary">Login</h2>
+      <h2 className="text-secondary">Sign Up</h2>
       <form
-        onSubmit={login}
+        onSubmit={signUp}
         style={{
           display: "flex",
           flexDirection: "column",
@@ -61,25 +62,15 @@ const Login = () => {
             type="submit"
             style={{ width: "100px", margin: "10px" }}
           >
-            Login
-          </button>
-          <button
-            className="btn btn-secondary text-primary"
-            type="button"
-            style={{ width: "100px", margin: "10px" }}
-            onClick={() => navigate("/signup")}
-          >
             Sign Up
           </button>
           <button
             className="btn btn-secondary text-primary"
             type="button"
-            onClick={() =>
-              dispatch(attemptLogin({ username: "moe", password: "123" }))
-            }
             style={{ width: "100px", margin: "10px" }}
+            onClick={() => navigate("/login")}
           >
-            Demo
+            Go Back
           </button>
         </div>
       </form>
@@ -87,4 +78,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;
