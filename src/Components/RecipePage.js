@@ -13,7 +13,6 @@ import { deleteFavorite, createFavoriteSpoonacular } from "../store";
 
 const RecipePage = () => {
   const { id } = useParams();
-  const dispatch = useDispatch();
   const [details, setDetails] = useState([]);
   const [extendedIngredients, setExtendedIngredients] = useState([]);
   const cleanSummary = DOMPurify.sanitize(details.summary);
@@ -117,6 +116,7 @@ const RecipePage = () => {
   }
 
   return (
+    <div>
       <h1 className="text-danger">{details.title}</h1>
       <h2 className="text-secondary">insert meal planner add form here</h2>
       <form className="row g-3">
