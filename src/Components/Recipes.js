@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import { logout } from "../store";
 import { API_KEY } from "../../env";
 import RecipeCard from "./RecipeCard";
 
@@ -39,29 +38,45 @@ const Recipes = () => {
   };
 
   return (
-    <div className="bg-primary">
-      <h1>Recipes</h1>
-      <div>
-        Welcome {auth.username}!
-        <button
-          className="btn btn-secondary"
-          onClick={() => dispatch(logout())}
-        >
-          Logout
-        </button>
-      </div>
-      <form>
+    <div
+      className="container bg-primary"
+      style={{
+        paddingTop: "35px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "space-around",
+        justifyContent: "space-around",
+      }}
+    >
+      <h1 className="text-secondary">Recipes</h1>
+      <form
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "space-around",
+          justifyContent: "space-around",
+        }}
+      >
         <input
           value={searchTerm}
           onChange={(ev) => setSearchTerm(ev.target.value)}
+          className="bg-danger text-success"
+          style={{ width: "45%", margin: "5px auto" }}
         />
-        <button onClick={searchRecipes}>search</button>
+        <button
+          onClick={searchRecipes}
+          className="btn btn-secondary text-primary"
+          style={{ width: "100px", margin: "5px auto" }}
+        >
+          search
+        </button>
       </form>
       <div
         style={{
           display: "flex",
           flexWrap: "wrap",
           justifyContent: "space-around",
+          alignItems: "space-around",
         }}
       >
         {results.map((recipe) => {

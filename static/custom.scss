@@ -1,5 +1,15 @@
-$primary: teal;
-$secondary: green;
-$tertiary: slateblue;
+$primary: #ffe6d4; //background & button text
+$secondary: #9877b7; //large text & buttons
+$success: white; //text on inputs & smaller backgrounds
+$danger: #89bf8e; //inputs & smaller backgrounds
+$info: #fdcaac; //so far unused
 
 @import "../node_modules/bootstrap/scss/bootstrap";
+
+/*
+light beige: #ffe6d4;
+dark beige: #fdcaac;
+green: #abc2ad;
+pink: #d6aec9;
+purple: #a692b9;
+*/

@@ -2,35 +2,86 @@ import React, { useEffect } from "react";
 import Recipes from "./Recipes";
 import Login from "./Login";
 import RecipePage from "./RecipePage";
+import Favorites from "./Favorites";
 import { useSelector, useDispatch } from "react-redux";
 import { loginWithToken } from "../store";
 import { Link, Routes, Route } from "react-router-dom";
 import MealPlanner from "./MealPlanner";
+import { logout, fetchFavorites, fetchRecipes } from "../store";
 
 const App = () => {
   const { auth } = useSelector((state) => state);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(loginWithToken());
+    dispatch(fetchFavorites());
+    dispatch(fetchRecipes());
   }, []);
 
   return (
-    <div className="bg-primary" style={{ height: "100%" }}>
-      <h1>Meal Planner</h1>
-
-      {!!auth.id && (
-        <div>
-          <nav>
-            <Link to="/">Recipes</Link>
-            <Link to="/mealplanner">Meal Planner</Link>
-          </nav>
-        </div>
-      )}
+    <div
+      className="container-fluid text-center bg-primary"
+      style={{
+        minHeight: "100vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "flex-start",
+        padding: "25px",
+      }}
+    >
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        {!!auth.id && (
+          <div className="dropend">
+            <button
+              className="btn btn-secondary text-primary btn-lg dropdown-toggle"
+              type="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              menu
+            </button>
+            <ul className="dropdown-menu bg-danger">
+              <li>
+                <Link className="dropdown-item" to="/">
+                  Recipes
+                </Link>
+              </li>
+              <li>
+                <Link className="dropdown-item" to="/mealplanner">
+                  Planner
+                </Link>
+              </li>
+              <li>
+                <Link className="dropdown-item" to="/favorites">
+                  My Favorites
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="dropdown-item"
+                  onClick={() => dispatch(logout())}
+                >
+                  Logout {auth.username}
+                </Link>
+              </li>
+            </ul>
+          </div>
+        )}
+        <h1 className="text-secondary">Meal Planner</h1>
+      </div>
 
       <Routes>
         <Route path="/" element={auth.id ? <Recipes /> : <Login />} />
         <Route path="/mealplanner" element={<MealPlanner />} />
         <Route path="/recipes/:id" element={<RecipePage />} />
+        <Route path="/favorites" element={<Favorites />} />
       </Routes>
     </div>
   );
