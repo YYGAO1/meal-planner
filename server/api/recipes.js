@@ -1,6 +1,9 @@
 const express = require("express");
 const app = express.Router();
 const { Recipe, Ingredient, Instruction } = require("../db");
+require("dotenv").config();
+const API_KEY = process.env.API_KEY;
+const axios = require("axios");
 
 module.exports = app;
 
@@ -37,6 +40,46 @@ app.get("/", async (req, res, next) => {
     res.send(await Recipe.findAll());
   } catch (ex) {
     next(ex);
+  }
+});
+
+app.get("/search/:searchTerm", async (req, res, next) => {
+  try {
+    const axiosResponse = await axios.get(
+      `https://api.spoonacular.com/recipes/complexSearch?query=${req.params.searchTerm}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "X-API-Key": API_KEY,
+        },
+        params: {
+          number: 12,
+        },
+      }
+    );
+    const responseData = axiosResponse.data.results;
+    res.json(responseData);
+  } catch (ex) {
+    console.log(ex);
+    res.status(500).json({ error: "An error occurred while fetching recipes" });
+  }
+});
+
+app.get("/details/:id", async (req, res, next) => {
+  try {
+    const axiosResponse = await axios.get(
+      `https://api.spoonacular.com/recipes/${req.params.id}/information`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "X-API-Key": API_KEY,
+        },
+      }
+    );
+    const responseData = axiosResponse.data;
+    res.json(responseData);
+  } catch (ex) {
+    console.log(ex);
   }
 });
 

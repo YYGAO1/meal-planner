@@ -3,15 +3,18 @@ import Recipes from "./Recipes";
 import Login from "./Login";
 import RecipePage from "./RecipePage";
 import Favorites from "./Favorites";
+import SignUp from "./SignUp";
 import { useSelector, useDispatch } from "react-redux";
 import { loginWithToken } from "../store";
-import { Link, Routes, Route } from "react-router-dom";
+import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import MealPlanner from "./MealPlanner";
 import { logout, fetchFavorites, fetchRecipes } from "../store";
 
 const App = () => {
   const { auth } = useSelector((state) => state);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   useEffect(() => {
     dispatch(loginWithToken());
     dispatch(fetchFavorites());
@@ -66,7 +69,10 @@ const App = () => {
               <li>
                 <Link
                   className="dropdown-item"
-                  onClick={() => dispatch(logout())}
+                  onClick={async () => {
+                    await dispatch(logout());
+                    navigate("/");
+                  }}
                 >
                   Logout {auth.username}
                 </Link>
@@ -82,6 +88,7 @@ const App = () => {
         <Route path="/mealplanner" element={<MealPlanner />} />
         <Route path="/recipes/:id" element={<RecipePage />} />
         <Route path="/favorites" element={<Favorites />} />
+        <Route path="/signup" element={<SignUp />} />
       </Routes>
     </div>
   );

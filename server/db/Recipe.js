@@ -1,8 +1,10 @@
 const { UUID, UUIDV4, STRING, TEXT, INTEGER } = require("sequelize");
 const conn = require("./conn");
 const axios = require("axios");
-const env = require("../../env");
-const API_KEY = env.API_KEY;
+require("dotenv").config();
+const API_KEY = process.env.API_KEY;
+//const env = require("../../env");
+//const API_KEY = env.API_KEY;
 const createDOMPurify = require("dompurify");
 const { JSDOM } = require("jsdom");
 const window = new JSDOM("").window;
@@ -52,12 +54,14 @@ const Recipe = conn.define("recipe", {
 });
 
 Recipe.seedSpoonacularRecipe = async function (spoonacularId) {
+  console.log(process.env.apiKey);
   const response = await axios.get(
     `https://api.spoonacular.com/recipes/${spoonacularId}/information`,
     {
       headers: {
         "Content-Type": "application/json",
-        "X-API-Key": API_KEY,
+        "X-API-Key": API_KEY || process.env.apiKey,
+        //need to assess for deployment
       },
     }
   );

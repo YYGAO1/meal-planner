@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import { API_KEY } from "../../env";
+//import { API_KEY } from "../../env";
 import RecipeCard from "./RecipeCard";
 
 const Recipes = () => {
@@ -19,19 +19,8 @@ const Recipes = () => {
   const searchRecipes = async (ev) => {
     ev.preventDefault();
     try {
-      const response = await axios.get(
-        `https://api.spoonacular.com/recipes/complexSearch?query=${searchTerm}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "X-API-Key": API_KEY,
-          },
-          params: {
-            number: 12,
-          },
-        }
-      );
-      setResults(response.data.results);
+      const response = await axios.get(`/api/recipes/search/${searchTerm}`);
+      setResults(response.data);
     } catch (ex) {
       console.log(ex);
     }

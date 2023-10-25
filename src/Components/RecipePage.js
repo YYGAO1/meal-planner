@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { API_KEY } from "../../env";
+//import { API_KEY } from "../../env";
 import * as DOMPurify from "dompurify";
 import dayjs from "dayjs";
 import { addToMealPlanner, seedSpoonacularRecipe } from "../store";
@@ -71,15 +71,7 @@ const RecipePage = () => {
 
   const getRecipeDetails = async (id) => {
     try {
-      const response = await axios.get(
-        `https://api.spoonacular.com/recipes/${id}/information`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "X-API-Key": API_KEY,
-          },
-        }
-      );
+      const response = await axios.get(`api/recipes/details/${id}`);
       setDetails(response.data);
     } catch (ex) {
       console.log(ex);

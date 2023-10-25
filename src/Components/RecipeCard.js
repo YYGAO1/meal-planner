@@ -70,7 +70,7 @@ const RecipeCard = (recipe) => {
       );
       if (favorite) return favorite;
     } else {
-      const favorite = favorites.find((f) => f.recipeId === recipeId);
+      const favorite = favorites.find((f) => f.recipe_id === recipeId);
       if (favorite) return favorite;
     }
     return false;
