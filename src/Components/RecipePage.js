@@ -4,7 +4,7 @@ import axios from "axios";
 import { API_KEY } from "../../env";
 import * as DOMPurify from "dompurify";
 import dayjs from "dayjs";
-import { addToMealPlanner } from "../store";
+import { addToMealPlanner, seedSpoonacularRecipe } from "../store";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Button } from "bootstrap";
@@ -42,7 +42,14 @@ const RecipePage = () => {
   //add to planner
   const addToPlanner = ({ id, type, date }) => {
     const newDate = dayjs(date).format("YYYY-MM-DD");
-    dispatch(addToMealPlanner({ id, type, date: newDate }));
+    dispatch(
+      addToMealPlanner({
+        type,
+        date: newDate,
+        recipe_id: id,
+        userId: auth.id,
+      })
+    );
   };
 
   const handleChange = (event) => {
@@ -134,6 +141,8 @@ const RecipePage = () => {
           label="type"
           onChange={handleChange}
         >
+          <option selected>Type</option>
+
           {types.map((type) => {
             return (
               <option
