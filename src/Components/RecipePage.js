@@ -3,16 +3,27 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { API_KEY } from "../../env";
 import * as DOMPurify from "dompurify";
+import dayjs from "dayjs";
+import { addToMealPlanner } from "../store";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { Button } from "bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteFavorite, createFavoriteSpoonacular } from "../store";
 
 const RecipePage = () => {
   const { id } = useParams();
+  const dispatch = useDispatch();
   const [details, setDetails] = useState([]);
   const [extendedIngredients, setExtendedIngredients] = useState([]);
   const cleanSummary = DOMPurify.sanitize(details.summary);
   const { auth, recipes, favorites } = useSelector((state) => state);
   const dispatch = useDispatch();
+
+  const types = ["snack", "breakfast", "lunch", "dinner", "dessert", "misc."];
+  const today = new Date();
+  const [date, setDate] = useState(today);
+  const [type, setType] = useState("");
 
   useEffect(() => {
     getRecipeDetails(id);
@@ -28,6 +39,16 @@ const RecipePage = () => {
       setExtendedIngredients(filterDuplicates(details.extendedIngredients));
     }
   }, [details.extendedIngredients]);
+
+  //add to planner
+  const addToPlanner = ({ id, type, date }) => {
+    const newDate = dayjs(date).format("YYYY-MM-DD");
+    dispatch(addToMealPlanner({ id, type, date: newDate }));
+  };
+
+  const handleChange = (event) => {
+    setType(event.target.value);
+  };
 
   const filterDuplicates = (ingredients) => {
     const seen = {};
@@ -96,9 +117,44 @@ const RecipePage = () => {
   }
 
   return (
-    <div className="container text-center">
       <h1 className="text-danger">{details.title}</h1>
       <h2 className="text-secondary">insert meal planner add form here</h2>
+      <form className="row g-3">
+        <DatePicker
+          showIcon
+          selected={date}
+          onChange={(newDate) => setDate(newDate)}
+        />
+        <label class="form-label">Type</label>
+
+        <select
+          className="form-select"
+          aria-label="Default select example"
+          value={type}
+          label="type"
+          onChange={handleChange}
+        >
+          {types.map((type) => {
+            return (
+              <option
+                className="dropdown-item"
+                type="button"
+                value={type}
+                key={type}
+              >
+                {type}
+              </option>
+            );
+          })}
+        </select>
+        <button
+          type="button"
+          className="btn"
+          onClick={() => addToPlanner({ date, id, type })}
+        >
+          Add to Meal Planner
+        </button>
+      </form>
       <br />
       <div style={{ position: "relative", display: "inline-block" }}>
         <div className="image-wrapper">
