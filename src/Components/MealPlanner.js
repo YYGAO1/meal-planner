@@ -68,6 +68,20 @@ const MealPlanner = () => {
           snacks.push(recipe);
         });
     }
+    if (meal.type === "dessert") {
+      meal.mealrecipes
+        .map((mealrecipe) => mealrecipe.recipe)
+        .map((recipe) => {
+          dessert.push(recipe);
+        });
+    }
+    if (meal.type === "misc") {
+      meal.mealrecipes
+        .map((mealrecipe) => mealrecipe.recipe)
+        .map((recipe) => {
+          misc.push(recipe);
+        });
+    }
   });
 
   return (
