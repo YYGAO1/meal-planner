@@ -20,12 +20,14 @@ export const fetchDay = (date) => {
   };
 };
 
-export const addToMealPlanner = ({ id, type, date }) => {
+export const addToMealPlanner = (mealInfo) => {
   return async (dispatch) => {
     const token = window.localStorage.getItem("token");
+    const recipe = await axios.post("/api/recipes/spoonacular", mealInfo);
+    dispatch({ type: "CREATE_RECIPE", recipe: recipe.data });
     const response = await axios.post(
-      `/api/mealplanner/${date}`,
-      { recipeId: id, date: date, type: type },
+      `/api/mealplanner/${mealInfo.date}`,
+      { recipeId: recipe.data.id, date: mealInfo.date, type: mealInfo.type },
       {
         headers: {
           authorization: token,
