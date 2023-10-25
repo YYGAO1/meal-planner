@@ -108,6 +108,7 @@ MealUser.prototype.getDay = async function (date) {
 
 // NEED TO TEST -AG
 MealUser.prototype.addToDay = async function ({ recipeId, type, date }) {
+  console.log({ recipeId, type, date });
   let day = await this.getDay(date);
   const meals = day.meals.map((meal) => {
     return meal.mealrecipes;
