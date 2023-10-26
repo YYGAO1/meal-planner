@@ -9,6 +9,7 @@ import { loginWithToken } from "../store";
 import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import MealPlanner from "./MealPlanner";
 import { logout, fetchFavorites, fetchRecipes } from "../store";
+import "bootstrap/dist/js/bootstrap";
 
 const App = () => {
   const { auth } = useSelector((state) => state);
