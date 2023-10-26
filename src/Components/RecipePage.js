@@ -28,11 +28,6 @@ const RecipePage = () => {
     getRecipeDetails(id);
   }, []);
 
-  //for development
-  useEffect(() => {
-    console.log("details", details);
-  }, [details]);
-
   useEffect(() => {
     if (details.extendedIngredients) {
       setExtendedIngredients(filterDuplicates(details.extendedIngredients));
@@ -71,6 +66,8 @@ const RecipePage = () => {
 
   const getRecipeDetails = async (id) => {
     try {
+      const recipe = recipes.find((r) => r.id === id);
+      if (recipe) id = recipe.spoonacular_id;
       const response = await axios.get(`api/recipes/details/${id}`);
       setDetails(response.data);
     } catch (ex) {

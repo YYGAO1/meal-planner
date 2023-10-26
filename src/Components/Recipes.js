@@ -11,11 +11,6 @@ const Recipes = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);
 
-  //for development, to keep track of state
-  useEffect(() => {
-    console.log(results);
-  }, [results]);
-
   const searchRecipes = async (ev) => {
     ev.preventDefault();
     try {
