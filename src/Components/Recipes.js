@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-//import { API_KEY } from "../../env";
 import RecipeCard from "./RecipeCard";
 
 const Recipes = () => {

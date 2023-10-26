@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-//import { API_KEY } from "../../env";
 import * as DOMPurify from "dompurify";
 import dayjs from "dayjs";
 import { addToMealPlanner, seedSpoonacularRecipe } from "../store";

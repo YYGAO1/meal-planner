@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-//import { API_KEY } from "../../env";
 import { useNavigate } from "react-router-dom";
 import * as DOMPurify from "dompurify";
 import { deleteFavorite, createFavoriteSpoonacular } from "../store";
