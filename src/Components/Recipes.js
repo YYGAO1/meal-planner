@@ -9,6 +9,7 @@ const Recipes = () => {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);
+  const [page, setPage] = useState(1);
 
   const searchRecipes = async (ev) => {
     ev.preventDefault();
@@ -18,6 +19,18 @@ const Recipes = () => {
     } catch (ex) {
       console.log(ex);
     }
+  };
+
+  useEffect(() => {
+    console.log(page);
+  }, [page]);
+
+  const decrementPage = () => {
+    setPage(page - 1);
+  };
+
+  const incrementPage = () => {
+    setPage(page + 1);
   };
 
   return (
@@ -54,6 +67,25 @@ const Recipes = () => {
           search
         </button>
       </form>
+      {!!results.length && (
+        <div className="row" style={{ width: "250px", margin: "auto" }}>
+          <button
+            className="col btn btn-secondary text-primary"
+            style={{ margin: "10px" }}
+            onClick={decrementPage}
+            disabled={page === 1 ? true : false}
+          >
+            &lt;
+          </button>{" "}
+          <button
+            className="col btn btn-secondary text-primary"
+            style={{ margin: "10px" }}
+            onClick={incrementPage}
+          >
+            &gt;
+          </button>
+        </div>
+      )}
       <div
         style={{
           display: "flex",
