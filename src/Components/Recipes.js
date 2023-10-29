@@ -4,12 +4,14 @@ import axios from "axios";
 import RecipeCard from "./RecipeCard";
 
 const Recipes = () => {
-  const { auth } = useSelector((state) => state);
-  const dispatch = useDispatch();
-
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);
   const [page, setPage] = useState(1);
+  const [paginatedResults, setPaginatedResults] = useState([]);
+
+  useEffect(() => {
+    setPaginatedResults(results.slice((page - 1) * 10, page * 10));
+  }, [results, page]);
 
   const searchRecipes = async (ev) => {
     ev.preventDefault();
@@ -20,10 +22,6 @@ const Recipes = () => {
       console.log(ex);
     }
   };
-
-  useEffect(() => {
-    console.log(page);
-  }, [page]);
 
   const decrementPage = () => {
     setPage(page - 1);
@@ -67,8 +65,16 @@ const Recipes = () => {
           search
         </button>
       </form>
-      {!!results.length && (
-        <div className="row" style={{ width: "250px", margin: "auto" }}>
+      {!!paginatedResults.length && (
+        <div
+          className="row"
+          style={{
+            width: "250px",
+            margin: "auto",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
           <button
             className="col btn btn-secondary text-primary"
             style={{ margin: "10px" }}
@@ -77,10 +83,12 @@ const Recipes = () => {
           >
             &lt;
           </button>{" "}
+          <div className="col text-danger">{page}</div>
           <button
             className="col btn btn-secondary text-primary"
             style={{ margin: "10px" }}
             onClick={incrementPage}
+            disabled={results.length <= page * 10}
           >
             &gt;
           </button>
@@ -94,13 +102,14 @@ const Recipes = () => {
           alignItems: "space-around",
         }}
       >
-        {results.map((recipe) => {
-          return (
-            <div key={recipe.id}>
-              <RecipeCard {...recipe} />
-            </div>
-          );
-        })}
+        {!!paginatedResults &&
+          paginatedResults.map((recipe) => {
+            return (
+              <div key={recipe.id}>
+                <RecipeCard {...recipe} />
+              </div>
+            );
+          })}
       </div>
     </div>
   );
