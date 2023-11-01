@@ -54,72 +54,52 @@ const UpdateUser = () => {
   return (
     <div
       style={{
-        textAlign: "center",
-        minHeight: "100vh",
-        display: "grid",
-        gridtemplaterows: "1fr auto",
+        maxWidth: "700px",
       }}
     >
-      <img
-        src="static/images/lunch.jpg"
-        alt="fruit cocktails"
-        style={{
-          top: 0,
-          left: 0,
-          width: carouselWidth,
-          height: "auto",
-          objectFit: "cover",
-        }}
-      />
-      <div
-        style={{
-          maxWidth: "700px",
-        }}
-      >
-        <h2 style={{ textAlign: "center" }}>Edit Account</h2>
-        <form>
-          <div className="mb-3">
-            <label className="form-label">Username</label>
-            <input
-              placeholder="username"
-              value={account.username || account.facebook_username || ""}
-              class="form-control"
-              name="username"
-              onChange={onChange}
-            />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">Password</label>
-            <input
-              className="form-control"
-              placeholder="password"
-              value={account.password || ""}
-              name="password"
-              onChange={onChange}
-              type="password"
-            />
-          </div>
-          <div class="input-group">
-            <span class="input-group-text">About</span>
-            <textarea
-              className="form-control"
-              value={account.about || ""}
-              name="about"
-              onChange={onChange}
-            />
-          </div>
-          <br></br>
-          <div
-            className="mb-3"
-            style={{ display: "flex", justifyContent: "space-around" }}
-          >
-            <label className="form-label">Avatar (PNG, JPEG, JPG only)</label>
-            <input className="form-control" type="file" ref={ref} />
-          </div>
+      <h2 style={{ textAlign: "center" }}>Edit Account</h2>
+      <form>
+        <div className="mb-3">
+          <label className="form-label">Username</label>
+          <input
+            placeholder="username"
+            value={account.username || account.facebook_username || ""}
+            class="form-control"
+            name="username"
+            onChange={onChange}
+          />
+        </div>
+        <div className="mb-3">
+          <label className="form-label">Password</label>
+          <input
+            className="form-control"
+            placeholder="password"
+            value={account.password || ""}
+            name="password"
+            onChange={onChange}
+            type="password"
+          />
+        </div>
+        <div class="input-group">
+          <span class="input-group-text">About</span>
+          <textarea
+            className="form-control"
+            value={account.about || ""}
+            name="about"
+            onChange={onChange}
+          />
+        </div>
+        <br></br>
+        <div
+          className="mb-3"
+          style={{ display: "flex", justifyContent: "space-around" }}
+        >
+          <label className="form-label">Avatar (PNG, JPEG, JPG only)</label>
+          <input className="form-control" type="file" ref={ref} />
+        </div>
 
-          <button onClick={update}> update </button>
-        </form>
-      </div>
+        <button onClick={update}> update </button>
+      </form>
     </div>
   );
 };
