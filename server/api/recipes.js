@@ -53,7 +53,7 @@ app.get("/search/:searchTerm", async (req, res, next) => {
           "X-API-Key": API_KEY,
         },
         params: {
-          number: 12,
+          number: 30,
         },
       }
     );
