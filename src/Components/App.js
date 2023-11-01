@@ -10,6 +10,9 @@ import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import MealPlanner from "./MealPlanner";
 import { logout, fetchFavorites, fetchRecipes } from "../store";
 
+import "bootstrap/dist/js/bootstrap";
+import UpdateUser from "./UpdateUser";
+
 const App = () => {
   const { auth } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -67,6 +70,11 @@ const App = () => {
                 </Link>
               </li>
               <li>
+                <Link className="dropdown-item" to="/user/update">
+                  Edit Profile
+                </Link>
+              </li>
+              <li>
                 <Link
                   className="dropdown-item"
                   onClick={async () => {
@@ -89,6 +97,7 @@ const App = () => {
         <Route path="/recipes/:id" element={<RecipePage />} />
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/user/update" element={<UpdateUser />} />
       </Routes>
     </div>
   );
