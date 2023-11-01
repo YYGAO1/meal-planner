@@ -1,20 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-//import { API_KEY } from "../../env";
 import RecipeCard from "./RecipeCard";
 
 const Recipes = () => {
-  const { auth } = useSelector((state) => state);
-  const dispatch = useDispatch();
-
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);
+  const [page, setPage] = useState(1);
+  const [paginatedResults, setPaginatedResults] = useState([]);
 
-  //for development, to keep track of state
   useEffect(() => {
-    console.log(results);
-  }, [results]);
+    setPaginatedResults(results.slice((page - 1) * 10, page * 10));
+  }, [results, page]);
 
   const searchRecipes = async (ev) => {
     ev.preventDefault();
@@ -24,6 +21,14 @@ const Recipes = () => {
     } catch (ex) {
       console.log(ex);
     }
+  };
+
+  const decrementPage = () => {
+    setPage(page - 1);
+  };
+
+  const incrementPage = () => {
+    setPage(page + 1);
   };
 
   return (
@@ -60,6 +65,35 @@ const Recipes = () => {
           search
         </button>
       </form>
+      {!!paginatedResults.length && (
+        <div
+          className="row"
+          style={{
+            width: "250px",
+            margin: "auto",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          <button
+            className="col btn btn-secondary text-primary"
+            style={{ margin: "10px" }}
+            onClick={decrementPage}
+            disabled={page === 1 ? true : false}
+          >
+            &lt;
+          </button>{" "}
+          <div className="col text-danger">{page}</div>
+          <button
+            className="col btn btn-secondary text-primary"
+            style={{ margin: "10px" }}
+            onClick={incrementPage}
+            disabled={results.length <= page * 10}
+          >
+            &gt;
+          </button>
+        </div>
+      )}
       <div
         style={{
           display: "flex",
@@ -68,13 +102,14 @@ const Recipes = () => {
           alignItems: "space-around",
         }}
       >
-        {results.map((recipe) => {
-          return (
-            <div key={recipe.id}>
-              <RecipeCard {...recipe} />
-            </div>
-          );
-        })}
+        {!!paginatedResults &&
+          paginatedResults.map((recipe) => {
+            return (
+              <div key={recipe.id}>
+                <RecipeCard {...recipe} />
+              </div>
+            );
+          })}
       </div>
     </div>
   );

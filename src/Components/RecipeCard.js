@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
-import { API_KEY } from "../../env";
 import { useNavigate } from "react-router-dom";
 import * as DOMPurify from "dompurify";
 import { deleteFavorite, createFavoriteSpoonacular } from "../store";
@@ -24,31 +23,19 @@ const RecipeCard = (recipe) => {
     if (openItems.includes(id)) {
       setOpenItems(openItems.filter((item) => item !== id));
     } else {
-      getRecipeDetails(recipe);
+      getRecipeDetails(recipe.id);
       setOpenItems([...openItems, id]);
     }
   };
 
   const isAccordionOpen = (id) => openItems.includes(id);
 
-  const getRecipeDetails = async (recipe) => {
+  const getRecipeDetails = async (id) => {
     try {
-      const response = await axios.get(
-        `https://api.spoonacular.com/recipes/${
-          recipe.spoonacular_id || recipe.id
-        }/information`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "X-API-Key": API_KEY,
-          },
-        }
-      );
-      if (response.data.summary) {
-        setDetails(response.data);
-      } else {
-        console.log("no response.data.summary");
-      }
+      const recipe = recipes.find((r) => r.id === id);
+      if (recipe) id = recipe.spoonacular_id;
+      const response = await axios.get(`api/recipes/details/${id}`);
+      setDetails(response.data);
     } catch (ex) {
       console.log(ex);
     }

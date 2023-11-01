@@ -54,14 +54,12 @@ const Recipe = conn.define("recipe", {
 });
 
 Recipe.seedSpoonacularRecipe = async function (spoonacularId) {
-  console.log(process.env.apiKey);
   const response = await axios.get(
     `https://api.spoonacular.com/recipes/${spoonacularId}/information`,
     {
       headers: {
         "Content-Type": "application/json",
-        "X-API-Key": API_KEY || process.env.apiKey,
-        //need to assess for deployment
+        "X-API-Key": API_KEY,
       },
     }
   );

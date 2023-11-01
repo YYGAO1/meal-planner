@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-//import { API_KEY } from "../../env";
 import * as DOMPurify from "dompurify";
 import dayjs from "dayjs";
 import { addToMealPlanner, seedSpoonacularRecipe } from "../store";
@@ -27,11 +26,6 @@ const RecipePage = () => {
   useEffect(() => {
     getRecipeDetails(id);
   }, []);
-
-  //for development
-  useEffect(() => {
-    console.log("details", details);
-  }, [details]);
 
   useEffect(() => {
     if (details.extendedIngredients) {
@@ -71,6 +65,8 @@ const RecipePage = () => {
 
   const getRecipeDetails = async (id) => {
     try {
+      const recipe = recipes.find((r) => r.id === id);
+      if (recipe) id = recipe.spoonacular_id;
       const response = await axios.get(`api/recipes/details/${id}`);
       setDetails(response.data);
     } catch (ex) {
