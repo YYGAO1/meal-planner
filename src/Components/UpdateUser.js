@@ -52,6 +52,7 @@ const UpdateUser = () => {
   };
 
   return (
+
     <div
       style={{
         maxWidth: "700px",
