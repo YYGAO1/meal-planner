@@ -19,6 +19,19 @@ const recipes = (state = [], action) => {
   return state;
 };
 
+//create a new recipe from scratch
+export const createRecipe = ({ recipe, ingredients, instructions }) => {
+  return async (dispatch) => {
+    const response = await axios.post("/api/recipes", {
+      recipe,
+      ingredients,
+      instructions,
+    });
+    dispatch({ type: "CREATE_RECIPE", recipe: response.data });
+    return response.data;
+  };
+};
+
 export const fetchRecipes = () => {
   return async (dispatch) => {
     const response = await axios.get("/api/recipes");

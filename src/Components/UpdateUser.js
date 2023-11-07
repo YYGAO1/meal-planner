@@ -65,7 +65,7 @@ const UpdateUser = () => {
           <input
             placeholder="username"
             value={account.username || account.facebook_username || ""}
-            class="form-control"
+            className="form-control"
             name="username"
             onChange={onChange}
           />
