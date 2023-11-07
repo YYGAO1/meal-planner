@@ -46,7 +46,7 @@ const UploadRecipe = () => {
   const onChangeRecipe = (ev) => {
     setRecipe({
       ...recipe,
-      [ev.target.name]: ev.target.value || ev.target.checked,
+      [ev.target.name]: ev.target.value,
     });
   };
   const onChangeIngredients = (ev, idx) => {
@@ -86,7 +86,7 @@ const UploadRecipe = () => {
     const newRecipe = await dispatch(
       createRecipe({ recipe, ingredients, instructions })
     );
-    navigate(`/recipes/${newRecipe.id}`);
+    navigate(`/recipes/details/${newRecipe.id}`);
   };
 
   return (
@@ -113,7 +113,7 @@ const UploadRecipe = () => {
           }}
         >
           <h2 style={{ textAlign: "center" }}>Upload Recipe</h2>
-          <form onSubmit={create} className="mb-3 row">
+          <form onSubmit={create}>
             <input
               className="form-control"
               placeholder="title"
@@ -161,7 +161,7 @@ const UploadRecipe = () => {
                 );
               })}
             </div>
-            <button onClick={addIngredient} aria-haspopup="true">
+            <button onClick={addIngredient} type="button">
               add more
             </button>
             <div className="mb-3 row">
@@ -190,7 +190,7 @@ const UploadRecipe = () => {
                 );
               })}
             </div>
-            <button onClick={addInstruction} aria-haspopup="true">
+            <button onClick={addInstruction} type="button">
               add more
             </button>
             <div
