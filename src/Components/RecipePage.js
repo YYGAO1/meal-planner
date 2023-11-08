@@ -6,7 +6,6 @@ import dayjs from "dayjs";
 import { addToMealPlanner, seedSpoonacularRecipe } from "../store";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { Button } from "bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteFavorite, createFavoriteSpoonacular } from "../store";
 
@@ -113,44 +112,52 @@ const RecipePage = () => {
   return (
     <div>
       <h1 className="text-danger">{details.title}</h1>
-      <h2 className="text-secondary">insert meal planner add form here</h2>
-      <form className="row g-3">
-        <DatePicker
-          showIcon
-          selected={date}
-          onChange={(newDate) => setDate(newDate)}
-        />
-        <label class="form-label">Type</label>
-
-        <select
-          className="form-select"
-          aria-label="Default select example"
-          value={type}
-          label="type"
-          onChange={handleChange}
+      <form>
+        <h3 className="text-secondary">Add to Meal Planner</h3>
+        <div
+          style={{
+            maxWidth: "75%",
+            margin: "auto",
+          }}
         >
-          <option selected>Type</option>
+          <DatePicker
+            showIcon
+            selected={date}
+            className="bg-danger text-success"
+            onChange={(newDate) => setDate(newDate)}
+          />
+          <select
+            className="form-select bg-danger text-success"
+            style={{ maxWidth: "25%", margin: "10px auto" }}
+            aria-label="Default select example"
+            value={type}
+            label="type"
+            onChange={handleChange}
+          >
+            <option>Type</option>
 
-          {types.map((type) => {
-            return (
-              <option
-                className="dropdown-item"
-                type="button"
-                value={type}
-                key={type}
-              >
-                {type}
-              </option>
-            );
-          })}
-        </select>
-        <button
-          type="button"
-          className="btn"
-          onClick={() => addToPlanner({ date, id, type })}
-        >
-          Add to Meal Planner
-        </button>
+            {types.map((type) => {
+              return (
+                <option
+                  className="dropdown-item"
+                  type="button"
+                  value={type}
+                  key={type}
+                >
+                  {type}
+                </option>
+              );
+            })}
+          </select>
+          <button
+            type="button"
+            className="btn btn-secondary text-primary"
+            style={{ maxWidth: "25%" }}
+            onClick={() => addToPlanner({ date, id, type })}
+          >
+            Add
+          </button>
+        </div>
       </form>
       <br />
       <div style={{ position: "relative", display: "inline-block" }}>
