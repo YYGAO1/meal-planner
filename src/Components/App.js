@@ -10,8 +10,6 @@ import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import MealPlanner from "./MealPlanner";
 import { logout, fetchFavorites, fetchRecipes } from "../store";
 import "bootstrap/dist/js/bootstrap";
-
-import "bootstrap/dist/js/bootstrap";
 import UpdateUser from "./UpdateUser";
 
 const App = () => {

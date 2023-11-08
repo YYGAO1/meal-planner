@@ -15,11 +15,6 @@ const RecipePage = () => {
   const { auth, recipes, favorites } = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  /*const types = ["snack", "breakfast", "lunch", "dinner", "dessert", "misc."];
-  const today = new Date();
-  const [date, setDate] = useState(today);
-  const [type, setType] = useState("");*/
-
   useEffect(() => {
     getRecipeDetails(id);
   }, []);
@@ -29,23 +24,6 @@ const RecipePage = () => {
       setExtendedIngredients(filterDuplicates(details.extendedIngredients));
     }
   }, [details.extendedIngredients]);
-
-  /*//add to planner
-  const addToPlanner = ({ id, type, date }) => {
-    const newDate = dayjs(date).format("YYYY-MM-DD");
-    dispatch(
-      addToMealPlanner({
-        type,
-        date: newDate,
-        recipe_id: id,
-        userId: auth.id,
-      })
-    );
-  };
-
-  const handleChange = (event) => {
-    setType(event.target.value);
-  };*/
 
   const filterDuplicates = (ingredients) => {
     const seen = {};
@@ -111,53 +89,6 @@ const RecipePage = () => {
     <div>
       <h1 className="text-danger">{details.title}</h1>
       <AddToMealPlanner id={id} />
-      {/*<form>
-        <h3 className="text-secondary">Add to Meal Planner</h3>
-        <div
-          style={{
-            maxWidth: "75%",
-            margin: "auto",
-          }}
-        >
-          <DatePicker
-            showIcon
-            selected={date}
-            className="bg-danger text-success"
-            onChange={(newDate) => setDate(newDate)}
-          />
-          <select
-            className="form-select bg-danger text-success"
-            style={{ maxWidth: "25%", margin: "10px auto" }}
-            aria-label="Default select example"
-            value={type}
-            label="type"
-            onChange={handleChange}
-          >
-            <option>Type</option>
-
-            {types.map((type) => {
-              return (
-                <option
-                  className="dropdown-item"
-                  type="button"
-                  value={type}
-                  key={type}
-                >
-                  {type}
-                </option>
-              );
-            })}
-          </select>
-          <button
-            type="button"
-            className="btn btn-secondary text-primary"
-            style={{ maxWidth: "25%" }}
-            onClick={() => addToPlanner({ date, id, type })}
-          >
-            Add
-          </button>
-        </div>
-          </form>*/}
       <br />
       <div style={{ position: "relative", display: "inline-block" }}>
         <div className="image-wrapper">
