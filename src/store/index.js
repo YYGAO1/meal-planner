@@ -5,13 +5,14 @@ import auth from "./auth";
 import favorites from "./favorites";
 import recipes from "./recipes";
 import day from "./days";
-
+import listItems from "./listitems";
 
 const reducer = combineReducers({
   auth,
   favorites,
   recipes,
   day,
+  listItems,
 });
 
 const store = createStore(reducer, applyMiddleware(thunk, logger));
@@ -22,4 +23,4 @@ export * from "./auth";
 export * from "./favorites";
 export * from "./recipes";
 export * from "./days";
-
+export * from "./listitems";
