@@ -49,6 +49,8 @@ const RecipePage = () => {
     }
   };
 
+  const databaseRecipeDetails = (id) => {};
+
   const isFavorited = (recipeId) => {
     const recipe = recipes.find((r) => r.id === recipeId);
     if (!recipe) {

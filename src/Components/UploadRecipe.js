@@ -86,7 +86,7 @@ const UploadRecipe = () => {
     const newRecipe = await dispatch(
       createRecipe({ recipe, ingredients, instructions })
     );
-    navigate(`/recipes/details/${newRecipe.id}`);
+    navigate(`/recipes/uploaded/${newRecipe.id}`);
   };
 
   return (
