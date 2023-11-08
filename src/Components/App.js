@@ -5,13 +5,20 @@ import RecipePage from "./RecipePage";
 import Favorites from "./Favorites";
 import SignUp from "./SignUp";
 import { useSelector, useDispatch } from "react-redux";
-import { loginWithToken } from "../store";
 import { Link, Routes, Route, useNavigate } from "react-router-dom";
 import MealPlanner from "./MealPlanner";
-import { logout, fetchFavorites, fetchRecipes } from "../store";
+import {
+  logout,
+  fetchFavorites,
+  fetchRecipes,
+  fetchListItems,
+  loginWithToken,
+  fetchIngredients,
+} from "../store";
 import "bootstrap/dist/js/bootstrap";
 import UpdateUser from "./UpdateUser";
 import UploadRecipe from "./UploadRecipe";
+import GroceryList from "./GroceryList";
 
 const App = () => {
   const { auth } = useSelector((state) => state);
@@ -22,7 +29,12 @@ const App = () => {
     dispatch(loginWithToken());
     dispatch(fetchFavorites());
     dispatch(fetchRecipes());
+    //dispatch(fetchIngredients());
   }, []);
+
+  // useEffect(() => {
+  //   dispatch(fetchListItems());
+  // }, [auth]);
 
   return (
     <div
@@ -70,6 +82,11 @@ const App = () => {
                 </Link>
               </li>
               <li>
+                <Link className="dropdown-item" to="/grocerylist">
+                  Grocery List
+                </Link>
+              </li>
+              <li>
                 <Link className="dropdown-item" to="/favorites">
                   My Favorites
                 </Link>
@@ -104,6 +121,7 @@ const App = () => {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/user/update" element={<UpdateUser />} />
         <Route path="/recipes/upload" element={<UploadRecipe />} />
+        <Route path="/grocerylist" element={<GroceryList />} />
       </Routes>
     </div>
   );

@@ -16,5 +16,6 @@ app.use("/api/reviews", require("./api/reviews"));
 app.use("/api/users", require("./api/users"));
 app.use("/api/favorites", require("./api/favorites"));
 app.use("/api/mealplanner", require("./api/mealplanner"));
+app.use("/api/listitems", require("./api/listitems"));
 
 module.exports = app;
