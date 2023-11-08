@@ -10,7 +10,7 @@ const Recipes = () => {
   const [paginatedResults, setPaginatedResults] = useState([]);
 
   useEffect(() => {
-    setPaginatedResults(results.slice((page - 1) * 10, page * 10));
+    setPaginatedResults(results.slice((page - 1) * 9, page * 9));
   }, [results, page]);
 
   const searchRecipes = async (ev) => {
@@ -88,7 +88,7 @@ const Recipes = () => {
             className="col btn btn-secondary text-primary"
             style={{ margin: "10px" }}
             onClick={incrementPage}
-            disabled={results.length <= page * 10}
+            disabled={results.length <= page * 9}
           >
             &gt;
           </button>
