@@ -52,54 +52,77 @@ const UpdateUser = () => {
   };
 
   return (
-
     <div
+      className="container bg-primary"
       style={{
+        paddingTop: "35px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "space-around",
+        justifyContent: "space-around",
         maxWidth: "700px",
       }}
     >
-      <h2 style={{ textAlign: "center" }}>Edit Account</h2>
+      <h1 className="text-secondary" style={{ textAlign: "center" }}>
+        Edit Profile
+      </h1>
       <form>
         <div className="mb-3">
-          <label className="form-label">Username</label>
-          <input
-            placeholder="username"
-            value={account.username || account.facebook_username || ""}
-            class="form-control"
-            name="username"
-            onChange={onChange}
-          />
+          <label className="form-label text-secondary" style={{ width: "55%" }}>
+            Username
+            <input
+              placeholder="username"
+              value={account.username || account.facebook_username || ""}
+              className="form-control bg-danger text-success"
+              name="username"
+              onChange={onChange}
+            />
+          </label>
         </div>
         <div className="mb-3">
-          <label className="form-label">Password</label>
-          <input
-            className="form-control"
-            placeholder="password"
-            value={account.password || ""}
-            name="password"
-            onChange={onChange}
-            type="password"
-          />
+          <label className="form-label text-secondary" style={{ width: "55%" }}>
+            Password
+            <input
+              className="form-control bg-danger text-success"
+              placeholder="password"
+              value={account.password || ""}
+              name="password"
+              onChange={onChange}
+              type="password"
+            />
+          </label>
         </div>
-        <div class="input-group">
-          <span class="input-group-text">About</span>
-          <textarea
-            className="form-control"
-            value={account.about || ""}
-            name="about"
-            onChange={onChange}
-          />
+        <div className="mb-3">
+          <label className="form-label text-secondary" style={{ width: "55%" }}>
+            About
+            <textarea
+              className="form-control bg-danger text-success"
+              value={account.about || ""}
+              name="about"
+              onChange={onChange}
+            />
+          </label>
         </div>
-        <br></br>
-        <div
-          className="mb-3"
-          style={{ display: "flex", justifyContent: "space-around" }}
-        >
-          <label className="form-label">Avatar (PNG, JPEG, JPG only)</label>
-          <input className="form-control" type="file" ref={ref} />
+        <div className="mb-3">
+          <label
+            className="form-label text-secondary"
+            style={{
+              width: "55%",
+            }}
+          >
+            Avatar (PNG, JPEG, JPG only)
+            <input
+              className="form-control bg-danger text-success"
+              type="file"
+              ref={ref}
+            />
+          </label>
         </div>
 
-        <button onClick={update}> update </button>
+        <button className="btn btn-secondary text-success" onClick={update}>
+          {" "}
+          update{" "}
+        </button>
       </form>
     </div>
   );
