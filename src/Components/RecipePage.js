@@ -2,12 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import * as DOMPurify from "dompurify";
-import dayjs from "dayjs";
-import { addToMealPlanner, seedSpoonacularRecipe } from "../store";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteFavorite, createFavoriteSpoonacular } from "../store";
+import AddToMealPlanner from "./AddToMealPlanner";
 
 const RecipePage = () => {
   const { id } = useParams();
@@ -17,10 +15,10 @@ const RecipePage = () => {
   const { auth, recipes, favorites } = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  const types = ["snack", "breakfast", "lunch", "dinner", "dessert", "misc."];
+  /*const types = ["snack", "breakfast", "lunch", "dinner", "dessert", "misc."];
   const today = new Date();
   const [date, setDate] = useState(today);
-  const [type, setType] = useState("");
+  const [type, setType] = useState("");*/
 
   useEffect(() => {
     getRecipeDetails(id);
@@ -32,7 +30,7 @@ const RecipePage = () => {
     }
   }, [details.extendedIngredients]);
 
-  //add to planner
+  /*//add to planner
   const addToPlanner = ({ id, type, date }) => {
     const newDate = dayjs(date).format("YYYY-MM-DD");
     dispatch(
@@ -47,7 +45,7 @@ const RecipePage = () => {
 
   const handleChange = (event) => {
     setType(event.target.value);
-  };
+  };*/
 
   const filterDuplicates = (ingredients) => {
     const seen = {};
@@ -112,7 +110,8 @@ const RecipePage = () => {
   return (
     <div>
       <h1 className="text-danger">{details.title}</h1>
-      <form>
+      <AddToMealPlanner id={id} />
+      {/*<form>
         <h3 className="text-secondary">Add to Meal Planner</h3>
         <div
           style={{
@@ -158,7 +157,7 @@ const RecipePage = () => {
             Add
           </button>
         </div>
-      </form>
+          </form>*/}
       <br />
       <div style={{ position: "relative", display: "inline-block" }}>
         <div className="image-wrapper">
