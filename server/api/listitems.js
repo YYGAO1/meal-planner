@@ -17,4 +17,13 @@ app.get("/", isLoggedIn, async (req, res, next) => {
   }
 });
 
+app.get("/ingredients", isLoggedIn, async (req, res, next) => {
+  try {
+    const user = req.user;
+    res.send(await user.getIngredients());
+  } catch (ex) {
+    next(ex);
+  }
+});
+
 module.exports = app;

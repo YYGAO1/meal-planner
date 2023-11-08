@@ -1,18 +1,19 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchListItems } from "../store";
+import { fetchListItems, fetchIngredientsGroceryList } from "../store";
 
 const GroceryList = () => {
   const dispatch = useDispatch();
-  const { listItems } = useSelector((state) => state);
+  const { listItems, ingredients } = useSelector((state) => state);
 
   useEffect(() => {
     dispatch(fetchListItems());
+    dispatch(fetchIngredientsGroceryList());
   }, []);
 
   useEffect(() => {
-    console.log(listItems);
-  }, [listItems]);
+    console.log(ingredients);
+  }, [ingredients]);
 
   if (!listItems.length) return null;
 
@@ -21,7 +22,10 @@ const GroceryList = () => {
       <h1>Grocery List</h1>
       <ul>
         {listItems.map((item) => {
-          return <li key={item.id}>{item.id}</li>;
+          const ingredient = ingredients.find(
+            (ingredient) => ingredient.id === item.ingredientId
+          );
+          return <li key={item.id}>{ingredient ? ingredient.name : ""}</li>;
         })}
       </ul>
     </div>

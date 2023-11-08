@@ -106,6 +106,35 @@ MealUser.prototype.getDay = async function (date) {
   return day;
 };
 
+MealUser.prototype.getIngredients = async function () {
+  let listItems = await conn.models.listItem.findAll({
+    where: {
+      userId: this.id,
+    },
+  });
+
+  const ingredientIds = [];
+  const ingredients = [];
+
+  listItems.forEach((listItem) => {
+    ingredientIds.push(listItem.ingredientId);
+  });
+
+  await Promise.all(
+    ingredientIds.map(async (id) => {
+      const ingredient = await conn.models.ingredient.findOne({
+        where: {
+          id,
+        },
+      });
+      ingredients.push(ingredient);
+    })
+  );
+
+  console.log("ingredients from backend", ingredients);
+  return ingredients;
+};
+
 // NEED TO TEST -AG
 MealUser.prototype.addToDay = async function ({ recipeId, type, date }) {
   let day = await this.getDay(date);
