@@ -48,7 +48,7 @@ const UpdateUser = () => {
   const update = async (ev) => {
     ev.preventDefault();
     await dispatch(updateAuth(account));
-    navigate(`/users/${auth.id}`);
+    //navigate(`/users/${auth.id}`);
   };
 
   return (
@@ -108,20 +108,32 @@ const UpdateUser = () => {
             className="form-label text-secondary"
             style={{
               width: "55%",
+              display: "inline-block",
+              padding: "12px 18px",
+              cursor: "pointer",
+              borderRadius: "5px",
+              backgroundColor: "#89bf8e",
+              fontSize: "16px",
+              fontWeight: "bold",
+              color: "#ffe6d4",
             }}
           >
-            Avatar (PNG, JPEG, JPG only)
-            <input
-              className="form-control bg-danger text-success"
-              type="file"
-              ref={ref}
-            />
+            Upload Avatar (PNG, JPEG, JPG only)
+            <div className="custom-file">
+              <input
+                className="form-control custom-file-input bg-danger text-success"
+                type="file"
+                ref={ref}
+                id="inputGroupFile01"
+                style={{ display: "none" }}
+              />
+            </div>
           </label>
+          <img src={account.avatar} />
         </div>
-
         <button className="btn btn-secondary text-success" onClick={update}>
           {" "}
-          update{" "}
+          Update{" "}
         </button>
       </form>
     </div>
