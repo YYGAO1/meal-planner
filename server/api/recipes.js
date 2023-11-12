@@ -85,8 +85,9 @@ app.get("/details/:id", async (req, res, next) => {
 
 app.post("/spoonacular", async (req, res, next) => {
   try {
-    console.log("req.body", req.body);
-    const recipe = await Recipe.seedSpoonacularRecipe(req.body.recipe_id.id);
+    const recipe = await Recipe.seedSpoonacularRecipe(
+      req.body.recipe_id.id || req.body.recipe_id
+    );
     res.status(201).send(recipe);
   } catch (ex) {
     next(ex);
