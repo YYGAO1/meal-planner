@@ -4,20 +4,32 @@ import axios from "axios";
 import * as DOMPurify from "dompurify";
 import "react-datepicker/dist/react-datepicker.css";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteFavorite, createFavoriteSpoonacular } from "../store";
+import {
+  deleteFavorite,
+  createFavoriteSpoonacular,
+  fetchReviews,
+} from "../store";
 import AddToMealPlanner from "./AddToMealPlanner";
+import ReviewForm from "./ReviewForm";
 
 const RecipePage = () => {
   const { id } = useParams();
   const [details, setDetails] = useState([]);
   const [extendedIngredients, setExtendedIngredients] = useState([]);
   const cleanSummary = DOMPurify.sanitize(details.summary);
-  const { auth, recipes, favorites } = useSelector((state) => state);
+  const { auth, recipes, favorites, reviews } = useSelector((state) => state);
   const dispatch = useDispatch();
+  const [seededId, setSeededId] = useState(null);
 
   useEffect(() => {
     getRecipeDetails(id);
-  }, []);
+  }, [recipes]);
+
+  useEffect(() => {
+    console.log("seededId", seededId);
+    fetchReviews(seededId);
+    console.log("reviews", reviews);
+  }, [seededId]);
 
   useEffect(() => {
     if (details.extendedIngredients) {
@@ -40,8 +52,15 @@ const RecipePage = () => {
 
   const getRecipeDetails = async (id) => {
     try {
-      const recipe = recipes.find((r) => r.id === id);
-      if (recipe) id = recipe.spoonacular_id;
+      console.log("recipes", recipes);
+      console.log("id", id);
+      const recipe = recipes.find((r) => r.spoonacular_id === id * 1);
+      console.log("recipe", recipe);
+      if (recipe) {
+        console.log("recipe exists in db");
+        id = recipe.spoonacular_id;
+        setSeededId(recipe.id);
+      }
       const response = await axios.get(`api/recipes/details/${id}`);
       setDetails(response.data);
     } catch (ex) {
@@ -168,6 +187,22 @@ const RecipePage = () => {
             return <li key={i}>{instruction.step.replaceAll(".", ". ")}</li>;
           })}
         </ol>
+      </div>
+      <div
+        className="card bg-danger"
+        style={{ padding: "5px", margin: "10px" }}
+      >
+        <ReviewForm recipeId={seededId || ""} spoonacularId={id || ""} />
+      </div>
+      <div
+        className="card bg-danger"
+        style={{ padding: "5px", margin: "10px" }}
+      >
+        <ul>
+          {reviews.map((review) => {
+            return <li key={review.id}>{review.subject}</li>;
+          })}
+        </ul>
       </div>
     </div>
   );

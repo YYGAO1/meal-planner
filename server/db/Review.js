@@ -1,6 +1,8 @@
 const { UUID, UUIDV4, STRING, TEXT, INTEGER, ENUM } = require("sequelize");
 const conn = require("./conn");
 
+//also has recipeId and userId
+
 const Review = conn.define("review", {
   id: {
     type: UUID,

@@ -6,6 +6,7 @@ module.exports = app;
 
 app.get("/", async (req, res, next) => {
   try {
+    console.log("req.body", req.body);
     res.send(await Review.findAll());
   } catch (ex) {
     next(ex);
