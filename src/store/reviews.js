@@ -5,7 +5,7 @@ const reviews = (state = [], action) => {
     return action.reviews;
   }
   if (action.type === "CREATE_REVIEW") {
-    state = [...state, action.review];
+    return [...state, action.review];
   }
   if (action.type === "UPDATE_REVIEW") {
     return state.map((r) => {
@@ -21,22 +21,35 @@ const reviews = (state = [], action) => {
 
 export const fetchReviews = (recipeId) => {
   return async (dispatch) => {
-    console.log("reached store");
-    const response = await axios.get("/api/reviews", recipeId);
-    console.log("response", response);
+    try {
+      /*if (!recipeId) {
+        dispatch({ type: "SET_REVIEWS", reviews: [] });
+      }*/
+      const response = await axios.get(`/api/reviews/${recipeId}`);
+      dispatch({ type: "SET_REVIEWS", reviews: response.data });
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+    }
   };
 };
 
 export const createReview = (review) => {
   return async (dispatch) => {
+    console.log("review made it to store", review);
     const token = window.localStorage.getItem("token");
     const recipe = await axios.post("/api/recipes/spoonacular", review);
+    console.log("recipe seeded: ", recipe);
     dispatch({ type: "CREATE_RECIPE", recipe: recipe.data });
-    const response = await axios.post("/api/reviews", review, {
-      headers: {
-        authorization: token,
-      },
-    });
+    const response = await axios.post(
+      "/api/reviews",
+      { ...review, recipeId: recipe.id },
+      {
+        headers: {
+          authorization: token,
+        },
+      }
+    );
+    console.log("review created", response.data);
     dispatch({ type: "CREATE_REVIEW", review: response.data });
   };
 };

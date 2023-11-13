@@ -19,17 +19,40 @@ const RecipePage = () => {
   const cleanSummary = DOMPurify.sanitize(details.summary);
   const { auth, recipes, favorites, reviews } = useSelector((state) => state);
   const dispatch = useDispatch();
-  const [seededId, setSeededId] = useState(null);
+
+  const initialSeededId = localStorage.getItem("seededId")
+    ? parseInt(localStorage.getItem("seededId"), 10)
+    : null;
+
+  const [seededId, setSeededId] = useState(initialSeededId);
 
   useEffect(() => {
-    getRecipeDetails(id);
-  }, [recipes]);
+    const getRecipeData = async () => {
+      try {
+        const recipe = recipes.find((r) => r.spoonacular_id === id * 1);
+        if (recipe) {
+          const seededFromSpoonRecipe = recipes.find(
+            (r) => r.spoonacular_id === id
+          );
+          const selectedId = recipe.id || seededFromSpoonRecipe.id;
+          setSeededId(selectedId);
+        }
+        const response = await axios.get(`api/recipes/details/${id}`);
+        if (response.data.id) {
+          setDetails(response.data);
+        }
+      } catch (ex) {
+        console.log(ex);
+      }
+    };
+
+    getRecipeData();
+  }, [id, recipes]);
 
   useEffect(() => {
-    console.log("seededId", seededId);
-    fetchReviews(seededId);
-    console.log("reviews", reviews);
-  }, [seededId]);
+    localStorage.setItem("seededId", seededId);
+    dispatch(fetchReviews(seededId));
+  }, [dispatch, seededId]);
 
   useEffect(() => {
     if (details.extendedIngredients) {
@@ -50,14 +73,10 @@ const RecipePage = () => {
     });
   };
 
-  const getRecipeDetails = async (id) => {
+  /*const getRecipeDetails = async (id) => {
     try {
-      console.log("recipes", recipes);
-      console.log("id", id);
       const recipe = recipes.find((r) => r.spoonacular_id === id * 1);
-      console.log("recipe", recipe);
       if (recipe) {
-        console.log("recipe exists in db");
         id = recipe.spoonacular_id;
         setSeededId(recipe.id);
       }
@@ -66,7 +85,7 @@ const RecipePage = () => {
     } catch (ex) {
       console.log(ex);
     }
-  };
+  };*/
 
   const isFavorited = (recipeId) => {
     const recipe = recipes.find((r) => r.id === recipeId);

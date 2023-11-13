@@ -4,10 +4,16 @@ const { Review } = require("../db");
 
 module.exports = app;
 
-app.get("/", async (req, res, next) => {
+app.get("/:recipeId", async (req, res, next) => {
   try {
-    console.log("req.body", req.body);
-    res.send(await Review.findAll());
+    console.log("typeof req.params.recipeId", typeof req.params.recipeId);
+    res.send(
+      await Review.findAll({
+        where: {
+          recipeId: req.params.recipeId,
+        },
+      })
+    );
   } catch (ex) {
     next(ex);
   }
