@@ -25,6 +25,8 @@ export const fetchReviews = (recipeId) => {
       /*if (!recipeId) {
         dispatch({ type: "SET_REVIEWS", reviews: [] });
       }*/
+      console.log("recipeId reaching store: ", recipeId);
+      console.log("typeof recipeId in store", typeof recipeId);
       const response = await axios.get(`/api/reviews/${recipeId}`);
       dispatch({ type: "SET_REVIEWS", reviews: response.data });
     } catch (error) {
@@ -35,10 +37,8 @@ export const fetchReviews = (recipeId) => {
 
 export const createReview = (review) => {
   return async (dispatch) => {
-    console.log("review made it to store", review);
     const token = window.localStorage.getItem("token");
     const recipe = await axios.post("/api/recipes/spoonacular", review);
-    console.log("recipe seeded: ", recipe);
     dispatch({ type: "CREATE_RECIPE", recipe: recipe.data });
     const response = await axios.post(
       "/api/reviews",
@@ -49,7 +49,6 @@ export const createReview = (review) => {
         },
       }
     );
-    console.log("review created", response.data);
     dispatch({ type: "CREATE_REVIEW", review: response.data });
   };
 };

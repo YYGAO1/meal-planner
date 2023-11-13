@@ -29,14 +29,20 @@ const RecipePage = () => {
   useEffect(() => {
     const getRecipeData = async () => {
       try {
-        const recipe = recipes.find((r) => r.spoonacular_id === id * 1);
+        const recipe = recipes.find((r) => String(r.spoonacular_id) === id);
+        console.log("recipe", recipe);
         if (recipe) {
           const seededFromSpoonRecipe = recipes.find(
             (r) => r.spoonacular_id === id
           );
+          console.log("Seeded from Spoon Recipe:", seededFromSpoonRecipe);
+
           const selectedId = recipe.id || seededFromSpoonRecipe.id;
+          console.log("Selected Id:", selectedId);
+          console.log("typeof selected id", typeof selectedId);
           setSeededId(selectedId);
         }
+
         const response = await axios.get(`api/recipes/details/${id}`);
         if (response.data.id) {
           setDetails(response.data);
@@ -51,6 +57,8 @@ const RecipePage = () => {
 
   useEffect(() => {
     localStorage.setItem("seededId", seededId);
+    console.log("seededId in component", seededId);
+    console.log("typeof seededId in component", typeof seededId);
     dispatch(fetchReviews(seededId));
   }, [dispatch, seededId]);
 

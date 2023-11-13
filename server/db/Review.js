@@ -31,6 +31,9 @@ const Review = conn.define("review", {
     type: ENUM("APPROVED", "PENDING", "DENIED"),
     defaultValue: "APPROVED", // change back to 'pending'
   },
+  recipeId: {
+    type: UUID,
+  },
 });
 
 module.exports = Review;
