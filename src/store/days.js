@@ -21,7 +21,6 @@ export const fetchDay = (date) => {
 };
 
 export const addToMealPlanner = (mealInfo) => {
-  console.log("mealInfo", mealInfo);
   return async (dispatch) => {
     const token = window.localStorage.getItem("token");
     if (mealInfo.recipe_id.id.length === 6) {
