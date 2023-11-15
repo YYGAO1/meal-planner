@@ -6,18 +6,50 @@ import "react-datepicker/dist/react-datepicker.css";
 import { useSelector, useDispatch } from "react-redux";
 import { deleteFavorite, createFavoriteSpoonacular } from "../store";
 import AddToMealPlanner from "./AddToMealPlanner";
+import ReviewForm from "./ReviewForm";
 
 const RecipePage = () => {
   const { id } = useParams();
   const [details, setDetails] = useState([]);
   const [extendedIngredients, setExtendedIngredients] = useState([]);
   const cleanSummary = DOMPurify.sanitize(details.summary);
-  const { auth, recipes, favorites } = useSelector((state) => state);
+  const { auth, recipes, favorites, reviews } = useSelector((state) => state);
   const dispatch = useDispatch();
 
+  const [seededId, setSeededId] = useState("");
+  const [filteredReviews, setFilteredReviews] = useState([]);
+
   useEffect(() => {
-    getRecipeDetails(id);
-  }, []);
+    const filteredReviews = reviews
+      .filter((review) => review.recipeId === seededId)
+      .sort((a, b) => {
+        if (a.createdAt < b.createdAt) {
+          return 1;
+        }
+        if (a.createdAt > b.createdAt) {
+          return -1;
+        }
+        return 0;
+      });
+    setFilteredReviews(filteredReviews);
+  }, [reviews, seededId]);
+
+  useEffect(() => {
+    const getRecipeData = async () => {
+      try {
+        const recipe = recipes.find((r) => String(r.spoonacular_id) === id);
+        if (recipe) setSeededId(recipe.id);
+        const response = await axios.get(`api/recipes/details/${id}`);
+        if (response.data.id) {
+          setDetails(response.data);
+        }
+      } catch (ex) {
+        console.log(ex);
+      }
+    };
+
+    getRecipeData();
+  }, [id, recipes]);
 
   useEffect(() => {
     if (details.extendedIngredients) {
@@ -38,19 +70,6 @@ const RecipePage = () => {
     });
   };
 
-  const getRecipeDetails = async (id) => {
-    try {
-      const recipe = recipes.find((r) => r.id === id);
-      if (recipe) id = recipe.spoonacular_id;
-      const response = await axios.get(`api/recipes/details/${id}`);
-      setDetails(response.data);
-    } catch (ex) {
-      console.log(ex);
-    }
-  };
-
-  const databaseRecipeDetails = (id) => {};
-
   const isFavorited = (recipeId) => {
     const recipe = recipes.find((r) => r.id === recipeId);
     if (!recipe) {
@@ -63,7 +82,7 @@ const RecipePage = () => {
       );
       if (favorite) return favorite;
     } else {
-      const favorite = favorites.find((f) => f.recipeId === recipeId);
+      const favorite = favorites.find((f) => f.recipe_id === recipeId);
       if (favorite) return favorite;
     }
     return false;
@@ -82,7 +101,8 @@ const RecipePage = () => {
     !details ||
     !details.image ||
     !extendedIngredients ||
-    !details.analyzedInstructions
+    !details.analyzedInstructions ||
+    !reviews
   ) {
     return null;
   }
@@ -170,6 +190,41 @@ const RecipePage = () => {
             return <li key={i}>{instruction.step.replaceAll(".", ". ")}</li>;
           })}
         </ol>
+      </div>
+      <div
+        className="card bg-danger"
+        style={{ padding: "5px", margin: "10px" }}
+      >
+        <ReviewForm recipeId={seededId || ""} spoonacularId={id || ""} />
+      </div>
+      <div
+        className="card bg-danger"
+        style={{ padding: "5px", margin: "10px" }}
+      >
+        <h2 className="text-secondary">reviews</h2>
+        <ul
+          style={{
+            listStyle: "none",
+            padding: "0",
+          }}
+        >
+          {filteredReviews.map((review) => {
+            return (
+              <li
+                key={review.id}
+                className="card bg-secondary"
+                style={{ margin: "10px" }}
+              >
+                <div className="row text-primary">
+                  <span className="col">{review.subject}</span>
+                  <span className="col">{review.rating} / 5 stars </span>
+                </div>
+                <hr className="text-primary" />
+                <div className="text-success">{review.body}</div>
+              </li>
+            );
+          })}
+        </ul>
       </div>
     </div>
   );

@@ -3,6 +3,7 @@ import dayjs from "dayjs";
 import { addToMealPlanner, seedSpoonacularRecipe } from "../store";
 import DatePicker from "react-datepicker";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const AddToMealPlanner = (id) => {
   const types = ["snack", "breakfast", "lunch", "dinner", "dessert", "misc."];
@@ -10,6 +11,7 @@ const AddToMealPlanner = (id) => {
   const [date, setDate] = useState(today);
   const [type, setType] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { auth } = useSelector((state) => state);
 
   const [openItems, setOpenItems] = useState([]);
@@ -35,6 +37,7 @@ const AddToMealPlanner = (id) => {
         userId: auth.id,
       })
     );
+    navigate("/mealplanner");
   };
 
   const handleChange = (event) => {
