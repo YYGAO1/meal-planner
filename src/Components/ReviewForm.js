@@ -28,30 +28,73 @@ const ReviewForm = ({ recipeId, spoonacularId }) => {
   const addReview = async (ev) => {
     ev.preventDefault();
     await dispatch(createReview(review));
+    setReview({
+      subject: "",
+      body: "",
+      rating: null,
+      userId: auth.id,
+      recipeId: recipeId,
+      spoonacularId: spoonacularId,
+    });
   };
 
   return (
     <form onSubmit={addReview}>
-      <input
-        value={review.subject || ""}
-        placeholder="subject"
-        name="subject"
-        onChange={onChange}
-      />
-      <input
-        type="number"
-        value={review.rating || ""}
-        placeholder="rating"
-        name="rating"
-        onChange={onChange}
-      />
-      <textarea
-        value={review.body || ""}
-        placeholder="body"
-        name="body"
-        onChange={onChange}
-      />
-      <button type="submit">submit</button>
+      <h2 className="text-secondary">add a review</h2>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          padding: "10px",
+        }}
+      >
+        <label
+          className="form-label text-success"
+          style={{ width: "65%", margin: "5px auto" }}
+        >
+          subject
+          <input
+            value={review.subject || ""}
+            name="subject"
+            className="form-control bg-secondary text-success"
+            onChange={onChange}
+          />
+        </label>
+        <label
+          className="form-label text-success"
+          style={{ width: "65%", margin: "5px auto" }}
+        >
+          rating (1-5)
+          <input
+            type="number"
+            min="1"
+            max="5"
+            value={review.rating || ""}
+            name="rating"
+            className="form-control bg-secondary text-success"
+            onChange={onChange}
+          />
+        </label>
+        <label
+          className="form-label text-success"
+          style={{ width: "65%", margin: "5px auto" }}
+        >
+          body
+          <textarea
+            value={review.body || ""}
+            name="body"
+            className="form-control bg-secondary text-success"
+            onChange={onChange}
+          />
+        </label>
+        <button
+          className="btn btn-danger text-primary"
+          type="submit"
+          style={{ width: "35%", margin: "5px auto" }}
+        >
+          submit
+        </button>
+      </div>
     </form>
   );
 };
