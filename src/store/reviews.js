@@ -19,6 +19,17 @@ const reviews = (state = [], action) => {
   return state;
 };
 
+export const fetchAllReviews = () => {
+  return async (dispatch) => {
+    try {
+      const response = await axios.get("api/reviews/all");
+      dispatch({ type: "SET_REVIEWS", reviews: response.data });
+    } catch (error) {
+      console.log("error fetching all reviews: ", error);
+    }
+  };
+};
+
 export const fetchReviews = (recipeId) => {
   return async (dispatch) => {
     try {
@@ -40,15 +51,12 @@ export const createReview = (review) => {
     const token = window.localStorage.getItem("token");
     const recipe = await axios.post("/api/recipes/spoonacular", review);
     dispatch({ type: "CREATE_RECIPE", recipe: recipe.data });
-    const response = await axios.post(
-      "/api/reviews",
-      { ...review, recipeId: recipe.id },
-      {
-        headers: {
-          authorization: token,
-        },
-      }
-    );
+    const fullReview = { ...review, recipeId: recipe.data.id };
+    const response = await axios.post("/api/reviews", fullReview, {
+      headers: {
+        authorization: token,
+      },
+    });
     dispatch({ type: "CREATE_REVIEW", review: response.data });
   };
 };

@@ -14,6 +14,7 @@ import {
   fetchListItems,
   loginWithToken,
   fetchIngredients,
+  fetchAllReviews,
 } from "../store";
 import "bootstrap/dist/js/bootstrap";
 import UpdateUser from "./UpdateUser";
@@ -29,6 +30,7 @@ const App = () => {
     dispatch(loginWithToken());
     dispatch(fetchFavorites());
     dispatch(fetchRecipes());
+    dispatch(fetchAllReviews());
     //dispatch(fetchIngredients());
   }, []);
 

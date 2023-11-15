@@ -55,12 +55,12 @@ const RecipePage = () => {
     getRecipeData();
   }, [id, recipes]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     localStorage.setItem("seededId", seededId);
     console.log("seededId in component", seededId);
     console.log("typeof seededId in component", typeof seededId);
     dispatch(fetchReviews(seededId));
-  }, [dispatch, seededId]);
+  }, [dispatch, seededId]);*/
 
   useEffect(() => {
     if (details.extendedIngredients) {
@@ -126,7 +126,8 @@ const RecipePage = () => {
     !details ||
     !details.image ||
     !extendedIngredients ||
-    !details.analyzedInstructions
+    !details.analyzedInstructions ||
+    !reviews
   ) {
     return null;
   }
@@ -226,9 +227,11 @@ const RecipePage = () => {
         style={{ padding: "5px", margin: "10px" }}
       >
         <ul>
-          {reviews.map((review) => {
-            return <li key={review.id}>{review.subject}</li>;
-          })}
+          {reviews
+            .filter((review) => review.recipeId === seededId)
+            .map((review) => {
+              return <li key={review.id}>{review.subject}</li>;
+            })}
         </ul>
       </div>
     </div>

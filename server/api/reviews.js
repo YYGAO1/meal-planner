@@ -7,6 +7,15 @@ const { isUUID } = require("validator");
 
 module.exports = app;
 
+app.get("/all", async (req, res, next) => {
+  try {
+    res.send(await Review.findAll());
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+//might remove
 app.get("/:recipeId", async (req, res, next) => {
   try {
     if (!isUUID(req.params.recipeId)) {
