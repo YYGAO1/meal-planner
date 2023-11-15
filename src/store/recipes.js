@@ -39,6 +39,7 @@ export const fetchRecipes = () => {
   };
 };
 
+
 export const seedSpoonacularRecipe = (spoonacularId) => {
   return async (dispatch) => {
     const response = await axios.post("/api/recipes/spoonacular", {

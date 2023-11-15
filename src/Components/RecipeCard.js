@@ -42,7 +42,11 @@ const RecipeCard = (recipe) => {
   };
 
   const handleImageClick = (id) => {
-    navigate(`/recipes/${id}`);
+    if (id.length > 6) {
+      navigate(`/recipes/uploaded/${id}`);
+    } else {
+      navigate(`/recipes/${id}`);
+    }
   };
 
   const isFavorited = (recipeId) => {

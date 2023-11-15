@@ -20,6 +20,7 @@ import "bootstrap/dist/js/bootstrap";
 import UpdateUser from "./UpdateUser";
 import UploadRecipe from "./UploadRecipe";
 import GroceryList from "./GroceryList";
+import RecipePageDatabase from "./RecipePageDatabase";
 
 const App = () => {
   const { auth } = useSelector((state) => state);
@@ -119,6 +120,7 @@ const App = () => {
         <Route path="/" element={auth.id ? <Recipes /> : <Login />} />
         <Route path="/mealplanner" element={<MealPlanner />} />
         <Route path="/recipes/:id" element={<RecipePage />} />
+        <Route path="/recipes/uploaded/:id" element={<RecipePageDatabase />} />
         <Route path="/favorites" element={<Favorites />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/user/update" element={<UpdateUser />} />

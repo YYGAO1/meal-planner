@@ -7,6 +7,7 @@ import recipes from "./recipes";
 import day from "./days";
 import listItems from "./listitems";
 import ingredients from "./ingredients";
+import instructions from "./instructions";
 import reviews from "./reviews";
 
 const reducer = combineReducers({
@@ -16,6 +17,7 @@ const reducer = combineReducers({
   day,
   listItems,
   ingredients,
+  instructions,
   reviews,
 });
 
@@ -29,4 +31,5 @@ export * from "./recipes";
 export * from "./days";
 export * from "./listitems";
 export * from "./ingredients";
+export * from "./instructions";
 export * from "./reviews";

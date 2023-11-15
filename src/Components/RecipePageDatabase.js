@@ -1,27 +1,34 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import axios from "axios";
-import * as DOMPurify from "dompurify";
-import "react-datepicker/dist/react-datepicker.css";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteFavorite, createFavoriteSpoonacular } from "../store";
+import { useParams } from "react-router-dom";
+import {
+  createFavoriteRecipePage,
+  fetchIngredients,
+  fetchInstructions,
+  fetchRecipes,
+} from "../store";
+import * as DOMPurify from "dompurify";
 import AddToMealPlanner from "./AddToMealPlanner";
 import ReviewForm from "./ReviewForm";
 
-const RecipePage = () => {
-  const { id } = useParams();
-  const [details, setDetails] = useState([]);
-  const [extendedIngredients, setExtendedIngredients] = useState([]);
-  const cleanSummary = DOMPurify.sanitize(details.summary);
-  const { auth, recipes, favorites, reviews } = useSelector((state) => state);
+const RecipePageDatabase = () => {
   const dispatch = useDispatch();
+  const { id } = useParams();
+  const { recipes, ingredients, instructions, auth, reviews, favorites } =
+    useSelector((state) => state);
+  const recipe = recipes.find((r) => r.id === id);
 
-  const [seededId, setSeededId] = useState("");
   const [filteredReviews, setFilteredReviews] = useState([]);
 
   useEffect(() => {
+    dispatch(fetchRecipes());
+    dispatch(fetchIngredients(id));
+    dispatch(fetchInstructions(id));
+  }, []);
+
+  useEffect(() => {
     const filteredReviews = reviews
-      .filter((review) => review.recipeId === seededId)
+      .filter((review) => review.recipeId === id)
       .sort((a, b) => {
         if (a.createdAt < b.createdAt) {
           return 1;
@@ -32,58 +39,16 @@ const RecipePage = () => {
         return 0;
       });
     setFilteredReviews(filteredReviews);
-  }, [reviews, seededId]);
+  }, [reviews, id]);
 
-  useEffect(() => {
-    const getRecipeData = async () => {
-      try {
-        const recipe = recipes.find((r) => String(r.spoonacular_id) === id);
-        if (recipe) setSeededId(recipe.id);
-        const response = await axios.get(`api/recipes/details/${id}`);
-        if (response.data.id) {
-          setDetails(response.data);
-        }
-      } catch (ex) {
-        console.log(ex);
-      }
-    };
-
-    getRecipeData();
-  }, [id, recipes]);
-
-  useEffect(() => {
-    if (details.extendedIngredients) {
-      setExtendedIngredients(filterDuplicates(details.extendedIngredients));
-    }
-  }, [details.extendedIngredients]);
-
-  const filterDuplicates = (ingredients) => {
-    const seen = {};
-    return ingredients.filter((ingredient) => {
-      const ingredientKey = ingredient.id;
-      if (seen.hasOwnProperty(ingredientKey)) {
-        return false;
-      } else {
-        seen[ingredientKey] = true;
-        return true;
-      }
-    });
+  const handleChange = (event) => {
+    setType(event.target.value);
   };
 
   const isFavorited = (recipeId) => {
-    const recipe = recipes.find((r) => r.id === recipeId);
-    if (!recipe) {
-      const seededFromSpoonRecipe = recipes.find(
-        (r) => r.spoonacular_id === recipeId
-      );
-      if (!seededFromSpoonRecipe) return false;
-      const favorite = favorites.find(
-        (f) => f.recipe_id === seededFromSpoonRecipe.id
-      );
-      if (favorite) return favorite;
-    } else {
-      const favorite = favorites.find((f) => f.recipe_id === recipeId);
-      if (favorite) return favorite;
+    const favorite = favorites.find((f) => f.recipe_id === recipeId);
+    if (favorite) {
+      return favorite;
     }
     return false;
   };
@@ -93,31 +58,37 @@ const RecipePage = () => {
       const favorite = isFavorited(id);
       dispatch(deleteFavorite(favorite.id));
     } else {
-      dispatch(createFavoriteSpoonacular({ recipe_id: id, userId: auth.id }));
+      dispatch(createFavoriteRecipePage({ recipe_id: id, userId: auth.id }));
     }
   };
 
-  if (
-    !details ||
-    !details.image ||
-    !extendedIngredients ||
-    !details.analyzedInstructions ||
-    !reviews
-  ) {
+  if (!recipe) {
     return null;
   }
 
+  const cleanSummary = DOMPurify.sanitize(recipe.description);
+
   return (
     <div>
-      <h1 className="text-danger">{details.title}</h1>
+      <h1 className="text-danger">{recipe.title}</h1>
       <AddToMealPlanner id={id} />
+
       <br />
       <div style={{ position: "relative", display: "inline-block" }}>
         <div className="image-wrapper">
-          <img src={details.image} alt={details.title} />
+          <img
+            src={recipe.imageURL || recipe.image}
+            alt="Recipe Image"
+            // style={{
+            //   margin: "15px",
+            //   padding: "30px",
+            //   maxWidth: "700px",
+            //   maxHeight: "500px",
+            // }}
+          />
           <button
             className="btn"
-            onClick={() => favorite(details.id)}
+            onClick={() => favorite(id)}
             style={{
               position: "absolute",
               top: "5px",
@@ -127,7 +98,7 @@ const RecipePage = () => {
             }}
           >
             {" "}
-            {!isFavorited(details.id) && (
+            {!isFavorited(id) && (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -139,7 +110,7 @@ const RecipePage = () => {
                 <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z" />
               </svg>
             )}
-            {!!isFavorited(details.id) && (
+            {!!isFavorited(id) && (
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -163,39 +134,60 @@ const RecipePage = () => {
         className="card bg-danger text-success"
         style={{ padding: "5px", margin: "10px" }}
       >
-        <p dangerouslySetInnerHTML={{ __html: cleanSummary }}></p>
+        <p
+          dangerouslySetInnerHTML={{
+            __html: cleanSummary || "No description yet",
+          }}
+        ></p>
       </div>
 
       <div
         className="card bg-danger"
         style={{ padding: "5px", margin: "10px" }}
       >
-        <h2 className="text-secondary">ingredients</h2>
-        <ul className="text-success" style={{ textAlign: "left" }}>
-          {extendedIngredients.map((ingredient) => {
-            if (ingredient.id !== -1) {
-              return <li key={ingredient.id}>{ingredient.original}</li>;
-            }
+        <h3>Ingredients</h3>
+        <ul style={{ listStyle: "none", paddingLeft: "0" }}>
+          {ingredients.map((ingredient) => {
+            return (
+              <li key={ingredient.id}>
+                {ingredient.amount > 0 ? ingredient.amount : null}{" "}
+                {ingredient.measurementUnit} {ingredient.name}
+              </li>
+            );
           })}
         </ul>
       </div>
+      <div
+        className="card bg-danger"
+        style={{ padding: "5px", margin: "10px" }}
+      >
+        <h3>Instructions</h3>
+        <ol style={{ listStyle: "none", paddingLeft: "0" }}>
+          {instructions
+            .sort((a, b) => a.listOrder - b.listOrder)
+            .map((instruction) => {
+              const cleanInstruction = DOMPurify.sanitize(
+                instruction.specification,
+                { FORBID_TAGS: ["li"] }
+              );
+              return (
+                <li
+                  key={instruction.id}
+                  dangerouslySetInnerHTML={{ __html: cleanInstruction }}
+                />
+              );
+            })}
+        </ol>
+      </div>
 
       <div
         className="card bg-danger"
         style={{ padding: "5px", margin: "10px" }}
       >
-        <h2 className="text-secondary">instructions</h2>
-        <ol className="text-success" style={{ textAlign: "left" }}>
-          {details.analyzedInstructions[0].steps.map((instruction, i) => {
-            return <li key={i}>{instruction.step.replaceAll(".", ". ")}</li>;
-          })}
-        </ol>
-      </div>
-      <div
-        className="card bg-danger"
-        style={{ padding: "5px", margin: "10px" }}
-      >
-        <ReviewForm recipeId={seededId || ""} spoonacularId={id || ""} />
+        <ReviewForm
+          recipeId={id || ""}
+          spoonacularId={recipe.spoonacular_id || ""}
+        />
       </div>
       <div
         className="card bg-danger"
@@ -230,4 +222,4 @@ const RecipePage = () => {
   );
 };
 
-export default RecipePage;
+export default RecipePageDatabase;
