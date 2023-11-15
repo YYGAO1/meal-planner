@@ -7,6 +7,7 @@ import {
   fetchInstructions,
   fetchRecipes,
   deleteFavorite,
+  createListItem,
 } from "../store";
 import * as DOMPurify from "dompurify";
 import AddToMealPlanner from "./AddToMealPlanner";
@@ -15,8 +16,15 @@ import ReviewForm from "./ReviewForm";
 const RecipePageDatabase = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
-  const { recipes, ingredients, instructions, auth, reviews, favorites } =
-    useSelector((state) => state);
+  const {
+    recipes,
+    ingredients,
+    instructions,
+    auth,
+    reviews,
+    favorites,
+    listItems,
+  } = useSelector((state) => state);
   const recipe = recipes.find((r) => r.id === id);
 
   const [filteredReviews, setFilteredReviews] = useState([]);
@@ -68,6 +76,31 @@ const RecipePageDatabase = () => {
   }
 
   const cleanSummary = DOMPurify.sanitize(recipe.description);
+
+  const addToGroceryList = (ingredientId) => {
+    dispatch(createListItem({ ingredientId, userId: auth.id }));
+  };
+
+  const isOnGroceryList = (ingredient) => {
+    const targetName = ingredient.name;
+    console.log("targetName", targetName);
+
+    for (let i = 0; i < listItems.length; i++) {
+      const listItem = listItems[i];
+      const _ingredient = ingredients.find(
+        (i) => i.id === listItem.ingredientId
+      );
+      if (_ingredient) {
+        const name = _ingredient.name;
+        console.log("inner name", name);
+        if (name === targetName) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  };
 
   return (
     <div>
@@ -152,7 +185,16 @@ const RecipePageDatabase = () => {
             return (
               <li key={ingredient.id}>
                 {ingredient.amount > 0 ? ingredient.amount : null}{" "}
-                {ingredient.measurementUnit} {ingredient.name}
+                {ingredient.measurementUnit} {ingredient.name}{" "}
+                {!isOnGroceryList(ingredient) && (
+                  <button
+                    className="btn btn-secondary"
+                    title="add to grocery list"
+                    onClick={() => addToGroceryList(ingredient.id)}
+                  >
+                    +
+                  </button>
+                )}
               </li>
             );
           })}

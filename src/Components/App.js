@@ -35,9 +35,9 @@ const App = () => {
     //dispatch(fetchIngredients());
   }, []);
 
-  // useEffect(() => {
-  //   dispatch(fetchListItems());
-  // }, [auth]);
+  useEffect(() => {
+    dispatch(fetchListItems());
+  }, [auth]);
 
   return (
     <div

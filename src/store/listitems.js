@@ -33,4 +33,11 @@ export const fetchListItems = () => {
   };
 };
 
+export const createListItem = (listItem) => {
+  return async (dispatch) => {
+    const response = await axios.post("api/listitems", listItem);
+    dispatch({ type: "CREATE_LIST_ITEM", listItem: response.data });
+  };
+};
+
 export default listItems;

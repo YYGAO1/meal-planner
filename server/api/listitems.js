@@ -26,4 +26,12 @@ app.get("/ingredients", isLoggedIn, async (req, res, next) => {
   }
 });
 
+app.post("/", async (req, res, next) => {
+  try {
+    const listItem = await ListItem.create(req.body);
+    res.status(201).send(listItem);
+  } catch (ex) {
+    next(ex);
+  }
+});
 module.exports = app;

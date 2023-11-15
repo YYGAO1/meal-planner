@@ -116,7 +116,9 @@ const MealPlanner = () => {
           <ul style={{ listStyle: "none", padding: "0" }}>
             {breakfast.map((recipe) => (
               <li key={recipe.id}>
-                <Link to={`/recipes/${recipe.id}`}>{recipe.title}</Link>
+                <Link to={`/recipes/uploaded/${recipe.id}`}>
+                  {recipe.title}
+                </Link>
                 {/* <p>add to grocery list</p>
               <i class="bi bi-plus-circle"></i> */}
               </li>
@@ -126,7 +128,9 @@ const MealPlanner = () => {
           <ul style={{ listStyle: "none", padding: "0" }}>
             {lunch.map((recipe) => (
               <li key={recipe.id}>
-                <Link to={`/recipes/${recipe.id}`}>{recipe.title}</Link>
+                <Link to={`/recipes/uploaded/${recipe.id}`}>
+                  {recipe.title}
+                </Link>
                 {/* <p>add to grocery list</p>
               <i class="bi bi-plus-circle"></i> */}
               </li>
@@ -136,7 +140,9 @@ const MealPlanner = () => {
           <ul style={{ listStyle: "none", padding: "0" }}>
             {dinner.map((recipe) => (
               <li key={recipe.id}>
-                <Link to={`/recipes/${recipe.id}`}>{recipe.title}</Link>
+                <Link to={`/recipes/uploaded/${recipe.id}`}>
+                  {recipe.title}
+                </Link>
                 {/* <p>add to grocery list</p>
               <i class="bi bi-plus-circle"></i> */}
               </li>
@@ -146,7 +152,9 @@ const MealPlanner = () => {
           <ul style={{ listStyle: "none", padding: "0" }}>
             {snacks.map((recipe) => (
               <li key={recipe.id}>
-                <Link to={`/recipes/${recipe.id}`}>{recipe.title}</Link>
+                <Link to={`/recipes/uploaded/${recipe.id}`}>
+                  {recipe.title}
+                </Link>
                 {/* <p>add to grocery list</p>
               <i class="bi bi-plus-circle"></i> */}
               </li>
@@ -156,7 +164,9 @@ const MealPlanner = () => {
           <ul style={{ listStyle: "none", padding: "0" }}>
             {dessert.map((recipe) => (
               <li key={recipe.id}>
-                <Link to={`/recipes/${recipe.id}`}>{recipe.title}</Link>
+                <Link to={`/recipes/uploaded/${recipe.id}`}>
+                  {recipe.title}
+                </Link>
                 {/* <p>add to grocery list</p>
               <i class="bi bi-plus-circle"></i> */}
               </li>
@@ -166,7 +176,9 @@ const MealPlanner = () => {
           <ul style={{ listStyle: "none", padding: "0" }}>
             {misc.map((recipe) => (
               <li key={recipe.id}>
-                <Link to={`/recipes/${recipe.id}`}>{recipe.title}</Link>
+                <Link to={`/recipes/uploaded/${recipe.id}`}>
+                  {recipe.title}
+                </Link>
                 {/* <p>add to grocery list</p>
               <i class="bi bi-plus-circle"></i> */}
               </li>
