@@ -6,6 +6,7 @@ import {
   fetchIngredients,
   fetchInstructions,
   fetchRecipes,
+  deleteFavorite,
 } from "../store";
 import * as DOMPurify from "dompurify";
 import AddToMealPlanner from "./AddToMealPlanner";
