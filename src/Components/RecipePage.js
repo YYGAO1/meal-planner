@@ -17,6 +17,22 @@ const RecipePage = () => {
   const dispatch = useDispatch();
 
   const [seededId, setSeededId] = useState("");
+  const [filteredReviews, setFilteredReviews] = useState([]);
+
+  useEffect(() => {
+    const filteredReviews = reviews
+      .filter((review) => review.recipeId === seededId)
+      .sort((a, b) => {
+        if (a.createdAt < b.createdAt) {
+          return 1;
+        }
+        if (a.createdAt > b.createdAt) {
+          return -1;
+        }
+        return 0;
+      });
+    setFilteredReviews(filteredReviews);
+  }, [reviews, seededId]);
 
   useEffect(() => {
     const getRecipeData = async () => {
@@ -185,12 +201,29 @@ const RecipePage = () => {
         className="card bg-danger"
         style={{ padding: "5px", margin: "10px" }}
       >
-        <ul>
-          {reviews
-            .filter((review) => review.recipeId === seededId)
-            .map((review) => {
-              return <li key={review.id}>{review.subject}</li>;
-            })}
+        <h2 className="text-secondary">reviews</h2>
+        <ul
+          style={{
+            listStyle: "none",
+            padding: "0",
+          }}
+        >
+          {filteredReviews.map((review) => {
+            return (
+              <li
+                key={review.id}
+                className="card bg-secondary"
+                style={{ margin: "10px" }}
+              >
+                <div className="row text-primary">
+                  <span className="col">{review.subject}</span>
+                  <span className="col">{review.rating} / 5 stars </span>
+                </div>
+                <hr className="text-primary" />
+                <div className="text-success">{review.body}</div>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </div>
