@@ -4,11 +4,7 @@ import axios from "axios";
 import * as DOMPurify from "dompurify";
 import "react-datepicker/dist/react-datepicker.css";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  deleteFavorite,
-  createFavoriteSpoonacular,
-  fetchReviews,
-} from "../store";
+import { deleteFavorite, createFavoriteSpoonacular } from "../store";
 import AddToMealPlanner from "./AddToMealPlanner";
 import ReviewForm from "./ReviewForm";
 
@@ -20,29 +16,13 @@ const RecipePage = () => {
   const { auth, recipes, favorites, reviews } = useSelector((state) => state);
   const dispatch = useDispatch();
 
-  const initialSeededId = localStorage.getItem("seededId")
-    ? parseInt(localStorage.getItem("seededId"), 10)
-    : null;
-
-  const [seededId, setSeededId] = useState(initialSeededId);
+  const [seededId, setSeededId] = useState("");
 
   useEffect(() => {
     const getRecipeData = async () => {
       try {
         const recipe = recipes.find((r) => String(r.spoonacular_id) === id);
-        console.log("recipe", recipe);
-        if (recipe) {
-          const seededFromSpoonRecipe = recipes.find(
-            (r) => r.spoonacular_id === id
-          );
-          console.log("Seeded from Spoon Recipe:", seededFromSpoonRecipe);
-
-          const selectedId = recipe.id || seededFromSpoonRecipe.id;
-          console.log("Selected Id:", selectedId);
-          console.log("typeof selected id", typeof selectedId);
-          setSeededId(selectedId);
-        }
-
+        if (recipe) setSeededId(recipe.id);
         const response = await axios.get(`api/recipes/details/${id}`);
         if (response.data.id) {
           setDetails(response.data);
@@ -54,13 +34,6 @@ const RecipePage = () => {
 
     getRecipeData();
   }, [id, recipes]);
-
-  /*useEffect(() => {
-    localStorage.setItem("seededId", seededId);
-    console.log("seededId in component", seededId);
-    console.log("typeof seededId in component", typeof seededId);
-    dispatch(fetchReviews(seededId));
-  }, [dispatch, seededId]);*/
 
   useEffect(() => {
     if (details.extendedIngredients) {
@@ -80,20 +53,6 @@ const RecipePage = () => {
       }
     });
   };
-
-  /*const getRecipeDetails = async (id) => {
-    try {
-      const recipe = recipes.find((r) => r.spoonacular_id === id * 1);
-      if (recipe) {
-        id = recipe.spoonacular_id;
-        setSeededId(recipe.id);
-      }
-      const response = await axios.get(`api/recipes/details/${id}`);
-      setDetails(response.data);
-    } catch (ex) {
-      console.log(ex);
-    }
-  };*/
 
   const isFavorited = (recipeId) => {
     const recipe = recipes.find((r) => r.id === recipeId);

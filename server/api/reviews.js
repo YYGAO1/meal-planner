@@ -1,36 +1,12 @@
 const express = require("express");
 const app = express.Router();
 const { Review } = require("../db");
-const { Op } = require("sequelize");
-const conn = require("../db/conn");
-const { isUUID } = require("validator");
 
 module.exports = app;
 
-app.get("/all", async (req, res, next) => {
+app.get("/", async (req, res, next) => {
   try {
     res.send(await Review.findAll());
-  } catch (ex) {
-    next(ex);
-  }
-});
-
-//might remove
-app.get("/:recipeId", async (req, res, next) => {
-  try {
-    if (!isUUID(req.params.recipeId)) {
-      console.log("req.params.recipeId is not a valid UUID string");
-    } else {
-      console.log("moving forward, valid UUID string");
-    }
-
-    const reviews = await Review.findAll({
-      where: {
-        recipeId: req.params.recipeId,
-      },
-    });
-    console.log("After Sequelize Query - Reviews:", reviews);
-    res.send(reviews);
   } catch (ex) {
     next(ex);
   }

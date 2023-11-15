@@ -19,29 +19,13 @@ const reviews = (state = [], action) => {
   return state;
 };
 
-export const fetchAllReviews = () => {
+export const fetchReviews = () => {
   return async (dispatch) => {
     try {
-      const response = await axios.get("api/reviews/all");
+      const response = await axios.get("api/reviews/");
       dispatch({ type: "SET_REVIEWS", reviews: response.data });
     } catch (error) {
-      console.log("error fetching all reviews: ", error);
-    }
-  };
-};
-
-export const fetchReviews = (recipeId) => {
-  return async (dispatch) => {
-    try {
-      /*if (!recipeId) {
-        dispatch({ type: "SET_REVIEWS", reviews: [] });
-      }*/
-      console.log("recipeId reaching store: ", recipeId);
-      console.log("typeof recipeId in store", typeof recipeId);
-      const response = await axios.get(`/api/reviews/${recipeId}`);
-      dispatch({ type: "SET_REVIEWS", reviews: response.data });
-    } catch (error) {
-      console.error("Error fetching reviews:", error);
+      console.log("error fetching reviews: ", error);
     }
   };
 };
