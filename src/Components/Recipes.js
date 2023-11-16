@@ -7,6 +7,7 @@ const Recipes = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState([]);
   const [page, setPage] = useState(1);
+  const [searched, setSearched] = useState(false);
   const [paginatedResults, setPaginatedResults] = useState([]);
 
   useEffect(() => {
@@ -18,6 +19,7 @@ const Recipes = () => {
     try {
       const response = await axios.get(`/api/recipes/search/${searchTerm}`);
       setResults(response.data);
+      setSearched(true);
     } catch (ex) {
       console.log(ex);
     }
@@ -53,7 +55,10 @@ const Recipes = () => {
       >
         <input
           value={searchTerm}
-          onChange={(ev) => setSearchTerm(ev.target.value)}
+          onChange={(ev) => {
+            setSearched(false);
+            setSearchTerm(ev.target.value);
+          }}
           className="bg-danger text-success"
           style={{ width: "45%", margin: "5px auto" }}
         />
@@ -65,6 +70,9 @@ const Recipes = () => {
           search
         </button>
       </form>
+      {!!searched && !paginatedResults.length && (
+        <h2 className="text-secondary">No results</h2>
+      )}
       {!!paginatedResults.length && (
         <div
           className="row"
