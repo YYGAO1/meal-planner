@@ -1,9 +1,13 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import RecipeCard from "./RecipeCard";
 
 const Favorites = () => {
-  const { auth, recipes, favorites } = useSelector((state) => state);
+  const { auth, recipes, favorites } = useSelector((state) => ({
+    auth: state.auth,
+    recipes: state.recipes,
+    favorites: state.favorites,
+  }));
 
   if (!favorites || !recipes) {
     return null;

@@ -12,7 +12,9 @@ const AddToMealPlanner = (id) => {
   const [type, setType] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { auth } = useSelector((state) => state);
+  const { auth } = useSelector((state) => ({
+    auth: state.auth,
+  }));
 
   const [openItems, setOpenItems] = useState([]);
 

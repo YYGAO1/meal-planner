@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateAuth } from "../store";
 const UpdateUser = () => {
-  const { auth } = useSelector((state) => state);
+  const { auth } = useSelector((state) => ({
+    auth: state.auth,
+  }));
 
   const dispatch = useDispatch();
   const [account, setAccount] = useState({

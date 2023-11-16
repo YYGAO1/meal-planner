@@ -4,7 +4,10 @@ import { fetchListItems, fetchIngredientsGroceryList } from "../store";
 
 const GroceryList = () => {
   const dispatch = useDispatch();
-  const { listItems, ingredients } = useSelector((state) => state);
+  const { listItems, ingredients } = useSelector((state) => ({
+    listItems: state.listItems,
+    ingredients: state.ingredients,
+  }));
 
   useEffect(() => {
     dispatch(fetchListItems());

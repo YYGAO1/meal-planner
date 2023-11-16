@@ -13,7 +13,12 @@ const RecipePage = () => {
   const [details, setDetails] = useState([]);
   const [extendedIngredients, setExtendedIngredients] = useState([]);
   const cleanSummary = DOMPurify.sanitize(details.summary);
-  const { auth, recipes, favorites, reviews } = useSelector((state) => state);
+  const { auth, recipes, favorites, reviews } = useSelector((state) => ({
+    auth: state.auth,
+    recipes: state.recipes,
+    favorites: state.favorites,
+    reviews: state.reviews,
+  }));
   const dispatch = useDispatch();
 
   const [seededId, setSeededId] = useState("");

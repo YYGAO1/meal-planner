@@ -4,7 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { createRecipe } from "../store/recipes";
 
 const UploadRecipe = () => {
-  const { auth, groups, memberships } = useSelector((state) => state);
+  const { auth } = useSelector((state) => ({
+    auth: state.auth,
+  }));
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const ref = useRef();
