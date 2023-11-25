@@ -46,7 +46,7 @@ const App = () => {
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
+        // alignItems: "center",
         justifyContent: "flex-start",
         padding: "25px",
       }}

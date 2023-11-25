@@ -70,22 +70,17 @@ const RecipePageDatabase = () => {
   const cleanSummary = DOMPurify.sanitize(recipe.description);
 
   return (
-    <div>
+    <div style={{ alignItems: "left" }}>
       <h1 className="text-danger">{recipe.title}</h1>
       <AddToMealPlanner id={id} />
-
       <br />
+
       <div style={{ position: "relative", display: "inline-block" }}>
         <div className="image-wrapper">
           <img
             src={recipe.imageURL || recipe.image}
-            alt="Recipe Image"
-            // style={{
-            //   margin: "15px",
-            //   padding: "30px",
-            //   maxWidth: "700px",
-            //   maxHeight: "500px",
-            // }}
+            alt={recipe.title}
+            style={{ width: "520" }}
           />
           <button
             className="btn"
@@ -133,7 +128,7 @@ const RecipePageDatabase = () => {
 
       <div
         className="card bg-danger text-success"
-        style={{ padding: "5px", margin: "10px" }}
+        style={{ padding: "5px", margin: "10px", maxWidth: "unset" }}
       >
         <p
           dangerouslySetInnerHTML={{
@@ -146,8 +141,8 @@ const RecipePageDatabase = () => {
         className="card bg-danger"
         style={{ padding: "5px", margin: "10px" }}
       >
-        <h3>Ingredients</h3>
-        <ul style={{ listStyle: "none", paddingLeft: "0" }}>
+        <h2 className="text-secondary">ingredients</h2>
+        <ul className="text-success" style={{ textAlign: "left" }}>
           {ingredients.map((ingredient) => {
             return (
               <li key={ingredient.id}>
@@ -158,12 +153,13 @@ const RecipePageDatabase = () => {
           })}
         </ul>
       </div>
+
       <div
         className="card bg-danger"
         style={{ padding: "5px", margin: "10px" }}
       >
-        <h3>Instructions</h3>
-        <ol style={{ listStyle: "none", paddingLeft: "0" }}>
+        <h2 className="text-secondary">instructions</h2>
+        <ol className="text-success" style={{ textAlign: "left" }}>
           {instructions
             .sort((a, b) => a.listOrder - b.listOrder)
             .map((instruction) => {
