@@ -20,6 +20,7 @@ const RecipePageDatabase = () => {
   const recipe = recipes.find((r) => r.id === id);
 
   const [filteredReviews, setFilteredReviews] = useState([]);
+  const [filteredIngredients, setFilteredIngredients] = useState([]);
 
   useEffect(() => {
     dispatch(fetchRecipes());
@@ -41,6 +42,25 @@ const RecipePageDatabase = () => {
       });
     setFilteredReviews(filteredReviews);
   }, [reviews, id]);
+
+  const filterDuplicates = (_ingredients) => {
+    const seen = {};
+    return _ingredients.filter((ingredient) => {
+      const ingredientKey = ingredient.name;
+      if (seen.hasOwnProperty(ingredientKey)) {
+        return false;
+      } else {
+        seen[ingredientKey] = true;
+        return true;
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (ingredients) {
+      setFilteredIngredients(filterDuplicates(ingredients));
+    }
+  }, [ingredients]);
 
   const handleChange = (event) => {
     setType(event.target.value);
@@ -143,7 +163,7 @@ const RecipePageDatabase = () => {
       >
         <h2 className="text-secondary">ingredients</h2>
         <ul className="text-success" style={{ textAlign: "left" }}>
-          {ingredients.map((ingredient) => {
+          {filteredIngredients.map((ingredient) => {
             return (
               <li key={ingredient.id}>
                 {ingredient.amount > 0 ? ingredient.amount : null}{" "}
