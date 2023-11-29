@@ -3,7 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import * as DOMPurify from "dompurify";
-import { deleteFavorite, createFavoriteSpoonacular } from "../store";
+import {
+  deleteFavorite,
+  createFavoriteSpoonacular,
+  createFavoriteRecipePage,
+} from "../store";
 
 const RecipeCard = (recipe) => {
   const navigate = useNavigate();
@@ -72,7 +76,11 @@ const RecipeCard = (recipe) => {
       const favorite = isFavorited(id);
       dispatch(deleteFavorite(favorite.id));
     } else {
-      dispatch(createFavoriteSpoonacular({ recipe_id: id, userId: auth.id }));
+      if (id.length <= 6) {
+        dispatch(createFavoriteSpoonacular({ recipe_id: id, userId: auth.id }));
+      } else {
+        dispatch(createFavoriteRecipePage({ recipe_id: id, userId: auth.id }));
+      }
     }
   };
 
