@@ -105,6 +105,12 @@ const RecipePageDatabase = () => {
 
   const cleanSummary = DOMPurify.sanitize(recipe.description);
 
+  const addAlltoGroceryList = () => {
+    filteredIngredients.map((ingredient) => {
+      if (!isOnGroceryList(ingredient)) addToGroceryList(ingredient.id);
+    });
+  };
+
   const addToGroceryList = (ingredientId) => {
     dispatch(createListItem({ ingredientId, userId: auth.id }));
   };
@@ -112,16 +118,18 @@ const RecipePageDatabase = () => {
   const isOnGroceryList = (ingredient) => {
     const targetName = ingredient.name;
     console.log("targetName", targetName);
-
+    console.log("ingredients", ingredients);
     for (let i = 0; i < listItems.length; i++) {
       const listItem = listItems[i];
       const _ingredient = ingredients.find(
-        (i) => i.id === listItem.ingredientId
+        (i) => i.id == listItem.ingredientId
       );
+      console.log("_ingredient", _ingredient);
       if (_ingredient) {
         const name = _ingredient.name;
         console.log("inner name", name);
-        if (name === targetName) {
+        if (name == targetName) {
+          console.log("returning true");
           return true;
         }
       }
@@ -222,6 +230,9 @@ const RecipePageDatabase = () => {
             );
           })}
         </ul>
+        <button className="btn btn-secondary" onClick={addAlltoGroceryList}>
+          add all to grocery list
+        </button>
       </div>
 
       <div
