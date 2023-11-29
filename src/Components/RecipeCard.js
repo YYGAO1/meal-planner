@@ -10,7 +10,11 @@ const RecipeCard = (recipe) => {
   const [details, setDetails] = useState({ summary: "" });
   const [openItems, setOpenItems] = useState([]);
   const [cleanSummary, setCleanSummary] = useState("");
-  const { auth, recipes, favorites } = useSelector((state) => state);
+  const { auth, recipes, favorites } = useSelector((state) => ({
+    auth: state.auth,
+    recipes: state.recipes,
+    favorites: state.favorites,
+  }));
   const dispatch = useDispatch();
 
   useEffect(() => {

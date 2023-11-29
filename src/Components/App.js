@@ -23,7 +23,9 @@ import GroceryList from "./GroceryList";
 import RecipePageDatabase from "./RecipePageDatabase";
 
 const App = () => {
-  const { auth } = useSelector((state) => state);
+  const { auth } = useSelector((state) => ({
+    auth: state.auth,
+  }));
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

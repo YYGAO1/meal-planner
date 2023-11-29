@@ -9,7 +9,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const MealPlanner = () => {
-  const { day } = useSelector((state) => state);
+  const { day } = useSelector((state) => ({
+    day: state.day,
+  }));
 
   //   const today = dayjs().format("YYYY-MM-DD");
   //   const [date, setDate] = React.useState(dayjs(today));

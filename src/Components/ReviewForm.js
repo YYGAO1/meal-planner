@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { createReview } from "../store";
 
 const ReviewForm = ({ recipeId, spoonacularId }) => {
-  const { auth, recipes } = useSelector((state) => state);
+  const { auth, recipes } = useSelector((state) => ({
+    auth: state.auth,
+    recipes: state.recipes,
+  }));
   const dispatch = useDispatch();
   const [review, setReview] = useState({
     subject: "",

@@ -24,7 +24,15 @@ const RecipePageDatabase = () => {
     reviews,
     favorites,
     listItems,
-  } = useSelector((state) => state);
+  } = useSelector((state) => ({
+    recipes: state.recipes,
+    ingredients: state.ingredients,
+    instructions: state.instructions,
+    auth: state.auth,
+    reviews: state.reviews,
+    favorites: state.favorites,
+    listItems: state.listItems,
+  }));
   const recipe = recipes.find((r) => r.id === id);
 
   const [filteredReviews, setFilteredReviews] = useState([]);
