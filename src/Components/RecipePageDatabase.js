@@ -36,6 +36,7 @@ const RecipePageDatabase = () => {
   const recipe = recipes.find((r) => r.id === id);
 
   const [filteredReviews, setFilteredReviews] = useState([]);
+  const [filteredIngredients, setFilteredIngredients] = useState([]);
 
   useEffect(() => {
     dispatch(fetchRecipes());
@@ -57,6 +58,25 @@ const RecipePageDatabase = () => {
       });
     setFilteredReviews(filteredReviews);
   }, [reviews, id]);
+
+  const filterDuplicates = (_ingredients) => {
+    const seen = {};
+    return _ingredients.filter((ingredient) => {
+      const ingredientKey = ingredient.name;
+      if (seen.hasOwnProperty(ingredientKey)) {
+        return false;
+      } else {
+        seen[ingredientKey] = true;
+        return true;
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (ingredients) {
+      setFilteredIngredients(filterDuplicates(ingredients));
+    }
+  }, [ingredients]);
 
   const handleChange = (event) => {
     setType(event.target.value);
@@ -111,22 +131,17 @@ const RecipePageDatabase = () => {
   };
 
   return (
-    <div>
+    <div style={{ alignItems: "left" }}>
       <h1 className="text-danger">{recipe.title}</h1>
       <AddToMealPlanner id={id} />
-
       <br />
+
       <div style={{ position: "relative", display: "inline-block" }}>
         <div className="image-wrapper">
           <img
             src={recipe.imageURL || recipe.image}
-            alt="Recipe Image"
-            // style={{
-            //   margin: "15px",
-            //   padding: "30px",
-            //   maxWidth: "700px",
-            //   maxHeight: "500px",
-            // }}
+            alt={recipe.title}
+            style={{ width: "520" }}
           />
           <button
             className="btn"
@@ -174,7 +189,7 @@ const RecipePageDatabase = () => {
 
       <div
         className="card bg-danger text-success"
-        style={{ padding: "5px", margin: "10px" }}
+        style={{ padding: "5px", margin: "10px", maxWidth: "unset" }}
       >
         <p
           dangerouslySetInnerHTML={{
@@ -187,9 +202,9 @@ const RecipePageDatabase = () => {
         className="card bg-danger"
         style={{ padding: "5px", margin: "10px" }}
       >
-        <h3>Ingredients</h3>
-        <ul style={{ listStyle: "none", paddingLeft: "0" }}>
-          {ingredients.map((ingredient) => {
+        <h2 className="text-secondary">ingredients</h2>
+        <ul className="text-success" style={{ textAlign: "left" }}>
+          {filteredIngredients.map((ingredient) => {
             return (
               <li key={ingredient.id}>
                 {ingredient.amount > 0 ? ingredient.amount : null}{" "}
@@ -208,12 +223,13 @@ const RecipePageDatabase = () => {
           })}
         </ul>
       </div>
+
       <div
         className="card bg-danger"
         style={{ padding: "5px", margin: "10px" }}
       >
-        <h3>Instructions</h3>
-        <ol style={{ listStyle: "none", paddingLeft: "0" }}>
+        <h2 className="text-secondary">instructions</h2>
+        <ol className="text-success" style={{ textAlign: "left" }}>
           {instructions
             .sort((a, b) => a.listOrder - b.listOrder)
             .map((instruction) => {

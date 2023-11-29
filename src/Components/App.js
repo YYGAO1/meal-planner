@@ -21,6 +21,7 @@ import UpdateUser from "./UpdateUser";
 import UploadRecipe from "./UploadRecipe";
 import GroceryList from "./GroceryList";
 import RecipePageDatabase from "./RecipePageDatabase";
+import MyRecipes from "./MyRecipes";
 
 const App = () => {
   const { auth } = useSelector((state) => ({
@@ -48,7 +49,7 @@ const App = () => {
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
+        // alignItems: "center",
         justifyContent: "flex-start",
         padding: "25px",
       }}
@@ -97,6 +98,11 @@ const App = () => {
                 </Link>
               </li>
               <li>
+                <Link className="dropdown-item" to="/myrecipes">
+                  My Recipes
+                </Link>
+              </li>
+              <li>
                 <Link className="dropdown-item" to="/user/update">
                   Edit Profile
                 </Link>
@@ -124,6 +130,7 @@ const App = () => {
         <Route path="/recipes/:id" element={<RecipePage />} />
         <Route path="/recipes/uploaded/:id" element={<RecipePageDatabase />} />
         <Route path="/favorites" element={<Favorites />} />
+        <Route path="/myrecipes" element={<MyRecipes />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/user/update" element={<UpdateUser />} />
         <Route path="/recipes/upload" element={<UploadRecipe />} />
