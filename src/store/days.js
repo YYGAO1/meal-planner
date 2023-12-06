@@ -23,7 +23,7 @@ export const fetchDay = (date) => {
 export const addToMealPlanner = (mealInfo) => {
   return async (dispatch) => {
     const token = window.localStorage.getItem("token");
-    if (mealInfo.recipe_id.id.length === 6) {
+    if (mealInfo.recipe_id.id.length <= 7) {
       const recipe = await axios.post("/api/recipes/spoonacular", mealInfo);
       dispatch({ type: "CREATE_RECIPE", recipe: recipe.data });
       const response = await axios.post(

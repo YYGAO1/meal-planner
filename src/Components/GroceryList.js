@@ -19,7 +19,7 @@ const GroceryList = () => {
   useEffect(() => {
     dispatch(fetchListItems());
     dispatch(fetchIngredientsGroceryList());
-    dispatch(fetchAllIngredients());
+    // dispatch(fetchAllIngredients());
   }, []);
 
   const filterDuplicates = (_listitems) => {
@@ -29,10 +29,10 @@ const GroceryList = () => {
         const _ingredient = allIngredients.find(
           (ingredient) => ingredient.id === listitem.ingredientId
         );
-        return _ingredient;
+        return _ingredient ? _ingredient : "";
       })
       .filter((ingredient) => {
-        const ingredientKey = ingredient.name;
+        const ingredientKey = ingredient.name ? ingredient.name : "";
         if (seen.hasOwnProperty(ingredientKey)) {
           return false;
         } else {
@@ -48,9 +48,9 @@ const GroceryList = () => {
     }
   }, [listItems]);
 
-  useEffect(() => {
-    console.log(ingredients);
-  }, [ingredients]);
+  // useEffect(() => {
+  //   console.log(ingredients);
+  // }, [ingredients]);
 
   if (!listItems.length) return null;
 
@@ -58,11 +58,11 @@ const GroceryList = () => {
     <div>
       <h1>Grocery List</h1>
       <ul>
-        {filteredListItems.map((item) => {
+        {filteredListItems.map((item, i) => {
           // const ingredient = ingredients.find(
           //   (ingredient) => ingredient.id === item.ingredientId
           // );
-          return <li key={item.id}>{item ? item.name : ""}</li>;
+          return <li key={i}>{item ? item.name : ""}</li>;
         })}
       </ul>
     </div>
