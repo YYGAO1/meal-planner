@@ -18,15 +18,15 @@ const GroceryList = () => {
   const [filteredListItems, setFilteredListItems] = useState([]);
 
   useEffect(() => {
-    dispatch(fetchListItems());
+    //dispatch(fetchListItems());
     dispatch(fetchIngredientsGroceryList());
     // dispatch(fetchAllIngredients());
   }, []);
 
   const filterDuplicates = (_listitems) => {
     const seen = {};
-
-    return _listitems.filter((item) => {
+    console.log("running filterDuplicates");
+    const filteredItems = _listitems.filter((item) => {
       const _ingredient = allIngredients.find(
         (ingredient) => ingredient.id === item.ingredientId
       );
@@ -38,13 +38,15 @@ const GroceryList = () => {
         }
       }
     });
+    console.log("filteredItems", filteredItems);
+    return filteredItems;
   };
 
   useEffect(() => {
-    if (listItems) {
+    if (listItems && ingredients && allIngredients) {
       setFilteredListItems(filterDuplicates(listItems));
     }
-  }, [listItems]);
+  }, [listItems, ingredients, allIngredients]);
 
   // useEffect(() => {
   //   console.log(ingredients);
