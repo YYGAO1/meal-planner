@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createReview } from "../store";
+import { createReviewSpoonacular, createReviewDatabase } from "../store";
 
 const ReviewForm = ({ recipeId, spoonacularId }) => {
   const { auth, recipes } = useSelector((state) => ({
@@ -30,7 +30,8 @@ const ReviewForm = ({ recipeId, spoonacularId }) => {
 
   const addReview = async (ev) => {
     ev.preventDefault();
-    await dispatch(createReview(review));
+    if (review.spoonacularId) await dispatch(createReviewSpoonacular(review));
+    else await dispatch(createReviewDatabase(review));
     setReview({
       subject: "",
       body: "",
