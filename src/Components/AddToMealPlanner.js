@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const AddToMealPlanner = (id) => {
-  const types = ["snack", "breakfast", "lunch", "dinner", "dessert", "misc."];
+  const types = ["snack", "breakfast", "lunch", "dinner", "dessert", "misc"];
   const today = new Date();
   const [date, setDate] = useState(today);
   const [type, setType] = useState("");
