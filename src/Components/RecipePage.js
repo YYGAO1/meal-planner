@@ -13,12 +13,15 @@ const RecipePage = () => {
   const [details, setDetails] = useState([]);
   const [extendedIngredients, setExtendedIngredients] = useState([]);
   const cleanSummary = DOMPurify.sanitize(details.summary);
-  const { auth, recipes, favorites, reviews } = useSelector((state) => ({
-    auth: state.auth,
-    recipes: state.recipes,
-    favorites: state.favorites,
-    reviews: state.reviews,
-  }));
+  const { auth, recipes, favorites, reviews, listItems } = useSelector(
+    (state) => ({
+      auth: state.auth,
+      recipes: state.recipes,
+      favorites: state.favorites,
+      reviews: state.reviews,
+      listItems: state.listItems,
+    })
+  );
   const dispatch = useDispatch();
 
   const [seededId, setSeededId] = useState("");
@@ -124,6 +127,17 @@ const RecipePage = () => {
     return stars;
   };
 
+  const isOnGroceryList = (ingredient) => {
+    const targetName = ingredient.originalName;
+    console.log("targetName", targetName);
+    console.log("ingredients", extendedIngredients);
+    return false;
+  };
+
+  const addToGroceryList = (ingredientId) => {
+    console.log("adding to grocery list", ingredientId);
+  };
+
   return (
     <div>
       <h1 className="text-danger">{details.title}</h1>
@@ -191,7 +205,20 @@ const RecipePage = () => {
         <ul className="text-success" style={{ textAlign: "left" }}>
           {extendedIngredients.map((ingredient) => {
             if (ingredient.id !== -1) {
-              return <li key={ingredient.id}>{ingredient.original}</li>;
+              return (
+                <li key={ingredient.id}>
+                  {ingredient.original}
+                  {!isOnGroceryList(ingredient) && (
+                    <button
+                      className="btn btn-secondary"
+                      title="add to grocery list"
+                      onClick={() => addToGroceryList(ingredient.id)}
+                    >
+                      +
+                    </button>
+                  )}
+                </li>
+              );
             }
           })}
         </ul>
