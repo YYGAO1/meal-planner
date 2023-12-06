@@ -30,13 +30,26 @@ export const fetchReviews = () => {
   };
 };
 
-export const createReview = (review) => {
+export const createReviewSpoonacular = (review) => {
   return async (dispatch) => {
     const token = window.localStorage.getItem("token");
     const recipe = await axios.post("/api/recipes/spoonacular", review);
     dispatch({ type: "CREATE_RECIPE", recipe: recipe.data });
     const fullReview = { ...review, recipeId: recipe.data.id };
     const response = await axios.post("/api/reviews", fullReview, {
+      headers: {
+        authorization: token,
+      },
+    });
+    dispatch({ type: "CREATE_REVIEW", review: response.data });
+  };
+};
+
+export const createReviewDatabase = (review) => {
+  return async (dispatch) => {
+    console.log("using createReviewDatabase");
+    const token = window.localStorage.getItem("token");
+    const response = await axios.post("/api/reviews", review, {
       headers: {
         authorization: token,
       },
