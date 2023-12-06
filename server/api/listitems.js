@@ -34,4 +34,15 @@ app.post("/", async (req, res, next) => {
     next(ex);
   }
 });
+
+app.delete("/:id", async (req, res, next) => {
+  try {
+    const item = await ListItem.findByPk(req.params.id);
+    await item.destroy();
+    res.sendStatus(204);
+  } catch (ex) {
+    next(ex);
+  }
+});
+
 module.exports = app;

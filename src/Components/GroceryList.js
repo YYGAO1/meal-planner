@@ -4,6 +4,7 @@ import {
   fetchListItems,
   fetchIngredientsGroceryList,
   fetchAllIngredients,
+  removeListItem,
 } from "../store";
 
 const GroceryList = () => {
@@ -24,22 +25,19 @@ const GroceryList = () => {
 
   const filterDuplicates = (_listitems) => {
     const seen = {};
-    return _listitems
-      .map((listitem) => {
-        const _ingredient = allIngredients.find(
-          (ingredient) => ingredient.id === listitem.ingredientId
-        );
-        return _ingredient ? _ingredient : "";
-      })
-      .filter((ingredient) => {
-        const ingredientKey = ingredient.name ? ingredient.name : "";
-        if (seen.hasOwnProperty(ingredientKey)) {
-          return false;
-        } else {
-          seen[ingredientKey] = true;
+
+    return _listitems.filter((item) => {
+      const _ingredient = allIngredients.find(
+        (ingredient) => ingredient.id === item.ingredientId
+      );
+      if (_ingredient) {
+        if (seen.hasOwnProperty(_ingredient.name)) return false;
+        else {
+          seen[_ingredient.name] = true;
           return true;
         }
-      });
+      }
+    });
   };
 
   useEffect(() => {
@@ -52,6 +50,10 @@ const GroceryList = () => {
   //   console.log(ingredients);
   // }, [ingredients]);
 
+  const remove = (item) => {
+    dispatch(removeListItem(item));
+  };
+
   if (!listItems.length) return null;
 
   return (
@@ -59,10 +61,15 @@ const GroceryList = () => {
       <h1>Grocery List</h1>
       <ul>
         {filteredListItems.map((item, i) => {
-          // const ingredient = ingredients.find(
-          //   (ingredient) => ingredient.id === item.ingredientId
-          // );
-          return <li key={i}>{item ? item.name : ""}</li>;
+          const ingredient = ingredients.find(
+            (ingredient) => ingredient.id === item.ingredientId
+          );
+          return (
+            <li key={i}>
+              <button onClick={() => remove(item)}>x</button>
+              {ingredient ? ingredient.name : ""}
+            </li>
+          );
         })}
       </ul>
     </div>

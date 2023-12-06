@@ -16,6 +16,9 @@ const listItems = (state = [], action) => {
       }
     });
   }
+  if (action.type === "DELETE_LIST_ITEM") {
+    return state.filter((li) => li.id !== action.listItem.id);
+  }
   return state;
 };
 
@@ -37,6 +40,18 @@ export const createListItem = (listItem) => {
   return async (dispatch) => {
     const response = await axios.post("api/listitems", listItem);
     dispatch({ type: "CREATE_LIST_ITEM", listItem: response.data });
+  };
+};
+
+export const removeListItem = (item) => {
+  return async (dispatch) => {
+    const token = window.localStorage.getItem("token");
+    const response = await axios.delete(`api/listitems/${item.id}`, {
+      headers: {
+        authorization: token,
+      },
+    });
+    dispatch({ type: "DELETE_LIST_ITEM", listItem: item });
   };
 };
 
