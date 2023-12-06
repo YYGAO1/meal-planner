@@ -15,6 +15,8 @@ import {
   loginWithToken,
   fetchIngredients,
   fetchReviews,
+  fetchAllIngredients,
+
 } from "../store";
 import "bootstrap/dist/js/bootstrap";
 import UpdateUser from "./UpdateUser";
@@ -36,6 +38,8 @@ const App = () => {
     dispatch(fetchRecipes());
     dispatch(fetchReviews());
     //dispatch(fetchIngredients());
+    dispatch(fetchAllIngredients());
+
   }, []);
 
   useEffect(() => {

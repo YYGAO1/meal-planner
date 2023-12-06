@@ -1,22 +1,56 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchListItems, fetchIngredientsGroceryList } from "../store";
+import {
+  fetchListItems,
+  fetchIngredientsGroceryList,
+  fetchAllIngredients,
+} from "../store";
 
 const GroceryList = () => {
   const dispatch = useDispatch();
-  const { listItems, ingredients } = useSelector((state) => ({
+  const { listItems, ingredients, allIngredients } = useSelector((state) => ({
     listItems: state.listItems,
     ingredients: state.ingredients,
+    allIngredients: state.allIngredients,
   }));
+
+  const [filteredListItems, setFilteredListItems] = useState([]);
 
   useEffect(() => {
     dispatch(fetchListItems());
     dispatch(fetchIngredientsGroceryList());
+    // dispatch(fetchAllIngredients());
   }, []);
 
+  const filterDuplicates = (_listitems) => {
+    const seen = {};
+    return _listitems
+      .map((listitem) => {
+        const _ingredient = allIngredients.find(
+          (ingredient) => ingredient.id === listitem.ingredientId
+        );
+        return _ingredient ? _ingredient : "";
+      })
+      .filter((ingredient) => {
+        const ingredientKey = ingredient.name ? ingredient.name : "";
+        if (seen.hasOwnProperty(ingredientKey)) {
+          return false;
+        } else {
+          seen[ingredientKey] = true;
+          return true;
+        }
+      });
+  };
+
   useEffect(() => {
-    console.log(ingredients);
-  }, [ingredients]);
+    if (listItems) {
+      setFilteredListItems(filterDuplicates(listItems));
+    }
+  }, [listItems]);
+
+  // useEffect(() => {
+  //   console.log(ingredients);
+  // }, [ingredients]);
 
   if (!listItems.length) return null;
 
@@ -24,11 +58,11 @@ const GroceryList = () => {
     <div>
       <h1>Grocery List</h1>
       <ul>
-        {listItems.map((item) => {
-          const ingredient = ingredients.find(
-            (ingredient) => ingredient.id === item.ingredientId
-          );
-          return <li key={item.id}>{ingredient ? ingredient.name : ""}</li>;
+        {filteredListItems.map((item, i) => {
+          // const ingredient = ingredients.find(
+          //   (ingredient) => ingredient.id === item.ingredientId
+          // );
+          return <li key={i}>{item ? item.name : ""}</li>;
         })}
       </ul>
     </div>

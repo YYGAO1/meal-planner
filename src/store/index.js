@@ -9,6 +9,7 @@ import listItems from "./listitems";
 import ingredients from "./ingredients";
 import instructions from "./instructions";
 import reviews from "./reviews";
+import allIngredients from "./allIngredients";
 
 const reducer = combineReducers({
   auth,
@@ -19,6 +20,7 @@ const reducer = combineReducers({
   ingredients,
   instructions,
   reviews,
+  allIngredients,
 });
 
 const store = createStore(reducer, applyMiddleware(thunk, logger));
@@ -33,3 +35,4 @@ export * from "./listitems";
 export * from "./ingredients";
 export * from "./instructions";
 export * from "./reviews";
+export * from "./allIngredients";
