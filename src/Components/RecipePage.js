@@ -135,18 +135,14 @@ const RecipePage = () => {
     dispatch(createListItemSpoonacular(details, ingredient, auth.id));
   };
 
-  //this is untested
   const isOnGroceryList = (ingredient) => {
     const targetName = ingredient.name;
-    //console.log("targetName", targetName);
-    //console.log("ingredients", allIngredients);
     for (const listItem of listItems) {
       const _ingredient = allIngredients.find((i) => {
-        i.id === listItem.ingredientId;
+        return i.id === listItem.ingredientId;
       });
       if (_ingredient) {
         const name = _ingredient.name;
-        //console.log("inner name", name);
         if (name == targetName) {
           //we may want to change that logic to contains or something
           return true;
