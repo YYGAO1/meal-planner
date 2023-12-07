@@ -129,13 +129,13 @@ const RecipePage = () => {
 
   const isOnGroceryList = (ingredient) => {
     const targetName = ingredient.originalName;
-    console.log("targetName", targetName);
-    console.log("ingredients", extendedIngredients);
+    // console.log("targetName", targetName);
+    // console.log("ingredients", extendedIngredients);
     return false;
   };
 
   const addToGroceryList = (ingredientId) => {
-    console.log("adding to grocery list", ingredientId);
+    // console.log("adding to grocery list", ingredientId);
   };
 
   return (

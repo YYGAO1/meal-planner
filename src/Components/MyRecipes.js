@@ -6,7 +6,7 @@ const MyRecipes = () => {
   const { auth, recipes } = useSelector((state) => state);
 
   const myRecipes = recipes.filter((r) => r.userId === auth.id);
-  console.log(myRecipes);
+  // console.log(myRecipes);
 
   return (
     <div

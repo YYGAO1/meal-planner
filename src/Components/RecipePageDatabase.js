@@ -117,19 +117,19 @@ const RecipePageDatabase = () => {
 
   const isOnGroceryList = (ingredient) => {
     const targetName = ingredient.name;
-    console.log("targetName", targetName);
-    console.log("ingredients", ingredients);
+    // console.log("targetName", targetName);
+    // console.log("ingredients", ingredients);
     for (let i = 0; i < listItems.length; i++) {
       const listItem = listItems[i];
       const _ingredient = ingredients.find(
         (i) => i.id == listItem.ingredientId
       );
-      console.log("_ingredient", _ingredient);
+      // console.log("_ingredient", _ingredient);
       if (_ingredient) {
         const name = _ingredient.name;
-        console.log("inner name", name);
+        // console.log("inner name", name);
         if (name == targetName) {
-          console.log("returning true");
+          // console.log("returning true");
           return true;
         }
       }
