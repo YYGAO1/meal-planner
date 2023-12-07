@@ -36,6 +36,30 @@ export const fetchListItems = () => {
   };
 };
 
+export const createListItemSpoonacular = (recipe, ingredient, userId) => {
+  return async (dispatch) => {
+    const token = window.localStorage.getItem("token");
+    const seededRecipe = await axios.post("/api/recipes/spoonacular", recipe);
+    dispatch({ type: "CREATE_RECIPE", recipe: seededRecipe.data });
+    const recipeIngredients = await axios.get(
+      `/api/recipes/${seededRecipe.data.id}/ingredients`
+    );
+    const targetIngredient = recipeIngredients.data.find((i) => {
+      return i.name === ingredient.name;
+    });
+    const response = await axios.post(
+      "/api/listitems",
+      { ingredientId: targetIngredient.id, userId },
+      {
+        headers: {
+          authorization: token,
+        },
+      }
+    );
+    dispatch({ type: "CREATE_LIST_ITEM", listItem: response.data });
+  };
+};
+
 export const createListItem = (listItem) => {
   return async (dispatch) => {
     const response = await axios.post("api/listitems", listItem);

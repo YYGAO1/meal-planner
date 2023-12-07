@@ -4,7 +4,11 @@ import axios from "axios";
 import * as DOMPurify from "dompurify";
 import "react-datepicker/dist/react-datepicker.css";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteFavorite, createFavoriteSpoonacular } from "../store";
+import {
+  deleteFavorite,
+  createFavoriteSpoonacular,
+  createListItemSpoonacular,
+} from "../store";
 import AddToMealPlanner from "./AddToMealPlanner";
 import ReviewForm from "./ReviewForm";
 
@@ -128,9 +132,7 @@ const RecipePage = () => {
   };
 
   const addToGroceryList = (ingredient) => {
-    console.log("adding to grocery list", ingredient);
-    //we would have to add the ingredient to the database
-    //and then create a list item using the new seeded ingredient
+    dispatch(createListItemSpoonacular(details, ingredient, auth.id));
   };
 
   //this is untested
