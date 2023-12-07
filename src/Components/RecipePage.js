@@ -13,15 +13,15 @@ const RecipePage = () => {
   const [details, setDetails] = useState([]);
   const [extendedIngredients, setExtendedIngredients] = useState([]);
   const cleanSummary = DOMPurify.sanitize(details.summary);
-  const { auth, recipes, favorites, reviews, listItems } = useSelector(
-    (state) => ({
+  const { auth, recipes, favorites, reviews, listItems, allIngredients } =
+    useSelector((state) => ({
       auth: state.auth,
       recipes: state.recipes,
       favorites: state.favorites,
       reviews: state.reviews,
       listItems: state.listItems,
-    })
-  );
+      allIngredients: state.allIngredients,
+    }));
   const dispatch = useDispatch();
 
   const [seededId, setSeededId] = useState("");
@@ -127,15 +127,31 @@ const RecipePage = () => {
     return stars;
   };
 
-  const isOnGroceryList = (ingredient) => {
-    const targetName = ingredient.originalName;
-    // console.log("targetName", targetName);
-    // console.log("ingredients", extendedIngredients);
-    return false;
+  const addToGroceryList = (ingredient) => {
+    console.log("adding to grocery list", ingredient);
+    //we would have to add the ingredient to the database
+    //and then create a list item using the new seeded ingredient
   };
 
-  const addToGroceryList = (ingredientId) => {
-    // console.log("adding to grocery list", ingredientId);
+  //this is untested
+  const isOnGroceryList = (ingredient) => {
+    const targetName = ingredient.name;
+    //console.log("targetName", targetName);
+    //console.log("ingredients", allIngredients);
+    for (const listItem of listItems) {
+      const _ingredient = allIngredients.find((i) => {
+        i.id === listItem.ingredientId;
+      });
+      if (_ingredient) {
+        const name = _ingredient.name;
+        //console.log("inner name", name);
+        if (name == targetName) {
+          //we may want to change that logic to contains or something
+          return true;
+        }
+      }
+    }
+    return false;
   };
 
   return (
@@ -212,7 +228,7 @@ const RecipePage = () => {
                     <button
                       className="btn btn-secondary"
                       title="add to grocery list"
-                      onClick={() => addToGroceryList(ingredient.id)}
+                      onClick={() => addToGroceryList(ingredient)}
                     >
                       +
                     </button>
