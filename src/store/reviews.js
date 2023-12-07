@@ -47,7 +47,6 @@ export const createReviewSpoonacular = (review) => {
 
 export const createReviewDatabase = (review) => {
   return async (dispatch) => {
-    console.log("using createReviewDatabase");
     const token = window.localStorage.getItem("token");
     const response = await axios.post("/api/reviews", review, {
       headers: {

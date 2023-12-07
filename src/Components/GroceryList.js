@@ -25,7 +25,7 @@ const GroceryList = () => {
 
   const filterDuplicates = (_listitems) => {
     const seen = {};
-    console.log("running filterDuplicates");
+    // console.log("running filterDuplicates");
     const filteredItems = _listitems.filter((item) => {
       const _ingredient = allIngredients.find(
         (ingredient) => ingredient.id === item.ingredientId
@@ -38,7 +38,7 @@ const GroceryList = () => {
         }
       }
     });
-    console.log("filteredItems", filteredItems);
+    // console.log("filteredItems", filteredItems);
     return filteredItems;
   };
 
