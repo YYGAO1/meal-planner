@@ -18,9 +18,9 @@ const GroceryList = () => {
   const [filteredListItems, setFilteredListItems] = useState([]);
 
   useEffect(() => {
-    //dispatch(fetchListItems());
+    dispatch(fetchListItems());
     dispatch(fetchIngredientsGroceryList());
-    // dispatch(fetchAllIngredients());
+    dispatch(fetchAllIngredients());
   }, []);
 
   const filterDuplicates = (_listitems) => {
@@ -38,15 +38,16 @@ const GroceryList = () => {
         }
       }
     });
-    // console.log("filteredItems", filteredItems);
+    console.log("filteredItems", filteredItems);
     return filteredItems;
   };
 
   useEffect(() => {
-    if (listItems && ingredients && allIngredients) {
+    if (ingredients && listItems) {
+      console.log("listItems", listItems);
       setFilteredListItems(filterDuplicates(listItems));
     }
-  }, [listItems, ingredients, allIngredients]);
+  }, [ingredients, allIngredients, listItems]);
 
   // useEffect(() => {
   //   console.log(ingredients);
