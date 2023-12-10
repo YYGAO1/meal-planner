@@ -44,6 +44,11 @@ export const createListItemSpoonacular = (recipe, ingredient, userId) => {
     const recipeIngredients = await axios.get(
       `/api/recipes/${seededRecipe.data.id}/ingredients`
     );
+    dispatch({
+      type: "ADD_TO_ALL_INGREDIENTS",
+      ingredients: recipeIngredients.data,
+    });
+
     const targetIngredient = recipeIngredients.data.find((i) => {
       return i.name === ingredient.name;
     });
