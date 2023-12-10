@@ -105,7 +105,7 @@ const RecipePageDatabase = () => {
 
   const cleanSummary = DOMPurify.sanitize(recipe.description);
 
-  const addAlltoGroceryList = () => {
+  const addAllToGroceryList = () => {
     filteredIngredients.map((ingredient) => {
       if (!isOnGroceryList(ingredient)) addToGroceryList(ingredient.id);
     });
@@ -242,7 +242,7 @@ const RecipePageDatabase = () => {
             );
           })}
         </ul>
-        <button className="btn btn-secondary" onClick={addAlltoGroceryList}>
+        <button className="btn btn-secondary" onClick={addAllToGroceryList}>
           add all to grocery list
         </button>
       </div>

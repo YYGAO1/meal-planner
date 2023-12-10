@@ -8,7 +8,7 @@ import {
   deleteFavorite,
   createFavoriteSpoonacular,
   createListItemSpoonacular,
-  fetchAllIngredients,
+  seedSpoonacularRecipe,
 } from "../store";
 import AddToMealPlanner from "./AddToMealPlanner";
 import ReviewForm from "./ReviewForm";
@@ -132,6 +132,14 @@ const RecipePage = () => {
     return stars;
   };
 
+  const addAllToGroceryList = async () => {
+    await dispatch(seedSpoonacularRecipe(id));
+
+    extendedIngredients.map((ingredient) => {
+      if (!isOnGroceryList(ingredient)) addToGroceryList(ingredient);
+    });
+  };
+
   const addToGroceryList = (ingredient) => {
     dispatch(createListItemSpoonacular(details, ingredient, auth.id));
   };
@@ -231,6 +239,9 @@ const RecipePage = () => {
             }
           })}
         </ul>
+        <button className="btn btn-secondary" onClick={addAllToGroceryList}>
+          add all to grocery list
+        </button>
       </div>
 
       <div
