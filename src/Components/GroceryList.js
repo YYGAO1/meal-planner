@@ -82,7 +82,7 @@ const GroceryList = () => {
         style={{
           listStyle: "none",
           textAlign: "left",
-          width: "75%",
+          width: "65%",
           margin: "auto",
           padding: "15px",
         }}
@@ -127,13 +127,12 @@ const GroceryList = () => {
                   >
                     {ingredient ? ingredient.name : ""}
                   </span>
-                  <span className="col"></span>
                 </div>
               </li>
             );
           })
         ) : (
-          <h2 className="text-secondary" style={{ textAlign: "center" }}>
+          <h2 className="text-danger" style={{ textAlign: "center" }}>
             List complete! Hooray!
           </h2>
         )}
