@@ -84,4 +84,42 @@ export const removeListItem = (item) => {
   };
 };
 
+export const checkListItem = (item) => {
+  return async (dispatch) => {
+    const token = window.localStorage.getItem("token");
+    const response = await axios.put(
+      `/api/listitems/${item.id}`,
+      { ...item, isChecked: true },
+      {
+        headers: {
+          authorization: token,
+        },
+      }
+    );
+    dispatch({
+      type: "UPDATE_LIST_ITEM",
+      listItem: response.data,
+    });
+  };
+};
+
+export const uncheckListItem = (item) => {
+  return async (dispatch) => {
+    const token = window.localStorage.getItem("token");
+    const response = await axios.put(
+      `/api/listitems/${item.id}`,
+      { ...item, isChecked: false },
+      {
+        headers: {
+          authorization: token,
+        },
+      }
+    );
+    dispatch({
+      type: "UPDATE_LIST_ITEM",
+      listItem: response.data,
+    });
+  };
+};
+
 export default listItems;
