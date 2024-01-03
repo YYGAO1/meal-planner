@@ -8,6 +8,7 @@ const axios = require("axios");
 module.exports = app;
 
 app.get("/:id/ingredients", async (req, res, next) => {
+  console.log("req.params.id", req.params.id);
   try {
     res.send(
       await Ingredient.findAll({
@@ -92,7 +93,9 @@ app.post("/spoonacular", async (req, res, next) => {
       );
       res.status(201).send(recipe);
     } else {
-      const recipe = await Recipe.seedSpoonacularRecipe(req.body.spoonacularId);
+      const recipe = await Recipe.seedSpoonacularRecipe(
+        req.body.spoonacularId || req.body.id
+      );
       res.status(201).send(recipe);
     }
   } catch (ex) {

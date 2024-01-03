@@ -4,7 +4,12 @@ import axios from "axios";
 import * as DOMPurify from "dompurify";
 import "react-datepicker/dist/react-datepicker.css";
 import { useSelector, useDispatch } from "react-redux";
-import { deleteFavorite, createFavoriteSpoonacular } from "../store";
+import {
+  deleteFavorite,
+  createFavoriteSpoonacular,
+  createListItemSpoonacular,
+  seedSpoonacularRecipe,
+} from "../store";
 import AddToMealPlanner from "./AddToMealPlanner";
 import ReviewForm from "./ReviewForm";
 
@@ -13,15 +18,15 @@ const RecipePage = () => {
   const [details, setDetails] = useState([]);
   const [extendedIngredients, setExtendedIngredients] = useState([]);
   const cleanSummary = DOMPurify.sanitize(details.summary);
-  const { auth, recipes, favorites, reviews, listItems } = useSelector(
-    (state) => ({
+  const { auth, recipes, favorites, reviews, listItems, allIngredients } =
+    useSelector((state) => ({
       auth: state.auth,
       recipes: state.recipes,
       favorites: state.favorites,
       reviews: state.reviews,
       listItems: state.listItems,
-    })
-  );
+      allIngredients: state.allIngredients,
+    }));
   const dispatch = useDispatch();
 
   const [seededId, setSeededId] = useState("");
@@ -127,15 +132,27 @@ const RecipePage = () => {
     return stars;
   };
 
-  const isOnGroceryList = (ingredient) => {
-    const targetName = ingredient.originalName;
-    // console.log("targetName", targetName);
-    // console.log("ingredients", extendedIngredients);
-    return false;
+  const addAllToGroceryList = async () => {
+    await dispatch(seedSpoonacularRecipe(id));
+
+    extendedIngredients.map((ingredient) => {
+      if (!isOnGroceryList(ingredient)) addToGroceryList(ingredient);
+    });
   };
 
-  const addToGroceryList = (ingredientId) => {
-    // console.log("adding to grocery list", ingredientId);
+  const addToGroceryList = (ingredient) => {
+    dispatch(createListItemSpoonacular(details, ingredient, auth.id));
+  };
+
+  const isOnGroceryList = (ingredient) => {
+    const targetName = ingredient.name;
+
+    return listItems.some((listItem) => {
+      const _ingredient = allIngredients.find(
+        (i) => i.id == listItem.ingredientId
+      );
+      return _ingredient && _ingredient.name === targetName;
+    });
   };
 
   return (
@@ -212,7 +229,7 @@ const RecipePage = () => {
                     <button
                       className="btn btn-secondary"
                       title="add to grocery list"
-                      onClick={() => addToGroceryList(ingredient.id)}
+                      onClick={() => addToGroceryList(ingredient)}
                     >
                       +
                     </button>
@@ -222,6 +239,9 @@ const RecipePage = () => {
             }
           })}
         </ul>
+        <button className="btn btn-secondary" onClick={addAllToGroceryList}>
+          add all to grocery list
+        </button>
       </div>
 
       <div

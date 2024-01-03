@@ -80,14 +80,22 @@ Recipe.seedSpoonacularRecipe = async function (spoonacularId) {
       imageURL: response.data.image,
       description: response.data.summary,
     });
-    response.data.extendedIngredients.map(async (ingredient) => {
-      return await conn.models.ingredient.create({
-        name: ingredient.name,
-        amount: ingredient.measures.us.amount,
-        recipeId: recipe.id,
-        measurementUnit: ingredient.measures.us.unitShort,
-      });
-    });
+    await Promise.all(
+      response.data.extendedIngredients.map(async (ingredient) => {
+        console.log("ingredient", ingredient);
+        try {
+          const seededIngredient = await conn.models.ingredient.create({
+            name: ingredient.name,
+            amount: ingredient.measures.us.amount,
+            recipeId: recipe.id,
+            measurementUnit: ingredient.measures.us.unitShort,
+          });
+          console.log("seededIngredient", seededIngredient);
+        } catch (error) {
+          console.error("Error creating ingredient:", error);
+        }
+      })
+    );
     const cleanInstructions = DOMPurify.sanitize(response.data.instructions, {
       FORBID_TAGS: ["li", "ol", "br"],
     });

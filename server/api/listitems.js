@@ -45,4 +45,13 @@ app.delete("/:id", async (req, res, next) => {
   }
 });
 
+app.put("/:id", async (req, res, next) => {
+  try {
+    const item = await ListItem.findByPk(req.params.id);
+    res.send(await item.update(req.body));
+  } catch (ex) {
+    next(ex);
+  }
+});
+
 module.exports = app;
