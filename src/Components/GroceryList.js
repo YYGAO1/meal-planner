@@ -64,6 +64,17 @@ const GroceryList = () => {
     else dispatch(uncheckListItem(item));
   };
 
+  const [openItems, setOpenItems] = useState([]);
+  const isAccordionOpen = (id) => openItems.includes(id);
+
+  const handleAccordionClick = (id) => {
+    if (openItems.includes(id)) {
+      setOpenItems(openItems.filter((item) => item !== id));
+    } else {
+      setOpenItems([...openItems, id]);
+    }
+  };
+
   //if (!listItems.length) return null;
 
   return (
@@ -88,61 +99,159 @@ const GroceryList = () => {
         }}
       >
         {filteredListItems.length ? (
-          filteredListItems.map((item, i) => {
-            const ingredient = ingredients.find(
-              (ingredient) => ingredient.id === item.ingredientId
-            );
-            return (
-              <li
-                key={i}
-                style={{
-                  margin: "5px auto",
-                  padding: "5px",
-                }}
-                className="card bg-danger text-success"
-              >
-                <div className="row">
-                  <div className="col">
-                    <button
-                      className="btn btn-secondary text-success"
-                      style={{ margin: "5px" }}
-                      onClick={() => remove(item)}
+          filteredListItems
+            .filter((item) => !item.isChecked)
+            .map((item, i) => {
+              const ingredient = ingredients.find(
+                (ingredient) => ingredient.id === item.ingredientId
+              );
+              return (
+                <li
+                  key={i}
+                  style={{
+                    margin: "5px auto",
+                    padding: "5px",
+                  }}
+                  className="card bg-danger text-success"
+                >
+                  <div className="row">
+                    <div className="col">
+                      <button
+                        className="btn btn-secondary text-success"
+                        style={{ margin: "5px" }}
+                        onClick={() => remove(item)}
+                      >
+                        x
+                      </button>
+                      <button
+                        className="btn btn-secondary text-success"
+                        style={{ margin: "5px" }}
+                        onClick={() => handleCheckButton(item)}
+                      >
+                        √
+                      </button>
+                    </div>
+                    <span
+                      className="col"
+                      style={{
+                        textDecoration: item.isChecked
+                          ? "line-through"
+                          : "none",
+                        margin: "auto",
+                      }}
                     >
-                      x
-                    </button>
-                    <button
-                      className="btn btn-secondary text-success"
-                      style={{ margin: "5px" }}
-                      onClick={() => handleCheckButton(item)}
-                    >
-                      √
-                    </button>
+                      {ingredient ? ingredient.name : ""}
+                    </span>
                   </div>
-                  <span
-                    className="col"
-                    style={{
-                      textDecoration: item.isChecked ? "line-through" : "none",
-                      margin: "auto",
-                    }}
-                  >
-                    {ingredient ? ingredient.name : ""}
-                  </span>
-                </div>
-              </li>
-            );
-          })
+                </li>
+              );
+            })
         ) : (
           <h2 className="text-danger" style={{ textAlign: "center" }}>
             List complete! Hooray!
           </h2>
         )}
       </ul>
+
       {!!filteredListItems.length &&
         !filteredListItems.some((item) => !item.isChecked) && (
           <h2 className="text-secondary" style={{ textAlign: "center" }}>
             List complete! Hooray!
           </h2>
         )}
+      <div className="accordion" style={{ width: "65%", margin: "auto" }}>
+        <div className="accordion-item">
+          <div className="accordion-header">
+            <button
+              className={`accordion-button bg-danger text-success font-weight-bold ${
+                isAccordionOpen(`collapseOne`) ? "" : "collapsed"
+              }`}
+              type="button"
+              onClick={() => handleAccordionClick(`collapseOne`)}
+              style={{ height: "40px" }}
+            >
+              <div
+                style={{
+                  whiteSpace: "nowrap",
+                  textOverflow: "ellipsis",
+                  overflow: "hidden",
+                }}
+              >
+                Checked Items
+              </div>
+            </button>
+          </div>
+        </div>
+        <div
+          id="collapseOne"
+          className={`accordion-collapse collapse ${
+            isAccordionOpen(`collapseOne`) ? "show" : ""
+          }`}
+        >
+          <ul
+            style={{
+              listStyle: "none",
+              textAlign: "left",
+              margin: "auto",
+              padding: "15px",
+            }}
+          >
+            {filteredListItems.length ? (
+              filteredListItems
+                .filter((item) => item.isChecked)
+                .map((item, i) => {
+                  const ingredient = ingredients.find(
+                    (ingredient) => ingredient.id === item.ingredientId
+                  );
+                  return (
+                    <li
+                      key={i}
+                      style={{
+                        margin: "5px auto",
+                        padding: "5px",
+                      }}
+                      className="card bg-danger text-success"
+                    >
+                      <div className="row">
+                        <div className="col">
+                          <button
+                            className="btn btn-secondary text-success"
+                            style={{ margin: "5px" }}
+                            onClick={() => remove(item)}
+                          >
+                            x
+                          </button>
+                          <button
+                            className="btn btn-secondary text-success"
+                            style={{ margin: "5px" }}
+                            onClick={() => handleCheckButton(item)}
+                          >
+                            √
+                          </button>
+                        </div>
+                        <span
+                          className="col"
+                          style={{
+                            textDecoration: item.isChecked
+                              ? "line-through"
+                              : "none",
+                            margin: "auto",
+                          }}
+                        >
+                          {ingredient ? ingredient.name : ""}
+                        </span>
+                      </div>
+                    </li>
+                  );
+                })
+            ) : (
+              <h2 className="text-danger" style={{ textAlign: "center" }}>
+                List complete! Hooray!
+              </h2>
+            )}
+          </ul>
+        </div>
+      </div>
     </div>
   );
 };
