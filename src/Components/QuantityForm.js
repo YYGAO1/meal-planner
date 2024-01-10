@@ -15,7 +15,7 @@ const QuantityForm = (item) => {
   };
 
   return (
-    <div>
+    <div className="card bg-danger" style={{ width: "65%", margin: "5px" }}>
       <input
         className="bg-secondary text-success"
         value={workingItem.quantity || ""}

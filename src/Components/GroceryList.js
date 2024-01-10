@@ -49,10 +49,6 @@ const GroceryList = () => {
     }
   }, [ingredients, allIngredients, listItems]);
 
-  useEffect(() => {
-    console.log(filteredListItems);
-  }, [filteredListItems]);
-
   const remove = (item) => {
     dispatch(removeListItem(item));
   };
@@ -65,6 +61,7 @@ const GroceryList = () => {
   //accordion handling...
   const [openItems, setOpenItems] = useState([]);
   const isAccordionOpen = (id) => openItems.includes(id);
+
   const handleAccordionClick = (id) => {
     if (openItems.includes(id)) {
       setOpenItems(openItems.filter((item) => item !== id));
@@ -76,6 +73,7 @@ const GroceryList = () => {
   //quantity handling...
   const [openQuantityForms, setOpenQuantityForms] = useState([]);
   const isQuantityFormOpen = (id) => openQuantityForms.includes(id);
+
   const toggleQuantityForm = (id) => {
     if (openQuantityForms.includes(id)) {
       setOpenQuantityForms(openQuantityForms.filter((i) => i !== id));
@@ -83,6 +81,10 @@ const GroceryList = () => {
       setOpenQuantityForms([...openQuantityForms, id]);
     }
   };
+
+  useEffect(() => {
+    setOpenQuantityForms([]);
+  }, [filteredListItems]);
 
   return (
     <div
@@ -255,6 +257,16 @@ const GroceryList = () => {
                           >
                             √
                           </button>
+                          <button
+                            className="btn btn-secondary text-success"
+                            style={{ margin: "5px" }}
+                            onClick={() => toggleQuantityForm(item.id)}
+                          >
+                            quantity
+                          </button>
+                          {!!isQuantityFormOpen(item.id) && (
+                            <QuantityForm {...item} />
+                          )}
                         </div>
                         <span
                           className="col"
@@ -262,6 +274,7 @@ const GroceryList = () => {
                             margin: "auto",
                           }}
                         >
+                          {item ? item.quantity : ""}{" "}
                           {ingredient ? ingredient.name : ""}
                         </span>
                       </div>
