@@ -53,6 +53,11 @@ const GroceryList = () => {
     dispatch(removeListItem(item));
   };
 
+  const removeAll = () => {
+    listItems.forEach((item) => {
+      dispatch(removeListItem(item));
+    });
+  };
   const handleCheckButton = (item) => {
     if (!item.isChecked) dispatch(checkListItem(item));
     else dispatch(uncheckListItem(item));
@@ -284,6 +289,13 @@ const GroceryList = () => {
           </ul>
         </div>
       </div>
+      <button
+        type="button"
+        className="btn btn-secondary text-primary"
+        onClick={() => removeAll()}
+      >
+        remove all
+      </button>
     </div>
   );
 };
