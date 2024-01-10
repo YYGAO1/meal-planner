@@ -8,6 +8,7 @@ import {
   checkListItem,
   uncheckListItem,
 } from "../store";
+import QuantityForm from "./QuantityForm";
 
 const GroceryList = () => {
   const dispatch = useDispatch();
@@ -27,7 +28,6 @@ const GroceryList = () => {
 
   const filterDuplicates = (_listitems) => {
     const seen = {};
-    // console.log("running filterDuplicates");
     const filteredItems = _listitems.filter((item) => {
       const _ingredient = allIngredients.find(
         (ingredient) => ingredient.id === item.ingredientId
@@ -40,20 +40,14 @@ const GroceryList = () => {
         }
       }
     });
-    // console.log("filteredItems", filteredItems);
     return filteredItems;
   };
 
   useEffect(() => {
     if (ingredients && listItems) {
-      // console.log("listItems", listItems);
       setFilteredListItems(filterDuplicates(listItems));
     }
   }, [ingredients, allIngredients, listItems]);
-
-  // useEffect(() => {
-  //   console.log(ingredients);
-  // }, [ingredients]);
 
   const remove = (item) => {
     dispatch(removeListItem(item));
@@ -69,7 +63,33 @@ const GroceryList = () => {
     else dispatch(uncheckListItem(item));
   };
 
-  //if (!listItems.length) return null;
+  //accordion handling...
+  const [openItems, setOpenItems] = useState([]);
+  const isAccordionOpen = (id) => openItems.includes(id);
+
+  const handleAccordionClick = (id) => {
+    if (openItems.includes(id)) {
+      setOpenItems(openItems.filter((item) => item !== id));
+    } else {
+      setOpenItems([...openItems, id]);
+    }
+  };
+
+  //quantity handling...
+  const [openQuantityForms, setOpenQuantityForms] = useState([]);
+  const isQuantityFormOpen = (id) => openQuantityForms.includes(id);
+
+  const toggleQuantityForm = (id) => {
+    if (openQuantityForms.includes(id)) {
+      setOpenQuantityForms(openQuantityForms.filter((i) => i !== id));
+    } else {
+      setOpenQuantityForms([...openQuantityForms, id]);
+    }
+  };
+
+  useEffect(() => {
+    setOpenQuantityForms([]);
+  }, [filteredListItems]);
 
   return (
     <div
@@ -83,6 +103,8 @@ const GroceryList = () => {
       }}
     >
       <h1 className="text-secondary">Grocery List</h1>
+
+      {/* Primary grocery list */}
       <ul
         style={{
           listStyle: "none",
@@ -93,61 +115,180 @@ const GroceryList = () => {
         }}
       >
         {filteredListItems.length ? (
-          filteredListItems.map((item, i) => {
-            const ingredient = ingredients.find(
-              (ingredient) => ingredient.id === item.ingredientId
-            );
-            return (
-              <li
-                key={i}
-                style={{
-                  margin: "5px auto",
-                  padding: "5px",
-                }}
-                className="card bg-danger text-success"
-              >
-                <div className="row">
-                  <div className="col">
-                    <button
-                      className="btn btn-secondary text-success"
-                      style={{ margin: "5px" }}
-                      onClick={() => remove(item)}
+          filteredListItems
+            .filter((item) => !item.isChecked)
+            .map((item, i) => {
+              const ingredient = ingredients.find(
+                (ingredient) => ingredient.id === item.ingredientId
+              );
+              return (
+                <li
+                  key={i}
+                  style={{
+                    margin: "5px auto",
+                    padding: "5px",
+                  }}
+                  className="card bg-danger text-success"
+                >
+                  <div className="row">
+                    <div className="col">
+                      <button
+                        className="btn btn-secondary text-success"
+                        style={{ margin: "5px" }}
+                        onClick={() => remove(item)}
+                      >
+                        x
+                      </button>
+                      <button
+                        className="btn btn-secondary text-success"
+                        style={{ margin: "5px" }}
+                        onClick={() => handleCheckButton(item)}
+                      >
+                        √
+                      </button>
+                      <button
+                        className="btn btn-secondary text-success"
+                        style={{ margin: "5px" }}
+                        onClick={() => toggleQuantityForm(item.id)}
+                      >
+                        quantity
+                      </button>
+                      {!!isQuantityFormOpen(item.id) && (
+                        <QuantityForm {...item} />
+                      )}
+                    </div>
+                    <span
+                      className="col"
+                      style={{
+                        margin: "auto",
+                      }}
                     >
-                      x
-                    </button>
-                    <button
-                      className="btn btn-secondary text-success"
-                      style={{ margin: "5px" }}
-                      onClick={() => handleCheckButton(item)}
-                    >
-                      √
-                    </button>
+                      {item ? item.quantity : ""}{" "}
+                      {ingredient ? ingredient.name : ""}
+                    </span>
                   </div>
-                  <span
-                    className="col"
-                    style={{
-                      textDecoration: item.isChecked ? "line-through" : "none",
-                      margin: "auto",
-                    }}
-                  >
-                    {ingredient ? ingredient.name : ""}
-                  </span>
-                </div>
-              </li>
-            );
-          })
+                </li>
+              );
+            })
         ) : (
           <h2 className="text-danger" style={{ textAlign: "center" }}>
             List complete! Hooray!
           </h2>
         )}
       </ul>
+
+      {/* "List complete" message (if all items checked) */}
       {!!filteredListItems.length &&
         !filteredListItems.some((item) => !item.isChecked) && (
           <h2 className="text-secondary" style={{ textAlign: "center" }}>
             List complete! Hooray!
           </h2>
         )}
+
+      {/* Checked items list */}
+      <div
+        className="card bg-primary accordion"
+        style={{ width: "65%", margin: "auto" }}
+      >
+        <div className="accordion-item">
+          <div className="accordion-header">
+            <button
+              className={`accordion-button bg-secondary text-success font-weight-bold ${
+                isAccordionOpen(`collapseOne`) ? "" : "collapsed"
+              }`}
+              type="button"
+              onClick={() => handleAccordionClick(`collapseOne`)}
+              style={{ height: "40px" }}
+            >
+              <div
+                style={{
+                  whiteSpace: "nowrap",
+                  textOverflow: "ellipsis",
+                  overflow: "hidden",
+                }}
+              >
+                Checked Items
+              </div>
+            </button>
+          </div>
+        </div>
+        <div
+          id="collapseOne"
+          className={`accordion-collapse collapse ${
+            isAccordionOpen(`collapseOne`) ? "show" : ""
+          }`}
+        >
+          <ul
+            style={{
+              listStyle: "none",
+              textAlign: "left",
+              margin: "auto",
+              padding: "15px",
+            }}
+          >
+            {filteredListItems.length !== 0 &&
+              filteredListItems
+                .filter((item) => item.isChecked)
+                .map((item, i) => {
+                  const ingredient = ingredients.find(
+                    (ingredient) => ingredient.id === item.ingredientId
+                  );
+                  return (
+                    <li
+                      key={i}
+                      style={{
+                        margin: "5px auto",
+                        padding: "5px",
+                      }}
+                      className="card bg-danger text-success"
+                    >
+                      <div className="row">
+                        <div className="col">
+                          <button
+                            className="btn btn-secondary text-success"
+                            style={{ margin: "5px" }}
+                            onClick={() => remove(item)}
+                          >
+                            x
+                          </button>
+                          <button
+                            className={
+                              item.isChecked
+                                ? "btn btn-secondary text-danger"
+                                : "bt btn-secondary text-success"
+                            }
+                            style={{ margin: "5px" }}
+                            onClick={() => handleCheckButton(item)}
+                          >
+                            √
+                          </button>
+                          <button
+                            className="btn btn-secondary text-success"
+                            style={{ margin: "5px" }}
+                            onClick={() => toggleQuantityForm(item.id)}
+                          >
+                            quantity
+                          </button>
+                          {!!isQuantityFormOpen(item.id) && (
+                            <QuantityForm {...item} />
+                          )}
+                        </div>
+                        <span
+                          className="col"
+                          style={{
+                            margin: "auto",
+                          }}
+                        >
+                          {item ? item.quantity : ""}{" "}
+                          {ingredient ? ingredient.name : ""}
+                        </span>
+                      </div>
+                    </li>
+                  );
+                })}
+          </ul>
+        </div>
+      </div>
       <button
         type="button"
         className="btn btn-secondary text-primary"
