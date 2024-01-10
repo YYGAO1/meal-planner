@@ -84,6 +84,8 @@ export const removeListItem = (item) => {
   };
 };
 
+//create a method to delete the list or loop through and delete the listitems?
+
 export const checkListItem = (item) => {
   return async (dispatch) => {
     const token = window.localStorage.getItem("token");
