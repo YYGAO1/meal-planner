@@ -158,4 +158,5 @@ MealUser.prototype.addToDay = async function ({ recipeId, type, date }) {
   return this.getDay(date);
 };
 
+
 module.exports = MealUser;

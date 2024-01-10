@@ -55,4 +55,19 @@ export const addToMealPlanner = (mealInfo) => {
   };
 };
 
+export const deleteRecipe = (recipe) => {
+  return async (dispatch) => {
+    const token = window.localStorage.getItem("token");
+    const response = await axios.delete(
+      `api/mealplanner/recipes/${recipe.id}`,
+      {
+        headers: {
+          authorization: token,
+        },
+      }
+    );
+    dispatch({ type: "DELETE_RECIPE", recipe: recipe });
+  };
+};
+
 export default day;

@@ -86,6 +86,10 @@ const MealPlanner = () => {
     }
   });
 
+  const removeMeal = () => {
+    dispatch();
+  };
+
   return (
     <div style={{ width: "100%" }}>
       <h1 className="text-secondary">Planner</h1>
@@ -123,6 +127,14 @@ const MealPlanner = () => {
                 </Link>
                 {/* <p>add to grocery list</p>
               <i class="bi bi-plus-circle"></i> */}
+                <button
+                  type="button"
+                  className="btn btn-secondary text-primary"
+                  style={{ maxWidth: "25%" }}
+                  onClick={() => removeMeal(recipe.id)}
+                >
+                  x
+                </button>
               </li>
             ))}
           </ul>
