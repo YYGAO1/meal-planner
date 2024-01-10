@@ -122,4 +122,19 @@ export const uncheckListItem = (item) => {
   };
 };
 
+export const updateListItem = (item) => {
+  return async (dispatch) => {
+    const token = window.localStorage.getItem("token");
+    const response = await axios.put(`/api/listitems/${item.id}`, item, {
+      headers: {
+        authorization: token,
+      },
+    });
+    dispatch({
+      type: "UPDATE_LIST_ITEM",
+      listItem: response.data,
+    });
+  };
+};
+
 export default listItems;

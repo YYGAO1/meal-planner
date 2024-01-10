@@ -1,4 +1,4 @@
-const { UUID, UUIDV4, BOOLEAN } = require("sequelize");
+const { UUID, UUIDV4, BOOLEAN, STRING } = require("sequelize");
 const conn = require("./conn");
 
 const ListItem = conn.define("listItem", {
@@ -10,8 +10,8 @@ const ListItem = conn.define("listItem", {
   isChecked: {
     type: BOOLEAN,
   },
-  isCleared: {
-    type: BOOLEAN,
+  quantity: {
+    type: STRING,
   },
 });
 

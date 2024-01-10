@@ -7,6 +7,7 @@ import {
   removeListItem,
   checkListItem,
   uncheckListItem,
+  updateListItem,
 } from "../store";
 
 const GroceryList = () => {
@@ -68,6 +69,17 @@ const GroceryList = () => {
     }
   };
 
+  //quantity handling...
+  const [openQuantityForms, setOpenQuantityForms] = useState([]);
+  const isQuantityFormOpen = (id) => openQuantityForms.includes(id);
+  const toggleQuantityForm = (id) => {
+    if (openQuantityForms.includes(id)) {
+      setOpenQuantityForms(openQuantityForms.filter((i) => i !== id));
+    } else {
+      setOpenQuantityForms([...openQuantityForms, id]);
+    }
+  };
+
   return (
     <div
       className="container bg-primary"
@@ -123,6 +135,16 @@ const GroceryList = () => {
                       >
                         √
                       </button>
+                      <button
+                        className="btn btn-secondary text-success"
+                        style={{ margin: "5px" }}
+                        onClick={() => toggleQuantityForm(item.id)}
+                      >
+                        quantity
+                      </button>
+                      {!!isQuantityFormOpen(item.id) && (
+                        <input className="bg-secondary text-success"></input>
+                      )}
                     </div>
                     <span
                       className="col"
