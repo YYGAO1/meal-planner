@@ -7,8 +7,8 @@ import {
   removeListItem,
   checkListItem,
   uncheckListItem,
-  updateListItem,
 } from "../store";
+import QuantityForm from "./QuantityForm";
 
 const GroceryList = () => {
   const dispatch = useDispatch();
@@ -48,6 +48,10 @@ const GroceryList = () => {
       setFilteredListItems(filterDuplicates(listItems));
     }
   }, [ingredients, allIngredients, listItems]);
+
+  useEffect(() => {
+    console.log(filteredListItems);
+  }, [filteredListItems]);
 
   const remove = (item) => {
     dispatch(removeListItem(item));
@@ -143,7 +147,7 @@ const GroceryList = () => {
                         quantity
                       </button>
                       {!!isQuantityFormOpen(item.id) && (
-                        <input className="bg-secondary text-success"></input>
+                        <QuantityForm {...item} />
                       )}
                     </div>
                     <span
@@ -152,6 +156,7 @@ const GroceryList = () => {
                         margin: "auto",
                       }}
                     >
+                      {item ? item.quantity : ""}{" "}
                       {ingredient ? ingredient.name : ""}
                     </span>
                   </div>
