@@ -11,3 +11,12 @@ app.get("/", async (req, res, next) => {
     next(ex);
   }
 });
+
+app.post("/", async (req, res, next) => {
+  try {
+    const ingredient = await Ingredient.create(req.body);
+    res.status(201).send(ingredient);
+  } catch (ex) {
+    next(ex);
+  }
+});

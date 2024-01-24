@@ -5,18 +5,32 @@ import {
   fetchIngredientsGroceryList,
   fetchAllIngredients,
   removeListItem,
+  checkListItem,
+  uncheckListItem,
+  createCustomListItem,
 } from "../store";
+import QuantityForm from "./QuantityForm";
+import { useNavigate } from "react-router-dom";
 import ListItem from "./ListItem";
 
 const GroceryList = () => {
   const dispatch = useDispatch();
-  const { listItems, ingredients, allIngredients } = useSelector((state) => ({
-    listItems: state.listItems,
-    ingredients: state.ingredients,
-    allIngredients: state.allIngredients,
-  }));
+  const navigate = useNavigate();
+  const { listItems, ingredients, allIngredients, auth } = useSelector(
+    (state) => ({
+      listItems: state.listItems,
+      ingredients: state.ingredients,
+      allIngredients: state.allIngredients,
+      auth: state.auth,
+    })
+  );
 
   const [filteredListItems, setFilteredListItems] = useState([]);
+  const [ingredient, setIngredient] = useState({
+    name: "",
+    amount: 0,
+    measurementUnit: "",
+  });
 
   useEffect(() => {
     dispatch(fetchListItems());
@@ -67,6 +81,18 @@ const GroceryList = () => {
     listItems.forEach((item) => {
       dispatch(uncheckListItem(item));
     });
+  };
+
+  const onChangeIngredient = (ev) => {
+    setIngredient({
+      ...ingredient,
+      [ev.target.name]: ev.target.value,
+    });
+  };
+
+  const createCustom = (ev) => {
+    ev.preventDefault();
+    dispatch(createCustomListItem({ ingredient: ingredient, userId: auth.id }));
   };
 
   //accordion handling...
@@ -198,6 +224,46 @@ const GroceryList = () => {
         </div>
       </div>
 
+      <form onSubmit={createCustom}>
+        <div style={{ margin: "35px" }}>
+          <div className="mb-3">
+            <label className="form-label text-secondary">
+              amount
+              <input
+                className="form-control bg-danger text-success"
+                value={ingredient.amount}
+                name="amount"
+                onChange={(ev) => onChangeIngredient(ev)}
+              />
+            </label>
+            <label className="form-label text-secondary">
+              measurement unit
+              <input
+                className="form-control bg-danger text-success"
+                value={ingredient.measurementUnit}
+                name="measurementUnit"
+                onChange={(ev) => onChangeIngredient(ev)}
+              />
+            </label>
+            <label className="form-label text-secondary">
+              name
+              <input
+                className="form-control bg-danger text-success"
+                value={ingredient.name}
+                name="name"
+                onChange={(ev) => onChangeIngredient(ev)}
+              />
+            </label>{" "}
+            <button
+              style={{ margin: "35px" }}
+              className="btn btn-secondary text-success"
+              type="submit"
+            >
+              add
+            </button>
+          </div>{" "}
+        </div>
+      </form>
       {/* Master buttons */}
       <button
         type="button"
