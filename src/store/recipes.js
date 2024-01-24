@@ -35,15 +35,15 @@ export const createRecipe = ({ recipe, ingredients, instructions }) => {
   };
 };
 
-export const deleteRecipe = (recipe) => {
+export const deleteRecipe = (r) => {
   return async (dispatch) => {
     const token = window.localStorage.getItem("token");
-    const response = await axios.delete(`api/recipes/${recipe.id}`, {
+    const response = await axios.delete(`api/recipes/${r.id}`, {
       headers: {
         authorization: token,
-      },
+      }, 
     });
-    dispatch({ type: "DELETE_LIST_ITEM", listItem: item });
+    dispatch({ type: "DELETE_RECIPE", recipe: r });
   };
 };
 
