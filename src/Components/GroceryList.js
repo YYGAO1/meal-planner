@@ -47,9 +47,25 @@ const GroceryList = () => {
     }
   }, [ingredients, allIngredients, listItems]);
 
-  const removeAll = () => {
+  const remove = (item) => {
+    dispatch(removeListItem(item));
+  };
+
+  const clearAll = () => {
     listItems.forEach((item) => {
       dispatch(removeListItem(item));
+    });
+  };
+
+  const checkAll = () => {
+    listItems.forEach((item) => {
+      dispatch(checkListItem(item));
+    });
+  };
+
+  const uncheckAll = () => {
+    listItems.forEach((item) => {
+      dispatch(uncheckListItem(item));
     });
   };
 
@@ -186,9 +202,23 @@ const GroceryList = () => {
       <button
         type="button"
         className="btn btn-secondary text-primary"
-        onClick={() => removeAll()}
+        onClick={() => clearAll()}
       >
-        remove all
+        clear all
+      </button>
+      <button
+        type="button"
+        className="btn btn-secondary text-primary"
+        onClick={() => checkAll()}
+      >
+        check all
+      </button>
+      <button
+        type="button"
+        className="btn btn-secondary text-primary"
+        onClick={() => uncheckAll()}
+      >
+        uncheck all
       </button>
     </div>
   );
