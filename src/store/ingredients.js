@@ -26,6 +26,16 @@ export const fetchIngredients = (recipeId) => {
   };
 };
 
+export const createIngredient = ({ ingredient }) => {
+  return async (dispatch) => {
+    const response = await axios.post("/api/ingredients", {
+      ingredient,
+    });
+    dispatch({ type: "CREATE_INGREDIENT", ingredient: response.data });
+    return response.data;
+  };
+};
+
 export const fetchIngredientsGroceryList = () => {
   return async (dispatch) => {
     const token = window.localStorage.getItem("token");
