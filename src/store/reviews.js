@@ -24,8 +24,8 @@ export const fetchReviews = () => {
     try {
       const response = await axios.get("api/reviews/");
       dispatch({ type: "SET_REVIEWS", reviews: response.data });
-    } catch (error) {
-      console.log("error fetching reviews: ", error);
+    } catch (ex) {
+      console.log(ex);
     }
   };
 };

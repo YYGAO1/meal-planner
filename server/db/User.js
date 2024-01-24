@@ -131,7 +131,6 @@ MealUser.prototype.getIngredients = async function () {
     })
   );
 
-  //console.log("ingredients from backend", ingredients);
   return ingredients;
 };
 

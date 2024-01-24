@@ -8,7 +8,6 @@ const axios = require("axios");
 module.exports = app;
 
 app.get("/:id/ingredients", async (req, res, next) => {
-  console.log("req.params.id", req.params.id);
   try {
     res.send(
       await Ingredient.findAll({
