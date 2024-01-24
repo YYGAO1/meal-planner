@@ -6,10 +6,10 @@ import QuantityForm from "./QuantityForm";
 const ListItem = (item) => {
   const dispatch = useDispatch();
 
-  const { ingredients } = useSelector((state) => ({
-    ingredients: state.ingredients,
+  const { allIngredients } = useSelector((state) => ({
+    allIngredients: state.allIngredients,
   }));
-  const ingredient = ingredients.find(
+  const ingredient = allIngredients.find(
     (ingredient) => ingredient.id === item.ingredientId
   );
 

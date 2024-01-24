@@ -74,22 +74,15 @@ export const createListItem = (listItem) => {
 
 export const createCustomListItem = ({ ingredient, userId }) => {
   return async (dispatch) => {
-    // const token = window.localStorage.getItem("token");
-
     const _ingredient = await axios.post("/api/ingredients", ingredient);
-    dispatch({ type: "CREATE_INGREDIENT", ingredient: _ingredient.data });
-    const item = await axios.post(
-      "api/listitems",
-      {
-        ingredientId: _ingredient.data.id,
-        userId: userId,
-      }
-      // {
-      //   headers: {
-      //     authorization: token,
-      //   },
-      // }
-    );
+    dispatch({
+      type: "ADD_TO_ALL_INGREDIENTS",
+      ingredients: [_ingredient.data],
+    });
+    const item = await axios.post("api/listitems", {
+      ingredientId: _ingredient.data.id,
+      userId: userId,
+    });
     dispatch({ type: "CREATE_LIST_ITEM", listItem: item.data });
   };
 };

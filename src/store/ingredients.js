@@ -32,7 +32,6 @@ export const createIngredient = ({ ingredient }) => {
       ingredient,
     });
     dispatch({ type: "CREATE_INGREDIENT", ingredient: response.data });
-    return response.data;
   };
 };
 

@@ -93,6 +93,11 @@ const GroceryList = () => {
   const createCustom = (ev) => {
     ev.preventDefault();
     dispatch(createCustomListItem({ ingredient: ingredient, userId: auth.id }));
+    setIngredient({
+      name: "",
+      amount: 0,
+      measurementUnit: "",
+    });
   };
 
   //accordion handling...
