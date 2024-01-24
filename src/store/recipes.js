@@ -16,6 +16,9 @@ const recipes = (state = [], action) => {
       }
     });
   }
+  if (action.type === "DELETE_RECIPE") {
+    return state.filter((r) => r.id !== action.recipe.id);
+  }
   return state;
 };
 
@@ -32,13 +35,24 @@ export const createRecipe = ({ recipe, ingredients, instructions }) => {
   };
 };
 
+export const deleteRecipe = (r) => {
+  return async (dispatch) => {
+    const token = window.localStorage.getItem("token");
+    const response = await axios.delete(`api/recipes/${r.id}`, {
+      headers: {
+        authorization: token,
+      }, 
+    });
+    dispatch({ type: "DELETE_RECIPE", recipe: r });
+  };
+};
+
 export const fetchRecipes = () => {
   return async (dispatch) => {
     const response = await axios.get("/api/recipes");
     dispatch({ type: "SET_RECIPES", recipes: response.data });
   };
 };
-
 
 export const seedSpoonacularRecipe = (spoonacularId) => {
   return async (dispatch) => {

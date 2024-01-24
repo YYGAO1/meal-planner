@@ -82,7 +82,6 @@ Recipe.seedSpoonacularRecipe = async function (spoonacularId) {
     });
     await Promise.all(
       response.data.extendedIngredients.map(async (ingredient) => {
-        console.log("ingredient", ingredient);
         try {
           const seededIngredient = await conn.models.ingredient.create({
             name: ingredient.name,
@@ -90,7 +89,6 @@ Recipe.seedSpoonacularRecipe = async function (spoonacularId) {
             recipeId: recipe.id,
             measurementUnit: ingredient.measures.us.unitShort,
           });
-          console.log("seededIngredient", seededIngredient);
         } catch (error) {
           console.error("Error creating ingredient:", error);
         }

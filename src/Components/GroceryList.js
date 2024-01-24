@@ -11,6 +11,7 @@ import {
 } from "../store";
 import QuantityForm from "./QuantityForm";
 import { useNavigate } from "react-router-dom";
+import ListItem from "./ListItem";
 
 const GroceryList = () => {
   const dispatch = useDispatch();
@@ -64,14 +65,22 @@ const GroceryList = () => {
     dispatch(removeListItem(item));
   };
 
-  const removeAll = () => {
+  const clearAll = () => {
     listItems.forEach((item) => {
       dispatch(removeListItem(item));
     });
   };
-  const handleCheckButton = (item) => {
-    if (!item.isChecked) dispatch(checkListItem(item));
-    else dispatch(uncheckListItem(item));
+
+  const checkAll = () => {
+    listItems.forEach((item) => {
+      dispatch(checkListItem(item));
+    });
+  };
+
+  const uncheckAll = () => {
+    listItems.forEach((item) => {
+      dispatch(uncheckListItem(item));
+    });
   };
 
   const onChangeIngredient = (ev) => {
@@ -97,22 +106,6 @@ const GroceryList = () => {
       setOpenItems([...openItems, id]);
     }
   };
-
-  //quantity handling...
-  const [openQuantityForms, setOpenQuantityForms] = useState([]);
-  const isQuantityFormOpen = (id) => openQuantityForms.includes(id);
-
-  const toggleQuantityForm = (id) => {
-    if (openQuantityForms.includes(id)) {
-      setOpenQuantityForms(openQuantityForms.filter((i) => i !== id));
-    } else {
-      setOpenQuantityForms([...openQuantityForms, id]);
-    }
-  };
-
-  useEffect(() => {
-    setOpenQuantityForms([]);
-  }, [filteredListItems]);
 
   return (
     <div
@@ -141,9 +134,6 @@ const GroceryList = () => {
           filteredListItems
             .filter((item) => !item.isChecked)
             .map((item, i) => {
-              const ingredient = ingredients.find(
-                (ingredient) => ingredient.id === item.ingredientId
-              );
               return (
                 <li
                   key={i}
@@ -153,43 +143,7 @@ const GroceryList = () => {
                   }}
                   className="card bg-danger text-success"
                 >
-                  <div className="row">
-                    <div className="col">
-                      <button
-                        className="btn btn-secondary text-success"
-                        style={{ margin: "5px" }}
-                        onClick={() => remove(item)}
-                      >
-                        x
-                      </button>
-                      <button
-                        className="btn btn-secondary text-success"
-                        style={{ margin: "5px" }}
-                        onClick={() => handleCheckButton(item)}
-                      >
-                        √
-                      </button>
-                      <button
-                        className="btn btn-secondary text-success"
-                        style={{ margin: "5px" }}
-                        onClick={() => toggleQuantityForm(item.id)}
-                      >
-                        quantity
-                      </button>
-                      {!!isQuantityFormOpen(item.id) && (
-                        <QuantityForm {...item} />
-                      )}
-                    </div>
-                    <span
-                      className="col"
-                      style={{
-                        margin: "auto",
-                      }}
-                    >
-                      {item ? item.quantity : ""}{" "}
-                      {ingredient ? ingredient.name : ""}
-                    </span>
-                  </div>
+                  <ListItem {...item} />
                 </li>
               );
             })
@@ -208,7 +162,7 @@ const GroceryList = () => {
           </h2>
         )}
 
-      {/* Checked items list */}
+      {/* Checked items accordion and list */}
       <div
         className="card bg-primary accordion"
         style={{ width: "65%", margin: "auto" }}
@@ -253,9 +207,6 @@ const GroceryList = () => {
               filteredListItems
                 .filter((item) => item.isChecked)
                 .map((item, i) => {
-                  const ingredient = ingredients.find(
-                    (ingredient) => ingredient.id === item.ingredientId
-                  );
                   return (
                     <li
                       key={i}
@@ -265,47 +216,7 @@ const GroceryList = () => {
                       }}
                       className="card bg-danger text-success"
                     >
-                      <div className="row">
-                        <div className="col">
-                          <button
-                            className="btn btn-secondary text-success"
-                            style={{ margin: "5px" }}
-                            onClick={() => remove(item)}
-                          >
-                            x
-                          </button>
-                          <button
-                            className={
-                              item.isChecked
-                                ? "btn btn-secondary text-danger"
-                                : "bt btn-secondary text-success"
-                            }
-                            style={{ margin: "5px" }}
-                            onClick={() => handleCheckButton(item)}
-                          >
-                            √
-                          </button>
-                          <button
-                            className="btn btn-secondary text-success"
-                            style={{ margin: "5px" }}
-                            onClick={() => toggleQuantityForm(item.id)}
-                          >
-                            quantity
-                          </button>
-                          {!!isQuantityFormOpen(item.id) && (
-                            <QuantityForm {...item} />
-                          )}
-                        </div>
-                        <span
-                          className="col"
-                          style={{
-                            margin: "auto",
-                          }}
-                        >
-                          {item ? item.quantity : ""}{" "}
-                          {ingredient ? ingredient.name : ""}
-                        </span>
-                      </div>
+                      <ListItem {...item} />
                     </li>
                   );
                 })}
@@ -353,12 +264,27 @@ const GroceryList = () => {
           </div>{" "}
         </div>
       </form>
+      {/* Master buttons */}
       <button
         type="button"
         className="btn btn-secondary text-primary"
-        onClick={() => removeAll()}
+        onClick={() => clearAll()}
       >
-        remove all
+        clear all
+      </button>
+      <button
+        type="button"
+        className="btn btn-secondary text-primary"
+        onClick={() => checkAll()}
+      >
+        check all
+      </button>
+      <button
+        type="button"
+        className="btn btn-secondary text-primary"
+        onClick={() => uncheckAll()}
+      >
+        uncheck all
       </button>
     </div>
   );
