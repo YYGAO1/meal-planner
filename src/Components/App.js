@@ -16,7 +16,6 @@ import {
   fetchIngredients,
   fetchReviews,
   fetchAllIngredients,
-
 } from "../store";
 import "bootstrap/dist/js/bootstrap";
 import UpdateUser from "./UpdateUser";
@@ -24,6 +23,7 @@ import UploadRecipe from "./UploadRecipe";
 import GroceryList from "./GroceryList";
 import RecipePageDatabase from "./RecipePageDatabase";
 import MyRecipes from "./MyRecipes";
+import AboutUs from "./AboutUs";
 
 const App = () => {
   const { auth } = useSelector((state) => ({
@@ -39,7 +39,6 @@ const App = () => {
     dispatch(fetchReviews());
     //dispatch(fetchIngredients());
     dispatch(fetchAllIngredients());
-
   }, []);
 
   useEffect(() => {
@@ -76,6 +75,11 @@ const App = () => {
               menu
             </button>
             <ul className="dropdown-menu bg-danger">
+              <li>
+                <Link className="dropdown-item" to="/aboutus">
+                  About Us
+                </Link>
+              </li>
               <li>
                 <Link className="dropdown-item" to="/">
                   Recipes
@@ -139,6 +143,7 @@ const App = () => {
         <Route path="/user/update" element={<UpdateUser />} />
         <Route path="/recipes/upload" element={<UploadRecipe />} />
         <Route path="/grocerylist" element={<GroceryList />} />
+        <Route path="/aboutus" element={<AboutUs />} />
       </Routes>
     </div>
   );
