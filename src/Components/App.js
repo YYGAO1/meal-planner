@@ -129,9 +129,10 @@ const App = () => {
             </ul>
           </div>
         )}
-        <h1 className="text-secondary display-3">
-          <strong>EatEasy</strong>
-        </h1>
+        <img
+          src="./static/logo.png"
+          style={{ maxWidth: "25%", margin: "auto" }}
+        />
       </div>
 
       <Routes>
