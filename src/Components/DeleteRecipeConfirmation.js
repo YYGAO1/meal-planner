@@ -50,16 +50,16 @@ const DeleteRecipeConfirmation = ({ recipe, instructions, ingredients }) => {
         data-placement="left"
         style={{
           position: "absolute",
-          top: "75px",
-          right: "5px",
+          top: "100px",
+          right: "30%",
           backgroundColor: "transparent",
           color: "#50ba58",
         }}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
+          width="25"
+          height="25"
           fill="currentColor"
           class="bi bi-eraser-fill"
           viewBox="0 0 16 16"
