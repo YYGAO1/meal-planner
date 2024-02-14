@@ -92,7 +92,7 @@ const App = () => {
               </li>
               <li>
                 <Link className="dropdown-item" to="/mealplanner">
-                  Planner
+                  Meal Planner
                 </Link>
               </li>
               <li>
@@ -129,7 +129,9 @@ const App = () => {
             </ul>
           </div>
         )}
-        <h1 className="text-secondary">Meal Planner</h1>
+        <h1 className="text-secondary display-3">
+          <strong>EatEasy</strong>
+        </h1>
       </div>
 
       <Routes>
