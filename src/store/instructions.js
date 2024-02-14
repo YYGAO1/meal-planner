@@ -20,7 +20,7 @@ export const fetchInstructions = (recipeId) => {
 export const deleteInstructions = (_instruction) => {
   return async (dispatch) => {
     const token = window.localStorage.getItem("token");
-    const response = await axios.delete(`api/instruction/${_instruction.id}`);
+    const response = await axios.delete(`api/instructions/${_instruction.id}`);
     dispatch({ type: "DELETE_INSTRUCTION", instruction: _instruction.id });
   };
 };
