@@ -82,7 +82,9 @@ export const createCustomListItem = ({ ingredient, userId }) => {
     const item = await axios.post("api/listitems", {
       ingredientId: _ingredient.data.id,
       userId: userId,
+      quantity: `${_ingredient.data.amount} ${_ingredient.data.measurementUnit}`,
     });
+
     dispatch({ type: "CREATE_LIST_ITEM", listItem: item.data });
   };
 };
