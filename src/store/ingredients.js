@@ -16,6 +16,9 @@ const ingredients = (state = [], action) => {
       }
     });
   }
+  if (action.type === "DELETE_INGREDIENT") {
+    return state.filter((i) => i.id !== action.ingredient.id);
+  }
   return state;
 };
 
@@ -32,6 +35,14 @@ export const createIngredient = ({ ingredient }) => {
       ingredient,
     });
     dispatch({ type: "CREATE_INGREDIENT", ingredient: response.data });
+  };
+};
+
+export const deleteIngredients = (_ingredient) => {
+  return async (dispatch) => {
+    const token = window.localStorage.getItem("token");
+    const response = await axios.delete(`api/ingredients/${_ingredient.id}`);
+    dispatch({ type: "DELETE_INGREDIENT", ingredient: _ingredient.id });
   };
 };
 

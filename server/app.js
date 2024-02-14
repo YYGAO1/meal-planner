@@ -13,6 +13,7 @@ app.get("/", (req, res) =>
 app.use("/api/auth", require("./api/auth"));
 app.use("/api/recipes", require("./api/recipes"));
 app.use("/api/ingredients", require("./api/ingredients"));
+app.use("/api/instructions", require("./api/instructions"));
 app.use("/api/reviews", require("./api/reviews"));
 app.use("/api/users", require("./api/users"));
 app.use("/api/favorites", require("./api/favorites"));

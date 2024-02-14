@@ -8,10 +8,14 @@ import {
   fetchRecipes,
   deleteFavorite,
   createListItem,
+  deleteRecipe,
+  deleteIngredients,
+  deleteInstructions,
 } from "../store";
 import * as DOMPurify from "dompurify";
 import AddToMealPlanner from "./AddToMealPlanner";
 import ReviewForm from "./ReviewForm";
+import DeleteRecipeConfirmation from "./DeleteRecipeConfirmation";
 
 const RecipePageDatabase = () => {
   const dispatch = useDispatch();
@@ -148,6 +152,9 @@ const RecipePageDatabase = () => {
   return (
     <div style={{ alignItems: "left" }}>
       <h1 className="text-danger">{recipe.title}</h1>
+      {recipe.userId === auth.id
+        ? DeleteRecipeConfirmation({ recipe, ingredients, instructions })
+        : null}
       <AddToMealPlanner id={id} />
       <br />
 

@@ -41,7 +41,7 @@ export const deleteRecipe = (r) => {
     const response = await axios.delete(`api/recipes/${r.id}`, {
       headers: {
         authorization: token,
-      }, 
+      },
     });
     dispatch({ type: "DELETE_RECIPE", recipe: r });
   };
