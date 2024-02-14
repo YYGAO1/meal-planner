@@ -88,7 +88,7 @@ const MealPlanner = () => {
 
   return (
     <div style={{ width: "100%" }}>
-      <h1 className="text-secondary">Planner</h1>
+      <h1 className="text-secondary">Meal Planner</h1>
       <div
         className="card bg-danger"
         style={{

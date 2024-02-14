@@ -167,10 +167,44 @@ const GroceryList = () => {
           </h2>
         )}
 
+      {/* Master buttons */}
+      <div
+        className="row"
+        style={{ width: "65%", margin: "auto", marginBottom: "15px" }}
+      >
+        <div className="col">
+          <button
+            type="button"
+            className="btn btn-secondary text-success"
+            onClick={() => clearAll()}
+          >
+            clear all
+          </button>
+        </div>
+        <div className="col">
+          <button
+            type="button"
+            className="btn btn-secondary text-success"
+            onClick={() => checkAll()}
+          >
+            check all
+          </button>
+        </div>
+        <div className="col">
+          <button
+            type="button"
+            className="btn btn-secondary text-success"
+            onClick={() => uncheckAll()}
+          >
+            uncheck all
+          </button>
+        </div>
+      </div>
+
       {/* Checked items accordion and list */}
       <div
         className="card bg-primary accordion"
-        style={{ width: "65%", margin: "auto" }}
+        style={{ width: "65%", margin: "auto", marginBottom: "15px" }}
       >
         <div className="accordion-item">
           <div className="accordion-header">
@@ -229,10 +263,14 @@ const GroceryList = () => {
         </div>
       </div>
 
+      {/* Create custom item form*/}
       <form onSubmit={createCustom}>
-        <div style={{ margin: "35px" }}>
+        <div
+          className="card bg-secondary"
+          style={{ width: "65%", margin: "auto", padding: "10px" }}
+        >
           <div className="mb-3">
-            <label className="form-label text-secondary">
+            <label className="form-label text-success">
               amount
               <input
                 className="form-control bg-danger text-success"
@@ -241,7 +279,7 @@ const GroceryList = () => {
                 onChange={(ev) => onChangeIngredient(ev)}
               />
             </label>
-            <label className="form-label text-secondary">
+            <label className="form-label text-success">
               measurement unit
               <input
                 className="form-control bg-danger text-success"
@@ -250,7 +288,7 @@ const GroceryList = () => {
                 onChange={(ev) => onChangeIngredient(ev)}
               />
             </label>
-            <label className="form-label text-secondary">
+            <label className="form-label text-success">
               name
               <input
                 className="form-control bg-danger text-success"
@@ -259,38 +297,16 @@ const GroceryList = () => {
                 onChange={(ev) => onChangeIngredient(ev)}
               />
             </label>{" "}
-            <button
-              style={{ margin: "35px" }}
-              className="btn btn-secondary text-success"
-              type="submit"
-            >
-              add
-            </button>
-          </div>{" "}
+          </div>
+          <button
+            style={{ width: "35%", margin: "auto" }}
+            className="btn btn-danger text-success"
+            type="submit"
+          >
+            add to list
+          </button>
         </div>
       </form>
-      {/* Master buttons */}
-      <button
-        type="button"
-        className="btn btn-secondary text-primary"
-        onClick={() => clearAll()}
-      >
-        clear all
-      </button>
-      <button
-        type="button"
-        className="btn btn-secondary text-primary"
-        onClick={() => checkAll()}
-      >
-        check all
-      </button>
-      <button
-        type="button"
-        className="btn btn-secondary text-primary"
-        onClick={() => uncheckAll()}
-      >
-        uncheck all
-      </button>
     </div>
   );
 };

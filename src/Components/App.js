@@ -16,7 +16,6 @@ import {
   fetchIngredients,
   fetchReviews,
   fetchAllIngredients,
-
 } from "../store";
 import "bootstrap/dist/js/bootstrap";
 import UpdateUser from "./UpdateUser";
@@ -24,6 +23,7 @@ import UploadRecipe from "./UploadRecipe";
 import GroceryList from "./GroceryList";
 import RecipePageDatabase from "./RecipePageDatabase";
 import MyRecipes from "./MyRecipes";
+import AboutUs from "./AboutUs";
 
 const App = () => {
   const { auth } = useSelector((state) => ({
@@ -39,7 +39,6 @@ const App = () => {
     dispatch(fetchReviews());
     //dispatch(fetchIngredients());
     dispatch(fetchAllIngredients());
-
   }, []);
 
   useEffect(() => {
@@ -77,6 +76,11 @@ const App = () => {
             </button>
             <ul className="dropdown-menu bg-danger">
               <li>
+                <Link className="dropdown-item" to="/aboutus">
+                  About Us
+                </Link>
+              </li>
+              <li>
                 <Link className="dropdown-item" to="/">
                   Recipes
                 </Link>
@@ -88,7 +92,7 @@ const App = () => {
               </li>
               <li>
                 <Link className="dropdown-item" to="/mealplanner">
-                  Planner
+                  Meal Planner
                 </Link>
               </li>
               <li>
@@ -125,7 +129,9 @@ const App = () => {
             </ul>
           </div>
         )}
-        <h1 className="text-secondary">Meal Planner</h1>
+        <h1 className="text-secondary display-3">
+          <strong>EatEasy</strong>
+        </h1>
       </div>
 
       <Routes>
@@ -139,6 +145,7 @@ const App = () => {
         <Route path="/user/update" element={<UpdateUser />} />
         <Route path="/recipes/upload" element={<UploadRecipe />} />
         <Route path="/grocerylist" element={<GroceryList />} />
+        <Route path="/aboutus" element={<AboutUs />} />
       </Routes>
     </div>
   );
