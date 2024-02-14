@@ -20,3 +20,13 @@ app.post("/", async (req, res, next) => {
     next(ex);
   }
 });
+
+app.delete("/:id", async (req, res, next) => {
+  try {
+    const ingredient = await Ingredient.findByPk(req.params.id);
+    await ingredient.destroy();
+    res.sendStatus(204);
+  } catch (ex) {
+    next(ex);
+  }
+});

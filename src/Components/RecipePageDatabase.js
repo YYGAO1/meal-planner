@@ -8,6 +8,9 @@ import {
   fetchRecipes,
   deleteFavorite,
   createListItem,
+  deleteRecipe,
+  deleteIngredients,
+  deleteInstructions,
 } from "../store";
 import * as DOMPurify from "dompurify";
 import AddToMealPlanner from "./AddToMealPlanner";
@@ -103,6 +106,22 @@ const RecipePageDatabase = () => {
     return null;
   }
 
+  const deleteR = async (recipe) => {
+    dispatch(deleteRecipe(recipe));
+
+    ingredients.map((ingredient) => {
+      if (ingredient.recipeId === recipe.id) {
+        dispatch(deleteIngredients(ingredient));
+      }
+    });
+
+    instructions.map((instruction) => {
+      if (instruction.recipeId === recipe.id) {
+        dispatch(deleteInstructions(instruction));
+      }
+    });
+  };
+
   const cleanSummary = DOMPurify.sanitize(recipe.description);
 
   const addAllToGroceryList = () => {
@@ -148,6 +167,23 @@ const RecipePageDatabase = () => {
   return (
     <div style={{ alignItems: "left" }}>
       <h1 className="text-danger">{recipe.title}</h1>
+      {recipe.userId === auth.id ? (
+        <button
+          className="btn"
+          onClick={() => deleteR(recipe)}
+          style={{
+            position: "absolute",
+            top: "5px",
+            right: "5px",
+            backgroundColor: "transparent",
+            color: "#50ba58",
+          }}
+          data-toggle="tooltip"
+          title="delete recipe"
+        >
+          x
+        </button>
+      ) : null}
       <AddToMealPlanner id={id} />
       <br />
 
