@@ -52,7 +52,7 @@ const App = () => {
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
-        // alignItems: "center",
+        //alignItems: "center",
         justifyContent: "flex-start",
         padding: "25px",
       }}
@@ -129,12 +129,8 @@ const App = () => {
             </ul>
           </div>
         )}
-        <img
-          src="./static/logo.png"
-          style={{ maxWidth: "25%", margin: "auto" }}
-        />
+        <img src="./static/logo.png" style={{ maxWidth: "15%" }} />
       </div>
-
       <Routes>
         <Route path="/" element={auth.id ? <Recipes /> : <Login />} />
         <Route path="/mealplanner" element={<MealPlanner />} />

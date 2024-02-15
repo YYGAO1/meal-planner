@@ -15,10 +15,10 @@ const AboutUs = () => {
       <div style={{ width: "65%", margin: "auto" }}>
         <h1 className="text-secondary">About Us</h1>
         <img
-          src="./static/spatula.png"
-          style={{ maxWidth: "35%", margin: "auto" }}
+          src="./static/spatula-spoon.png"
+          style={{ maxWidth: "10%", margin: "auto" }}
         />
-        <p className="text-danger">
+        <p className="text-danger" style={{ marginTop: "15px" }}>
           Welcome to EatEasy, your ultimate solution for effortless meal
           organization and planning. Developed in 2023-2024 by a dedicated team
           of skilled professionals, EatEasy is the brainchild of passionate
