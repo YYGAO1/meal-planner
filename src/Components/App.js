@@ -129,7 +129,7 @@ const App = () => {
             </ul>
           </div>
         )}
-        <img src="./static/logo.png" style={{ maxWidth: "15%" }} />
+        <img src="./static/logo.png" style={{ maxWidth: "20%" }} />
       </div>
       <Routes>
         <Route path="/" element={auth.id ? <Recipes /> : <Login />} />

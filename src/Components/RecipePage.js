@@ -158,7 +158,7 @@ const RecipePage = () => {
   return (
     <div>
       <h1 className="text-danger">{details.title}</h1>
-      <AddToMealPlanner id={id} />
+      <AddToMealPlanner id={id} style={{ margin: "auto" }} />
       <br />
       <div style={{ position: "relative", display: "inline-block" }}>
         <div className="image-wrapper">

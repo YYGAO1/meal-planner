@@ -12,7 +12,7 @@ const AboutUs = () => {
         justifyContent: "space-around",
       }}
     >
-      <div style={{ width: "65%", margin: "auto" }}>
+      <div style={{ width: "85%", margin: "auto" }}>
         <h1 className="text-secondary">About Us</h1>
         <img
           src="./static/spatula-spoon.png"
