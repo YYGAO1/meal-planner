@@ -27,7 +27,7 @@ export const addToMealPlanner = (mealInfo) => {
       const recipe = await axios.post("/api/recipes/spoonacular", mealInfo);
       dispatch({ type: "CREATE_RECIPE", recipe: recipe.data });
       const response = await axios.post(
-        `/api/mealplanner/${mealInfo.date}`,
+        `/api/mealplanner/add/${mealInfo.date}`,
         { recipeId: recipe.data.id, date: mealInfo.date, type: mealInfo.type },
         {
           headers: {
@@ -38,7 +38,7 @@ export const addToMealPlanner = (mealInfo) => {
       dispatch({ type: "SET_DAY", day: response.data });
     } else {
       const response = await axios.post(
-        `/api/mealplanner/${mealInfo.date}`,
+        `/api/mealplanner/add/${mealInfo.date}`,
         {
           recipeId: mealInfo.recipe_id.id,
           date: mealInfo.date,
@@ -52,6 +52,26 @@ export const addToMealPlanner = (mealInfo) => {
       );
       dispatch({ type: "SET_DAY", day: response.data });
     }
+  };
+};
+
+export const removeFromMealPlanner = (mealInfo) => {
+  return async (dispatch) => {
+    const token = window.localStorage.getItem("token");
+    const response = await axios.post(
+      `/api/mealplanner/remove/${mealInfo.date}`,
+      {
+        recipeId: mealInfo.recipe_id,
+        date: mealInfo.date,
+        type: mealInfo.type,
+      },
+      {
+        headers: {
+          authorization: token,
+        },
+      }
+    );
+    dispatch({ type: "SET_DAY", day: response.data });
   };
 };
 

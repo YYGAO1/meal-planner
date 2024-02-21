@@ -2,15 +2,16 @@ import * as React from "react";
 import dayjs from "dayjs";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchDay } from "../store";
+import { fetchDay, removeFromMealPlanner } from "../store";
 import { Link } from "react-router-dom";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 const MealPlanner = () => {
-  const { day } = useSelector((state) => ({
+  const { day, auth } = useSelector((state) => ({
     day: state.day,
+    auth: state.auth,
   }));
 
   //   const today = dayjs().format("YYYY-MM-DD");
@@ -18,6 +19,7 @@ const MealPlanner = () => {
 
   const today = new Date();
   const [date, setDate] = React.useState(today);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -86,6 +88,44 @@ const MealPlanner = () => {
     }
   });
 
+  const deleteMeal = ({ recipe, type }) => {
+    dispatch(
+      removeFromMealPlanner({
+        type,
+        date,
+        recipe_id: recipe.id,
+        userId: auth.id,
+      })
+    );
+  };
+
+  const deleteButton = ({ recipe, type }) => (
+    <button
+      type="button"
+      className="danger"
+      onClick={() => deleteMeal({ recipe, type })}
+      data-toggle="tooltip"
+      title="delete"
+      data-placement="left"
+      style={{
+        position: "absolute",
+        backgroundColor: "transparent",
+        marginLeft: "10px",
+      }}
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="15"
+        height="15"
+        fill="currentColor"
+        class="bi bi-eraser-fill"
+        viewBox="0 0 16 16"
+      >
+        <path d="M8.086 2.207a2 2 0 0 1 2.828 0l3.879 3.879a2 2 0 0 1 0 2.828l-5.5 5.5A2 2 0 0 1 7.879 15H5.12a2 2 0 0 1-1.414-.586l-2.5-2.5a2 2 0 0 1 0-2.828zm.66 11.34L3.453 8.254 1.914 9.793a1 1 0 0 0 0 1.414l2.5 2.5a1 1 0 0 0 .707.293H7.88a1 1 0 0 0 .707-.293z" />
+      </svg>
+    </button>
+  );
+
   return (
     <div style={{ width: "100%" }}>
       <h1 className="text-secondary">Meal Planner</h1>
@@ -121,6 +161,7 @@ const MealPlanner = () => {
                 <Link to={`/recipes/uploaded/${recipe.id}`}>
                   {recipe.title}
                 </Link>
+                {deleteButton({ recipe, type: "breakfast" })}
                 {/* <p>add to grocery list</p>
               <i class="bi bi-plus-circle"></i> */}
               </li>
@@ -133,6 +174,7 @@ const MealPlanner = () => {
                 <Link to={`/recipes/uploaded/${recipe.id}`}>
                   {recipe.title}
                 </Link>
+                {deleteButton({ recipe, type: "lunch" })}
                 {/* <p>add to grocery list</p>
               <i class="bi bi-plus-circle"></i> */}
               </li>
@@ -145,6 +187,7 @@ const MealPlanner = () => {
                 <Link to={`/recipes/uploaded/${recipe.id}`}>
                   {recipe.title}
                 </Link>
+                {deleteButton({ recipe, type: "dinner" })}
                 {/* <p>add to grocery list</p>
               <i class="bi bi-plus-circle"></i> */}
               </li>
@@ -157,6 +200,7 @@ const MealPlanner = () => {
                 <Link to={`/recipes/uploaded/${recipe.id}`}>
                   {recipe.title}
                 </Link>
+                {deleteButton({ recipe, type: "snacks" })}
                 {/* <p>add to grocery list</p>
               <i class="bi bi-plus-circle"></i> */}
               </li>
@@ -169,6 +213,7 @@ const MealPlanner = () => {
                 <Link to={`/recipes/uploaded/${recipe.id}`}>
                   {recipe.title}
                 </Link>
+                {deleteButton({ recipe, type: "desserts" })}
                 {/* <p>add to grocery list</p>
               <i class="bi bi-plus-circle"></i> */}
               </li>
@@ -181,6 +226,7 @@ const MealPlanner = () => {
                 <Link to={`/recipes/uploaded/${recipe.id}`}>
                   {recipe.title}
                 </Link>
+                {deleteButton({ recipe, type: "Misc." })}
                 {/* <p>add to grocery list</p>
               <i class="bi bi-plus-circle"></i> */}
               </li>

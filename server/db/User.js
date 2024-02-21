@@ -157,4 +157,15 @@ MealUser.prototype.addToDay = async function ({ recipeId, type, date }) {
   return this.getDay(date);
 };
 
+MealUser.prototype.removeFromDay = async function ({ recipeId, type, date }) {
+  const day = await this.getDay(date);
+  const meal = day.meals.find(
+    (meal) => meal.mealrecipes[0]?.recipe.id === recipeId
+  );
+  meal.destroy();
+
+  return this.getDay(date);
+  // }
+};
+
 module.exports = MealUser;
