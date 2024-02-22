@@ -72,20 +72,6 @@ const AboutUs = () => {
           className="card bg-danger text-success"
           style={{ marginBottom: "15px" }}
         >
-          <h2 className="text-secondary">Dedicated Deployment</h2>
-          <p>
-            Powered by Render, EatEasy offers seamless deployment and
-            scalability, ensuring a smooth user experience at all times. Our
-            commitment to excellence extends beyond development; we prioritize
-            reliability and accessibility to provide you with a hassle-free meal
-            planning experience.
-          </p>
-        </div>
-
-        <div
-          className="card bg-danger text-success"
-          style={{ marginBottom: "15px" }}
-        >
           <h2 className="text-secondary">Join the Culinary Revolution</h2>
           <p>
             Whether you're a seasoned chef or a novice cook, EatEasy is your
