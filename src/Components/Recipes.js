@@ -60,7 +60,7 @@ const Recipes = () => {
             setSearchTerm(ev.target.value);
           }}
           className="bg-danger text-success"
-          style={{ width: "45%", margin: "5px auto" }}
+          style={{ width: "65%", margin: "5px auto" }}
         />
         <button
           onClick={searchRecipes}

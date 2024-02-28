@@ -52,7 +52,7 @@ const App = () => {
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
-        // alignItems: "center",
+        //alignItems: "center",
         justifyContent: "flex-start",
         padding: "25px",
       }}
@@ -129,11 +129,8 @@ const App = () => {
             </ul>
           </div>
         )}
-        <h1 className="text-secondary display-3">
-          <strong>EatEasy</strong>
-        </h1>
+        <img src="./static/logo.png" style={{ maxWidth: "20%" }} />
       </div>
-
       <Routes>
         <Route path="/" element={auth.id ? <Recipes /> : <Login />} />
         <Route path="/mealplanner" element={<MealPlanner />} />

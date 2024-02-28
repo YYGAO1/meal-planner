@@ -41,7 +41,7 @@ npm install
 </li>
 <li>Create a .env file in the root directory and add environment variables:
 
-API_KEY = "" (insert your Spoonacular API key here)
+API_KEY = "" (insert your <a href="https://spoonacular.com/food-api">Spoonacular API</a> key here)
 
 </li>
 <li>Start the development server:
@@ -66,6 +66,6 @@ We welcome contributions from the developer community to improve EatEasy. If you
 
 Have questions or feedback? Feel free to reach out to us on LinkedIn:
 
-Angel: https://www.linkedin.com/in/angel-yanyun-software-engineer/
+<a href="https://www.linkedin.com/in/angel-yanyun-software-engineer/">Angel</a>
 
-Sarah: https://www.linkedin.com/in/sarah-goewey-software-engineer/
+<a href="https://www.linkedin.com/in/sarah-goewey-software-engineer/">Sarah</a>

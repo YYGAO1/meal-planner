@@ -12,13 +12,13 @@ const AboutUs = () => {
         justifyContent: "space-around",
       }}
     >
-      <div style={{ width: "65%", margin: "auto" }}>
+      <div style={{ width: "85%", margin: "auto" }}>
         <h1 className="text-secondary">About Us</h1>
         <img
-          src="./static/spatula.png"
-          style={{ maxWidth: "35%", margin: "auto" }}
+          src="./static/spatula-spoon.png"
+          style={{ maxWidth: "10%", margin: "auto" }}
         />
-        <p className="text-danger">
+        <p className="text-danger" style={{ marginTop: "15px" }}>
           Welcome to EatEasy, your ultimate solution for effortless meal
           organization and planning. Developed in 2023-2024 by a dedicated team
           of skilled professionals, EatEasy is the brainchild of passionate
@@ -65,20 +65,6 @@ const AboutUs = () => {
             reliability. Leveraging Javascript, React, Redux, Node, Express,
             PostgreSQL, Bootstrap, and the Spoonacular API, we've created a
             robust platform designed to exceed your expectations.
-          </p>
-        </div>
-
-        <div
-          className="card bg-danger text-success"
-          style={{ marginBottom: "15px" }}
-        >
-          <h2 className="text-secondary">Dedicated Deployment</h2>
-          <p>
-            Powered by Render, EatEasy offers seamless deployment and
-            scalability, ensuring a smooth user experience at all times. Our
-            commitment to excellence extends beyond development; we prioritize
-            reliability and accessibility to provide you with a hassle-free meal
-            planning experience.
           </p>
         </div>
 
